@@ -1,5 +1,7 @@
 from flask import jsonify
 
+from daos.resource import ResourceDAO
+
 
 class ResourceHandler:
     def build_resources_dict(self, row):
@@ -33,18 +35,18 @@ class ResourceHandler:
         result['saddress'] = row[5]
         return result
 
-    def build_resources_attributes(self, rid, rname, rtype, rdescription, rlocation, sid):
+    def build_resources_attributes(self, rid, rtype, rname, rdescription, rlocation, sid):
         result = {};
         result['rid'] = rid
-        result['rname'] = rname
         result['rtype'] = rtype
+        result['rname'] = rname
         result['rdescription'] = rdescription
         result['rlocation'] = rlocation
         result['sid'] = sid
         return result
 
     def getAllResources(self):
-        dao = ResourcesDAO()
+        dao = ResourceDAO()
         resources_list = dao.getAllResources()
         result_list = []
         for row in resources_list:
