@@ -22,6 +22,16 @@ class ResourceHandler:
         result['saddress'] = row[6]
         return result
 
+    def build_requester_dict(self, row):
+        result = {}
+        result['uid'] = row[0]
+        result['sfirstname'] = row[1]
+        result['slastname'] = row[2]
+        result['semail'] = row[3]
+        result['sphone'] = row[4]
+        result['saddress'] = row[5]
+        return result
+
     def build_resources_attributes(self, rid, rname, rtype, rdescription, rlocation, sid):
         result = {};
         result['rid'] = rid
@@ -59,6 +69,15 @@ class ResourceHandler:
             resource = self.build_resources_dict(row)
             return jsonify(Resource = resource)
 
+    def getResourcesByType(self, rtype):    #Filter by resource category
+        dao = ResourceDAO()
+        row = dao.getResourceByType(rtype)
+        if not row:
+            return jsonify(Error = "No Resources Found in the Specified Category"), 404
+        else:
+            resource = self.build_resources_dict(row)
+            return jsonify(Resource = resource)
+
     def searchParts(self, args):
         rtype = args.get("rtype")
         rname = args.get("rname")
@@ -89,6 +108,17 @@ class ResourceHandler:
             result_list.append(result)
         return jsonify(Suppliers=result_list)
 
+    def getRequesterByResourceId(self, rid):
+        dao = ResourceDAO()
+        if not dao.getResourceById(rid):
+            return jsonify(Error="Resource Not Found"), 404
+        requester_list = dao.getRequestersByResourceId(rid)
+        result_list = []
+        for row in requester_list:
+            result = self.build_requester_dict(row)
+            result_list.append(result)
+        return jsonify(Suppliers=result_list)
+
     def getSuppliersByResourceName(self, rname):
         dao = ResourceDAO()
         if not dao.getResourceByName(rname):
@@ -97,6 +127,39 @@ class ResourceHandler:
         result_list = []
         for row in suppliers_list:
             result = self.build_supplier_dict(row)
+            result_list.append(result)
+        return jsonify(Suppliers=result_list)
+
+    def getRequesterByResourceName(self, rname):
+        dao = ResourceDAO()
+        if not dao.getResourceByName(rname):
+            return jsonify(Error="Resource Not Found"), 404
+        requester_list = dao.getRequestersByResourceName(rname)
+        result_list = []
+        for row in requester_list:
+            result = self.build_requester_dict(row)
+            result_list.append(result)
+        return jsonify(Suppliers=result_list)
+
+    def getSuppliersByResourceType(self, rtype):
+        dao = ResourceDAO()
+        if not dao.getResourceByType(rtype):
+            return jsonify(Error="Resource Not Found"), 404
+        suppliers_list = dao.getSuppliersByResourceType(rtype)
+        result_list = []
+        for row in suppliers_list:
+            result = self.build_supplier_dict(row)
+            result_list.append(result)
+        return jsonify(Suppliers=result_list)
+
+    def getRequesterByResourceType(self, rtype):
+        dao = ResourceDAO()
+        if not dao.getResourceByName(rtype):
+            return jsonify(Error="Resource Not Found"), 404
+        requester_list = dao.getRequestersByResourceType(rtype)
+        result_list = []
+        for row in requester_list:
+            result = self.build_requester_dict(row)
             result_list.append(result)
         return jsonify(Suppliers=result_list)
 
