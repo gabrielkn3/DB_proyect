@@ -1,3 +1,4 @@
+from flask import jsonify
 
 
 class ResourceHandler:
@@ -108,7 +109,7 @@ class ResourceHandler:
             result_list.append(result)
         return jsonify(Suppliers=result_list)
 
-    def getRequesterByResourceId(self, rid):
+    def getRequestersByResourceId(self, rid):
         dao = ResourceDAO()
         if not dao.getResourceById(rid):
             return jsonify(Error="Resource Not Found"), 404
@@ -130,7 +131,7 @@ class ResourceHandler:
             result_list.append(result)
         return jsonify(Suppliers=result_list)
 
-    def getRequesterByResourceName(self, rname):
+    def getRequestersByResourceName(self, rname):
         dao = ResourceDAO()
         if not dao.getResourceByName(rname):
             return jsonify(Error="Resource Not Found"), 404
@@ -152,7 +153,7 @@ class ResourceHandler:
             result_list.append(result)
         return jsonify(Suppliers=result_list)
 
-    def getRequesterByResourceType(self, rtype):
+    def getRequestersByResourceType(self, rtype):
         dao = ResourceDAO()
         if not dao.getResourceByName(rtype):
             return jsonify(Error="Resource Not Found"), 404
