@@ -55,7 +55,7 @@ class userHandler:
         dao = userDAO()
         if not dao.getUserById(uid):
             return jsonify(Error="User not found."), 404
-        else
+        else:
             if len(form) != 7:
                 return jsonify(Error="Malformed update request."), 400
             else:
