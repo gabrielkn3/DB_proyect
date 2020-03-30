@@ -16,14 +16,14 @@ class ListingHandler:
 
     def build_listing_attributes(self, lid, rid, rtype, postDate, uid, lprice, amount, rlocation):
         result = {}
-        result['lid'] = row[0]
-        result['rid'] = row[1]
-        result['rtype'] = row[2]
-        result['postDate'] = row[3]
-        result['uid'] = row[4]
-        result['lprice'] = row[5]
-        result['amount'] = row[6]
-        result['rlocation'] = row[7]
+        result['lid'] = lid
+        result['rid'] = rtype
+        result['rtype'] = rtype
+        result['postDate'] = postDate
+        result['uid'] = uid
+        result['lprice'] = lprice
+        result['amount'] = amount
+        result['rlocation'] = rlocation
         return result
 
   #Only show listings where status = open OR just delete when closed #
