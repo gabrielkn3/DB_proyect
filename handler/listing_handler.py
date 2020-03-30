@@ -1,5 +1,5 @@
 from flask import jsonify
-from handler.supplier import SupplierHandler
+from daos.listing import ListingDAO
 
 class ListingHandler:
     def build_listing_dict(self, row):
@@ -31,10 +31,10 @@ class ListingHandler:
         dao = ListingDAO()
         listings_list = dao.getAllListings()
         result_list = []
-        for row in parts_list:
+        for row in listings_list:
             result = self.build_listing_dict(row)
             result_list.append(result)
-        return jsonify(Parts=result_list)
+        return jsonify(Listing=result_list)
 
     def getListingById(self, lid):
         dao = ListingDAO()
@@ -46,19 +46,22 @@ class ListingHandler:
             return jsonify(Listing=listing)
 
     def searchListings(self, args):
-        color = args.get("color")
-        material = args.get("material")
+
+        rtype = args.get("rtype")
+        lprice = args.get("lprice")
+        rid = args.get("rid")
+
         dao = ListingDAO()
         listings_list = []
         if (len(args) == 1) and rtype:
             listings_list = dao.getListingsByType(rtype)
-        elif (len(args) == 1) and lprice
+        elif (len(args) == 1) and lprice:
             listings_list = dao.getListingsByPrice(lprice)
-        elif (len(args) == 1) and rid
+        elif (len(args) == 1) and rid:
             listings_list = dao.getListingsByRID(rid)
-        elif (len(args) == 2) and rtype and lprice
+        elif (len(args) == 2) and rtype and lprice:
             listings_list = dao.getListingsByTypeAndPrice(rtype, lprice)
-        elif (len(args) == 2) and rid and lprice
+        elif (len(args) == 2) and rid and lprice:
             listings_list = dao.getListingsByRIDAndPrice(rid, lprice)
         else:
             return jsonify(Error="Malformed query string"), 400
@@ -112,7 +115,7 @@ class ListingHandler:
         amount = json['amount']
         rlocation = json['rlocation']
         if lid and rid and rtype and postDate and uid and lprice and amount and rlocation:
-            dao = PartsDAO()
+            dao = ListingDAO()
             lid = dao.insert(lid, rid, rtype, postDate, uid, lprice, amount, rlocation)
             result = self.build_listing_attributes(lid, rid, rtype, postDate, uid, lprice, amount, rlocation)
             return jsonify(Listing=result), 201
@@ -127,7 +130,7 @@ class ListingHandler:
             dao.delete(lid)
             return jsonify(DeleteStatus="OK"), 200
 
-    def updateListing(self, pid, form):
+    def updateListing(self, lid, form):
         dao = ListingDAO()
         if not dao.getListingById(lid):
             return jsonify(Error="Part not found."), 404
@@ -150,7 +153,7 @@ class ListingHandler:
                 else:
                     return jsonify(Error="Unexpected attributes in update request"), 400
 
-    def build_part_counts(self, part_counts):
+    def build_listing_counts(self, listing_counts):
         result = []
         # print(part_counts)
         for P in listing_counts:
@@ -166,7 +169,7 @@ class ListingHandler:
             result.append(D)
         return result
 
-    def getCountByPartId(self):
+    def getCountByListingId(self):
         dao = ListingDAO()
         result = dao.getCountByListingId()
         # print(self.build_listing_counts(result))

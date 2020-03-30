@@ -77,7 +77,7 @@ class ListingDAO:
             result.append(row)
         return result
 
-    def insert(self, pname, pcolor, pmaterial, pprice):
+    def insert(self, lid, rid, rtype, postDate, uid, lprice, amount, rlocation):
         cursor = self.conn.cursor()
         query = "insert into listings(lid, rid, rtype, postDate, uid, lprice, amount, rlocation) values (%s, %s, %s, %s, %s, %s, %s, %s) returning lid;"
         cursor.execute(query, (lid, rid, rtype, postDate, uid, lprice, amount, rlocation,))
@@ -94,7 +94,7 @@ class ListingDAO:
 
     def update(self, lid, rid, rtype, postDate, uid, lprice, amount, rlocation):
         cursor = self.conn.cursor()
-        query = "update parts set rid = %s, rtype = %s, postDate = %s, uid = %s, lprice = %s, amount = %s, rlocation = %s where pid = %s;"
+        query = "update listings set rid = %s, rtype = %s, postDate = %s, uid = %s, lprice = %s, amount = %s, rlocation = %s where pid = %s;"
         cursor.execute(query, (lid, rid, rtype, postDate, uid, lprice, amount, rlocation,))
         self.conn.commit()
         return lid
