@@ -13,34 +13,32 @@ class ResourceDAO:
         #cursor.execute(query)
         row={};
         result = [];
-        row[0] = str(69)
-        row[1] = 'agua'
-        row[2] = 'Fiji'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = str(420)
+        row[0] = 'dummyrid'
+        row[1] = 'Get'
+        row[2] = 'All'
+        row[3] = 'Resources'
+        row[4] = 'Test'
+
 
         result.append(row)
         #for row in cursor:
         #    result.append(row)
         return result
 
-    def getResourcesById(self, rid):
+    def getResourceById(self, rid):
        # cursor = self.conn.cursor()
         #query = "select pid, pname, pmaterial, pcolor, pprice from parts where pid = %s;"
         #cursor.execute(query, (pid,))
         #result = cursor.fetchone()
        row = {};
-       result = {};
-       row[0] = '69'
-       row[1] = 'Fiji'
-       row[2] = 'agua'
-       row[3] = 'agua come-mierda'
-       row[4] = 'Mall of San Juan'
-       row[5] = '420'
+       row[0] = '21'
+       row[1] = 'get'
+       row[2] = 'resources'
+       row[3] = 'by'
+       row[4] = 'iD Values'
 
-       result[0] = row
-       return result
+
+       return row
 
     def getResourceByType(self, rtype):
         #cursor = self.conn.cursor()
@@ -50,15 +48,14 @@ class ResourceDAO:
         #for row in cursor:
         #    result.append(row)
         row = {};
-        result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        result = [];
+        row[0] = 'dummyrid'
+        row[1] = 'Get'
+        row[2] = 'Resource'
+        row[3] = 'By'
+        row[4] = 'Type'
 
-        result[0] = row
+        result.append(row)
         return result
 
     def getResourceByName(self, rname):
@@ -69,15 +66,14 @@ class ResourceDAO:
         #for row in cursor:
         #    result.append(row)
         row = {};
-        result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        result = [];
+        row[0] = 'dummyrid'
+        row[1] = 'Get'
+        row[2] = 'resource'
+        row[3] = 'by'
+        row[4] = 'Name'
 
-        result[0] = row
+        result.append(row)
         return result
 
     def getResourceByTypeAndName(self, rtype, rname):
@@ -88,111 +84,115 @@ class ResourceDAO:
         #for row in cursor:
         #    result.append(row)
         row = {};
-        result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        result = [];
+        row[0] = 'dummyrid'
+        row[1] = 'Get'
+        row[2] = 'Resource'
+        row[3] = 'By'
+        row[4] = 'TypeAndName'
 
-        result[0] = row
+        result.append(row)
         return result
 
     def getSuppliersByResourceId(self, rid):
         row = {};
-        result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        result = [];
+        row[0] = 'dummysid'
+        row[1] = 'Get'
+        row[2] = 'Suppliers'
+        row[3] = 'by'
+        row[4] = 'ResourceID'
+        row[5] = 'dummyval'
+        row[6] = 'dummyval2'
 
-        result[0] = row
+        result.append(row)
         return result
 
     def getRequestersByResourceId(self, rid):
         row = {};
-        result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        result = [];
+        row[0] = 'dummyrid'
+        row[1] = 'get'
+        row[2] = 'requesters'
+        row[3] = 'By'
+        row[4] = 'ResourceID'
+        row[5] = 'dummyprice'
+        row[6] = 'dummyval2'
 
-        result[0] = row
+        result.append(row)
         return result
 
     def getSuppliersByResourceType(self, rtype):
         row = {};
-        result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        result = [];
+        row[0] = 'dummyrid'
+        row[1] = 'get'
+        row[2] = 'suppliers'
+        row[3] = 'By'
+        row[4] = 'ResourceType'
+        row[5] = 'dummyprice'
+        row[6] = 'dummyval2'
 
-        result[0] = row
+        result.append(row)
         return result
 
     def getRequestersByResourceType(self, rtype):
         row = {};
-        result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        result = [];
+        row[0] = 'dummyrid'
+        row[1] = 'get'
+        row[2] = 'requesters'
+        row[3] = 'by'
+        row[4] = 'ResourceType'
+        row[5] = 'dummyprice'
+        row[6] = 'dummyval2'
 
-        result[0] = row
+        result.append(row)
         return result
 
     def getSuppliersByResourceName(self, rname):
         row = {};
-        result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        result = [];
+        row[0] = 'dummyrid'
+        row[1] = 'Get'
+        row[2] = 'Suppliers'
+        row[3] = 'By'
+        row[4] = 'Resource Name'
+        row[5] = 'dummyprice'
+        row[6] = 'dummyval2'
 
-        result[0] = row
+        result.append(row)
         return result
 
     def getRequestersByResourceName(self, rname):
         row = {};
-        result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        result = [];
+        row[0] = 'dummyrid'
+        row[1] = 'Get'
+        row[2] = 'supplies'
+        row[3] = 'By'
+        row[4] = 'ResourceName'
+        row[5] = 'dummyprice'
+        row[6] = 'dummyval2'
 
-        result[0] = row
+        result.append(row)
         return result
 
-    def insert(self, rtype, rname, rdescription, rlocation, sid):
+    def insert(self, rname, rtype, rlocation, sid):
         #cursor = self.conn.cursor()
         #query = "insert into parts(pname, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
         #cursor.execute(query, (pname, pcolor, pmaterial, pprice,))
         #pid = cursor.fetchone()[0]
         #self.conn.commit()
         row = {};
-        result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        result = [];
+        row[0] = 'dummyrid'
+        row[1] = 'inserttype'
+        row[2] = 'insertname'
+        row[3] = 'insertlocation'
+        row[4] = 'Insertdescription'
 
-        result[0] = row
+        result.append(row)
         return sid
 
     def delete(self, rid):
@@ -201,35 +201,33 @@ class ResourceDAO:
         #cursor.execute(query, (pid,))
         #self.conn.commit()
         row = {};
-        result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        result = [];
+        row[0] = 'deleterid'
+        row[1] = 'deletetype'
+        row[2] = 'deletename'
+        row[3] = 'deletelocation'
+        row[4] = 'deleteid'
 
-        result[0] = row
+        result.append(row)
         return rid
 
-    def update(self, rid, rtype, rname, rdescription, rlocation, sid):
+    def update(self, rid, rname, rtype, rlocation, sid):
         #cursor = self.conn.cursor()
         #query = "update parts set pname = %s, pcolor = %s, pmaterial = %s, pprice = %s where pid = %s;"
         #cursor.execute(query, (pname, pcolor, pmaterial, pprice, pid,))
         #self.conn.commit()
         row = {};
-        result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        result = [];
+        row[0] = 'updaterid'
+        row[1] = 'updatename'
+        row[2] = 'updatetype'
+        row[4] = 'updatelocation'
+        row[5] = 'updatesid'
 
-        result[0] = row
+        result.append(row)
         return rid
 
-    def getCountByResourceID(self):
+    def getCountByResourceId(self):
         #cursor = self.conn.cursor()
         #query = "select pid, pname, sum(stock) from parts natural inner join supplies group by pid, pname order by pname;"
         #cursor.execute(query)
@@ -237,13 +235,12 @@ class ResourceDAO:
         #for row in cursor:
         #    result.append(row)
         row = {};
-        result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        result = [];
+        row[0] = 'two number 9s'
+        row[1] = 'a number 9 large'
+        row[2] = 'a number 6 with extra dip'
+        row[3] = 'a number 7'
+        row[4] = 'two number 45s, one with cheese and a large soda'
 
-        result[0] = row
-        return result
+        result.append(row)
+        return row

@@ -9,9 +9,8 @@ class ResourceHandler:
         result['rid'] = row[0]
         result['rtype'] = row[1]
         result['rname'] = row[2]
-        result['rdescription'] = row[3]
-        result['rlocation'] = row[4]
-        result['sid'] = row[5]
+        result['rlocation'] = row[3]
+        result['sid'] = row[4]
         return result
 
     def build_supplier_dict(self, row):
@@ -35,12 +34,11 @@ class ResourceHandler:
         result['saddress'] = row[5]
         return result
 
-    def build_resources_attributes(self, rid, rtype, rname, rdescription, rlocation, sid):
+    def build_resources_attributes(self, rid, rname, rtype, rlocation, sid):
         result = {};
         result['rid'] = rid
         result['rtype'] = rtype
         result['rname'] = rname
-        result['rdescription'] = rdescription
         result['rlocation'] = rlocation
         result['sid'] = sid
         return result
@@ -206,7 +204,7 @@ class ResourceHandler:
             dao.delete(rid)
             return jsonify(DeleteStatus = "OK"), 200
 
-    def updatePart(self, rid, form):
+    def updateResource(self, rid, form):
         dao = ResourceDAO()
         if not dao.getResourceById(rid):
             return jsonify(Error = "Resource not found."), 404
@@ -241,4 +239,5 @@ class ResourceHandler:
         dao = ResourceDAO()
         result = dao.getCountByResourceId()
         #print(self.build_part_counts(result))
-        return jsonify(ResourceCounts = self.build_resource_counts(result)), 200
+        #return jsonify(ResourceCounts = self.build_resource_counts(result)), 200
+        return jsonify(ResourceCounts=result), 200

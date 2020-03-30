@@ -6,9 +6,9 @@ class ListingHandler:
         result = {}
         result['lid'] = row[0]
         result['rid'] = row[1]
-        result['rtype'] = row[2]
-        result['postDate'] = row[3]
-        result['uid'] = row[4]
+        result['uid'] = row[2]
+        result['rtype'] = row[3]
+        result['postDate'] = row[4]
         result['lprice'] = row[5]
         result['amount'] = row[6]
         result['rlocation'] = row[7]
@@ -16,14 +16,14 @@ class ListingHandler:
 
     def build_listing_attributes(self, lid, rid, rtype, postDate, uid, lprice, amount, rlocation):
         result = {}
-        result['lid'] = row[0]
-        result['rid'] = row[1]
-        result['rtype'] = row[2]
-        result['postDate'] = row[3]
-        result['uid'] = row[4]
-        result['lprice'] = row[5]
-        result['amount'] = row[6]
-        result['rlocation'] = row[7]
+        result['lid'] = lid
+        result['rid'] = rtype
+        result['uid'] = uid
+        result['rtype'] = rtype
+        result['postDate'] = postDate
+        result['lprice'] = lprice
+        result['amount'] = amount
+        result['rlocation'] = rlocation
         return result
 
   #Only show listings where status = open OR just delete when closed #
@@ -55,11 +55,11 @@ class ListingHandler:
         elif (len(args) == 1) and lprice
             listings_list = dao.getListingsByPrice(lprice)
         elif (len(args) == 1) and rid
-            listings_list = dao.getListingByRID(rid)
+            listings_list = dao.getListingsByRID(rid)
         elif (len(args) == 2) and rtype and lprice
-            listings_list = dao.getListingByTypeAndPrice(rtype, lprice)
+            listings_list = dao.getListingsByTypeAndPrice(rtype, lprice)
         elif (len(args) == 2) and rid and lprice
-            listings_list = dao.getListingByRIDAndPrice(rid, lprice)
+            listings_list = dao.getListingsByRIDAndPrice(rid, lprice)
         else:
             return jsonify(Error="Malformed query string"), 400
         result_list = []
@@ -68,7 +68,7 @@ class ListingHandler:
             result_list.append(result)
         return jsonify(Listings=result_list)
 
-    def getSuppliersByListingId(self, pid):
+    def getSuppliersByListingId(self, lid):
         dao = ListingDAO()
         if not dao.getListingById(lid):
             return jsonify(Error="Part Not Found"), 404
@@ -157,9 +157,9 @@ class ListingHandler:
             D = {}
             D['lid'] = P[0]
             D['rid'] = P[1]
-            D['rtype'] = P[2]
-            D['postDate'] = P[3]
-            D['uid'] = P[4]
+            D['uid'] = P[2]
+            D['rtype'] = P[3]
+            D['postDate'] = P[4]
             D['lprice'] = P[5]
             D['amount'] = P[6]
             D['rlocation'] = P[7]
