@@ -25,22 +25,20 @@ class ResourceDAO:
         #    result.append(row)
         return result
 
-    def getResourcesById(self, rid):
+    def getResourceById(self, rid):
        # cursor = self.conn.cursor()
         #query = "select pid, pname, pmaterial, pcolor, pprice from parts where pid = %s;"
         #cursor.execute(query, (pid,))
         #result = cursor.fetchone()
        row = {};
-       result = {};
-       row[0] = 'dummyrid'
-       row[1] = 'Get'
-       row[2] = 'Resources'
-       row[3] = 'By'
-       row[4] = 'ID Values'
-       row[5] = 'dummyprice'
+       row[0] = '21'
+       row[1] = 'get'
+       row[2] = 'resources'
+       row[3] = 'by'
+       row[4] = 'iD Values'
+       row[5] = '42'
 
-       result[0] = row
-       return result
+       return row
 
     def getResourceByType(self, rtype):
         #cursor = self.conn.cursor()
@@ -50,7 +48,7 @@ class ResourceDAO:
         #for row in cursor:
         #    result.append(row)
         row = {};
-        result = {};
+        result = [];
         row[0] = 'dummyrid'
         row[1] = 'Get'
         row[2] = 'Resource'
@@ -58,7 +56,7 @@ class ResourceDAO:
         row[4] = 'Type'
         row[5] = 'dummyprice'
 
-        result[0] = row
+        result.append(row)
         return result
 
     def getResourceByName(self, rname):
@@ -69,7 +67,7 @@ class ResourceDAO:
         #for row in cursor:
         #    result.append(row)
         row = {};
-        result = {};
+        result = [];
         row[0] = 'dummyrid'
         row[1] = 'Get'
         row[2] = 'resource'
@@ -77,7 +75,7 @@ class ResourceDAO:
         row[4] = 'Name'
         row[5] = 'dummyprice'
 
-        result[0] = row
+        result.append(row)
         return result
 
     def getResourceByTypeAndName(self, rtype, rname):
@@ -88,7 +86,7 @@ class ResourceDAO:
         #for row in cursor:
         #    result.append(row)
         row = {};
-        result = {};
+        result = [];
         row[0] = 'dummyrid'
         row[1] = 'Get'
         row[2] = 'Resource'
@@ -96,25 +94,26 @@ class ResourceDAO:
         row[4] = 'TypeAndName'
         row[5] = 'dummyprice'
 
-        result[0] = row
+        result.append(row)
         return result
 
     def getSuppliersByResourceId(self, rid):
         row = {};
-        result = {};
-        row[0] = 'dummyrid'
+        result = [];
+        row[0] = 'dummysid'
         row[1] = 'Get'
         row[2] = 'Suppliers'
         row[3] = 'by'
         row[4] = 'ResourceID'
-        row[5] = 'dummyprice'
+        row[5] = 'dummyval'
+        row[6] = 'dummyval2'
 
-        result[0] = row
+        result.append(row)
         return result
 
     def getRequestersByResourceId(self, rid):
         row = {};
-        result = {};
+        result = [];
         row[0] = 'dummyrid'
         row[1] = 'get'
         row[2] = 'requesters'
@@ -122,12 +121,12 @@ class ResourceDAO:
         row[4] = 'ResourceID'
         row[5] = 'dummyprice'
 
-        result[0] = row
+        result.append(row)
         return result
 
     def getSuppliersByResourceType(self, rtype):
         row = {};
-        result = {};
+        result = [];
         row[0] = 'dummyrid'
         row[1] = 'get'
         row[2] = 'suppliers'
@@ -135,12 +134,12 @@ class ResourceDAO:
         row[4] = 'ResourceType'
         row[5] = 'dummyprice'
 
-        result[0] = row
+        result.append(row)
         return result
 
     def getRequestersByResourceType(self, rtype):
         row = {};
-        result = {};
+        result = [];
         row[0] = 'dummyrid'
         row[1] = 'get'
         row[2] = 'requesters'
@@ -148,12 +147,12 @@ class ResourceDAO:
         row[4] = 'ResourceType'
         row[5] = 'dummyprice'
 
-        result[0] = row
+        result.append(row)
         return result
 
     def getSuppliersByResourceName(self, rname):
         row = {};
-        result = {};
+        result = [];
         row[0] = 'dummyrid'
         row[1] = 'Get'
         row[2] = 'Suppliers'
@@ -161,12 +160,12 @@ class ResourceDAO:
         row[4] = 'Resource Name'
         row[5] = 'dummyprice'
 
-        result[0] = row
+        result.append(row)
         return result
 
     def getRequestersByResourceName(self, rname):
         row = {};
-        result = {};
+        result = [];
         row[0] = 'dummyrid'
         row[1] = 'Get'
         row[2] = 'supplies'
@@ -174,7 +173,7 @@ class ResourceDAO:
         row[4] = 'ResourceName'
         row[5] = 'dummyprice'
 
-        result[0] = row
+        result.append(row)
         return result
 
     def insert(self, rtype, rname, rdescription, rlocation, sid):
@@ -184,7 +183,7 @@ class ResourceDAO:
         #pid = cursor.fetchone()[0]
         #self.conn.commit()
         row = {};
-        result = {};
+        result = [];
         row[0] = 'dummyrid'
         row[1] = 'inserttype'
         row[2] = 'insertname'
@@ -192,7 +191,7 @@ class ResourceDAO:
         row[4] = 'Insertdescription'
         row[5] = 'dummysid'
 
-        result[0] = row
+        result.append(row)
         return sid
 
     def delete(self, rid):
@@ -201,7 +200,7 @@ class ResourceDAO:
         #cursor.execute(query, (pid,))
         #self.conn.commit()
         row = {};
-        result = {};
+        result = [];
         row[0] = 'deleterid'
         row[1] = 'deletetype'
         row[2] = 'deletename'
@@ -209,7 +208,7 @@ class ResourceDAO:
         row[4] = 'deletedescription'
         row[5] = 'deletesid'
 
-        result[0] = row
+        result.append(row)
         return rid
 
     def update(self, rid, rtype, rname, rdescription, rlocation, sid):
@@ -218,7 +217,7 @@ class ResourceDAO:
         #cursor.execute(query, (pname, pcolor, pmaterial, pprice, pid,))
         #self.conn.commit()
         row = {};
-        result = {};
+        result = [];
         row[0] = 'updaterid'
         row[1] = 'updatetype'
         row[2] = 'updatename'
@@ -226,10 +225,10 @@ class ResourceDAO:
         row[4] = 'updatelocation'
         row[5] = 'updatesid'
 
-        result[0] = row
+        result.append(row)
         return rid
 
-    def getCountByResourceID(self):
+    def getCountByResourceId(self):
         #cursor = self.conn.cursor()
         #query = "select pid, pname, sum(stock) from parts natural inner join supplies group by pid, pname order by pname;"
         #cursor.execute(query)
@@ -237,7 +236,7 @@ class ResourceDAO:
         #for row in cursor:
         #    result.append(row)
         row = {};
-        result = {};
+        result = [];
         row[0] = 'two number 9s'
         row[1] = 'a number 9 large'
         row[2] = 'a number 6 with extra dip'
@@ -245,5 +244,5 @@ class ResourceDAO:
         row[4] = 'two number 45s, one with cheese'
         row[5] = 'and a large soda'
 
-        result[0] = row
-        return result
+        result.append(row)
+        return row

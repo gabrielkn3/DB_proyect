@@ -206,7 +206,7 @@ class ResourceHandler:
             dao.delete(rid)
             return jsonify(DeleteStatus = "OK"), 200
 
-    def updatePart(self, rid, form):
+    def updateResource(self, rid, form):
         dao = ResourceDAO()
         if not dao.getResourceById(rid):
             return jsonify(Error = "Resource not found."), 404
@@ -241,4 +241,5 @@ class ResourceHandler:
         dao = ResourceDAO()
         result = dao.getCountByResourceId()
         #print(self.build_part_counts(result))
-        return jsonify(ResourceCounts = self.build_resource_counts(result)), 200
+        #return jsonify(ResourceCounts = self.build_resource_counts(result)), 200
+        return jsonify(ResourceCounts=result), 200

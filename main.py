@@ -54,7 +54,7 @@ def getAllSuppliers():
         else:
             return SupplierHandler().searchSuppliers(request.args)
 
-@app.route('/PartApp/suppliers/<int:sid>',
+@app.route('/ResourceApp/suppliers/<int:sid>',
            methods=['GET', 'PUT', 'DELETE'])
 def getSupplierById(sid):
     if request.method == 'GET':
@@ -67,13 +67,13 @@ def getSupplierById(sid):
         return jsonify(Error = "Method not allowed"), 405
 
 
-@app.route('/PartApp/suppliers/<int:sid>/parts')
-def getPartsBySuplierId(sid):
+@app.route('/ResourceApp/suppliers/<int:sid>/resources')
+def getResourcesBySupplierId(sid):
     return SupplierHandler().getPartsBySupplierId(sid)
 
-@app.route('/PartApp/parts/countbypartid')
+@app.route('/ResourceApp/resources/countbyresourceid')
 def getCountByResourceId():
-    return ResourceHandler().getCountByPartId()
+    return ResourceHandler().getCountByResourceId()
 
 if __name__ == '__main__':
     app.run()
