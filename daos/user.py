@@ -12,6 +12,20 @@ class userDAO:
         self.conn.commit()
         return uid
 
+    def delete(self, uid):
+        cursor = self.conn.cursor()
+        query = "delete from user where uid = %s;"
+        cursor.execute(query, (uid,))
+        self.conn.commit()
+        return uid
+
+    def update(self, uid, username, password, fname, lname, email, phone, address):
+        cursor = self.conn.cursor()
+        query = "update user set username = %s, password = %s, fname = %s, lname = %s, email = %s, phone = %s, address = %s;"
+        cursor.execute(query, (pid,))
+        self.conn.commit()
+        return uid
+
     def getAllUsers(self):
         cursor = self.conn.cursor()
         query = "select * from user;"
