@@ -18,7 +18,7 @@ class ResourceDAO:
         row[2] = 'All'
         row[3] = 'Resources'
         row[4] = 'Test'
-        row[5] = 'dummyprice'
+
 
         result.append(row)
         #for row in cursor:
@@ -36,7 +36,7 @@ class ResourceDAO:
        row[2] = 'resources'
        row[3] = 'by'
        row[4] = 'iD Values'
-       row[5] = '42'
+
 
        return row
 
@@ -54,7 +54,6 @@ class ResourceDAO:
         row[2] = 'Resource'
         row[3] = 'By'
         row[4] = 'Type'
-        row[5] = 'dummyprice'
 
         result.append(row)
         return result
@@ -73,7 +72,6 @@ class ResourceDAO:
         row[2] = 'resource'
         row[3] = 'by'
         row[4] = 'Name'
-        row[5] = 'dummyprice'
 
         result.append(row)
         return result
@@ -92,7 +90,6 @@ class ResourceDAO:
         row[2] = 'Resource'
         row[3] = 'By'
         row[4] = 'TypeAndName'
-        row[5] = 'dummyprice'
 
         result.append(row)
         return result
@@ -120,6 +117,7 @@ class ResourceDAO:
         row[3] = 'By'
         row[4] = 'ResourceID'
         row[5] = 'dummyprice'
+        row[6] = 'dummyval2'
 
         result.append(row)
         return result
@@ -133,6 +131,7 @@ class ResourceDAO:
         row[3] = 'By'
         row[4] = 'ResourceType'
         row[5] = 'dummyprice'
+        row[6] = 'dummyval2'
 
         result.append(row)
         return result
@@ -146,6 +145,7 @@ class ResourceDAO:
         row[3] = 'by'
         row[4] = 'ResourceType'
         row[5] = 'dummyprice'
+        row[6] = 'dummyval2'
 
         result.append(row)
         return result
@@ -159,6 +159,7 @@ class ResourceDAO:
         row[3] = 'By'
         row[4] = 'Resource Name'
         row[5] = 'dummyprice'
+        row[6] = 'dummyval2'
 
         result.append(row)
         return result
@@ -172,11 +173,12 @@ class ResourceDAO:
         row[3] = 'By'
         row[4] = 'ResourceName'
         row[5] = 'dummyprice'
+        row[6] = 'dummyval2'
 
         result.append(row)
         return result
 
-    def insert(self, rtype, rname, rdescription, rlocation, sid):
+    def insert(self, rname, rtype, rlocation, sid):
         #cursor = self.conn.cursor()
         #query = "insert into parts(pname, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
         #cursor.execute(query, (pname, pcolor, pmaterial, pprice,))
@@ -189,7 +191,6 @@ class ResourceDAO:
         row[2] = 'insertname'
         row[3] = 'insertlocation'
         row[4] = 'Insertdescription'
-        row[5] = 'dummysid'
 
         result.append(row)
         return sid
@@ -205,13 +206,12 @@ class ResourceDAO:
         row[1] = 'deletetype'
         row[2] = 'deletename'
         row[3] = 'deletelocation'
-        row[4] = 'deletedescription'
-        row[5] = 'deletesid'
+        row[4] = 'deleteid'
 
         result.append(row)
         return rid
 
-    def update(self, rid, rtype, rname, rdescription, rlocation, sid):
+    def update(self, rid, rname, rtype, rlocation, sid):
         #cursor = self.conn.cursor()
         #query = "update parts set pname = %s, pcolor = %s, pmaterial = %s, pprice = %s where pid = %s;"
         #cursor.execute(query, (pname, pcolor, pmaterial, pprice, pid,))
@@ -219,9 +219,8 @@ class ResourceDAO:
         row = {};
         result = [];
         row[0] = 'updaterid'
-        row[1] = 'updatetype'
-        row[2] = 'updatename'
-        row[3] = 'updatedescription'
+        row[1] = 'updatename'
+        row[2] = 'updatetype'
         row[4] = 'updatelocation'
         row[5] = 'updatesid'
 
@@ -241,8 +240,7 @@ class ResourceDAO:
         row[1] = 'a number 9 large'
         row[2] = 'a number 6 with extra dip'
         row[3] = 'a number 7'
-        row[4] = 'two number 45s, one with cheese'
-        row[5] = 'and a large soda'
+        row[4] = 'two number 45s, one with cheese and a large soda'
 
         result.append(row)
         return row
