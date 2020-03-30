@@ -13,12 +13,12 @@ class ResourceDAO:
         #cursor.execute(query)
         row={};
         result = [];
-        row[0] = str(69)
-        row[1] = 'agua'
-        row[2] = 'Fiji'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = str(420)
+        row[0] = 'dummyrid'
+        row[1] = 'Get'
+        row[2] = 'All'
+        row[3] = 'Resources'
+        row[4] = 'Test'
+        row[5] = 'dummyprice'
 
         result.append(row)
         #for row in cursor:
@@ -32,12 +32,12 @@ class ResourceDAO:
         #result = cursor.fetchone()
        row = {};
        result = {};
-       row[0] = '69'
-       row[1] = 'Fiji'
-       row[2] = 'agua'
-       row[3] = 'agua come-mierda'
-       row[4] = 'Mall of San Juan'
-       row[5] = '420'
+       row[0] = 'dummyrid'
+       row[1] = 'Get'
+       row[2] = 'Resources'
+       row[3] = 'By'
+       row[4] = 'ID Values'
+       row[5] = 'dummyprice'
 
        result[0] = row
        return result
@@ -51,12 +51,12 @@ class ResourceDAO:
         #    result.append(row)
         row = {};
         result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        row[0] = 'dummyrid'
+        row[1] = 'Get'
+        row[2] = 'Resource'
+        row[3] = 'By'
+        row[4] = 'Type'
+        row[5] = 'dummyprice'
 
         result[0] = row
         return result
@@ -70,12 +70,12 @@ class ResourceDAO:
         #    result.append(row)
         row = {};
         result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        row[0] = 'dummyrid'
+        row[1] = 'Get'
+        row[2] = 'resource'
+        row[3] = 'by'
+        row[4] = 'Name'
+        row[5] = 'dummyprice'
 
         result[0] = row
         return result
@@ -89,12 +89,12 @@ class ResourceDAO:
         #    result.append(row)
         row = {};
         result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        row[0] = 'dummyrid'
+        row[1] = 'Get'
+        row[2] = 'Resource'
+        row[3] = 'By'
+        row[4] = 'TypeAndName'
+        row[5] = 'dummyprice'
 
         result[0] = row
         return result
@@ -102,12 +102,12 @@ class ResourceDAO:
     def getSuppliersByResourceId(self, rid):
         row = {};
         result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        row[0] = 'dummyrid'
+        row[1] = 'Get'
+        row[2] = 'Suppliers'
+        row[3] = 'by'
+        row[4] = 'ResourceID'
+        row[5] = 'dummyprice'
 
         result[0] = row
         return result
@@ -115,12 +115,12 @@ class ResourceDAO:
     def getRequestersByResourceId(self, rid):
         row = {};
         result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        row[0] = 'dummyrid'
+        row[1] = 'get'
+        row[2] = 'requesters'
+        row[3] = 'By'
+        row[4] = 'ResourceID'
+        row[5] = 'dummyprice'
 
         result[0] = row
         return result
@@ -128,12 +128,12 @@ class ResourceDAO:
     def getSuppliersByResourceType(self, rtype):
         row = {};
         result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        row[0] = 'dummyrid'
+        row[1] = 'get'
+        row[2] = 'suppliers'
+        row[3] = 'By'
+        row[4] = 'ResourceType'
+        row[5] = 'dummyprice'
 
         result[0] = row
         return result
@@ -141,12 +141,12 @@ class ResourceDAO:
     def getRequestersByResourceType(self, rtype):
         row = {};
         result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        row[0] = 'dummyrid'
+        row[1] = 'get'
+        row[2] = 'requesters'
+        row[3] = 'by'
+        row[4] = 'ResourceType'
+        row[5] = 'dummyprice'
 
         result[0] = row
         return result
@@ -154,12 +154,12 @@ class ResourceDAO:
     def getSuppliersByResourceName(self, rname):
         row = {};
         result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        row[0] = 'dummyrid'
+        row[1] = 'Get'
+        row[2] = 'Suppliers'
+        row[3] = 'By'
+        row[4] = 'Resource Name'
+        row[5] = 'dummyprice'
 
         result[0] = row
         return result
@@ -167,12 +167,12 @@ class ResourceDAO:
     def getRequestersByResourceName(self, rname):
         row = {};
         result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        row[0] = 'dummyrid'
+        row[1] = 'Get'
+        row[2] = 'supplies'
+        row[3] = 'By'
+        row[4] = 'ResourceName'
+        row[5] = 'dummyprice'
 
         result[0] = row
         return result
@@ -185,12 +185,12 @@ class ResourceDAO:
         #self.conn.commit()
         row = {};
         result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        row[0] = 'dummyrid'
+        row[1] = 'inserttype'
+        row[2] = 'insertname'
+        row[3] = 'insertlocation'
+        row[4] = 'Insertdescription'
+        row[5] = 'dummysid'
 
         result[0] = row
         return sid
@@ -202,12 +202,12 @@ class ResourceDAO:
         #self.conn.commit()
         row = {};
         result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        row[0] = 'deleterid'
+        row[1] = 'deletetype'
+        row[2] = 'deletename'
+        row[3] = 'deletelocation'
+        row[4] = 'deletedescription'
+        row[5] = 'deletesid'
 
         result[0] = row
         return rid
@@ -219,12 +219,12 @@ class ResourceDAO:
         #self.conn.commit()
         row = {};
         result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        row[0] = 'updaterid'
+        row[1] = 'updatetype'
+        row[2] = 'updatename'
+        row[3] = 'updatedescription'
+        row[4] = 'updatelocation'
+        row[5] = 'updatesid'
 
         result[0] = row
         return rid
@@ -238,12 +238,12 @@ class ResourceDAO:
         #    result.append(row)
         row = {};
         result = {};
-        row[0] = '69'
-        row[1] = 'Fiji'
-        row[2] = 'agua'
-        row[3] = 'agua come-mierda'
-        row[4] = 'Mall of San Juan'
-        row[5] = '420'
+        row[0] = 'two number 9s'
+        row[1] = 'a number 9 large'
+        row[2] = 'a number 6 with extra dip'
+        row[3] = 'a number 7'
+        row[4] = 'two number 45s, one with cheese'
+        row[5] = 'and a large soda'
 
         result[0] = row
         return result
