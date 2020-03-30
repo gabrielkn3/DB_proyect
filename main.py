@@ -1,4 +1,6 @@
 from flask import Flask, jsonify, request
+
+from handler.MedicalDevicesHandler import MedicalDeviceHandler
 from handler.resource_handler import ResourceHandler
 from handler.supplier import SupplierHandler
 # Import Cross-Origin Resource Sharing to enable
@@ -70,6 +72,44 @@ def getSupplierById(sid):
 @app.route('/ResourceApp/suppliers/<int:sid>/resources')
 def getResourcesBySupplierId(sid):
     return SupplierHandler().getPartsBySupplierId(sid)
+
+#************************************************************MEDICAL DEVICES******************************************************************************
+@app.route('/ResourceApp/resources/medicaldevices', methods=['GET', 'POST'])
+def getAllMedicalDevices():
+    if request.method == 'POST':
+        # cambie a request.json pq el form no estaba bregando
+        # parece q estaba poseido por satanas ...
+        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        print("REQUEST: ", request.json)
+        return MedicalDeviceHandler().insertMedicalDeviceJson(request.json)
+    else:
+        if not request.args:
+            return MedicalDeviceHandler().getAllMedicalDevices()
+
+@app.route('/ResourceApp/resources/<int:mdid>', methods=['GET', 'PUT', 'DELETE'])
+def getMedicalDevicesById(mdid):
+    if request.method == 'GET':
+        return MedicalDeviceHandler().getMedicalDevicesById(mdid)
+    elif request.method == 'PUT':
+        return MedicalDeviceHandler().updateMedicalDevice(mdid, request.form)
+    elif request.method == 'DELETE':
+        return MedicalDeviceHandler().deleteMedicalDevice(mdid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/resources/Name/<String:mdname>', methods=['GET'])
+def getMedicalDevicesByName(mdname):
+    if request.method == 'GET':
+        return MedicalDeviceHandler().getMedicalDevicesByName(mdname)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/resources/Brand/<String:mdbrand>', methods=['GET'])
+def getMedicalDevicesByName(mdbrand):
+    if request.method == 'GET':
+        return MedicalDeviceHandler().getMedicalDevicesByBrand(mdbrand)
+    else:
+        return jsonify(Error="Method not allowed."), 405
 
 @app.route('/ResourceApp/resources/countbyresourceid')
 def getCountByResourceId():

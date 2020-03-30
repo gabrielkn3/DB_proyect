@@ -17,8 +17,8 @@ class SupplierHandler:
     def build_resource_dict(self, row):
         result = {}
         result['rid'] = row[0]
-        result['rtype'] = row[1]
-        result['rdescription'] = row[2]
+        result['rname'] = row[1]
+        result['rtype'] = row[2]
         result['rlocation'] = row[3]
         result['sid'] = row[4]
         return result
