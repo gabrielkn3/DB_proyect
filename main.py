@@ -86,7 +86,7 @@ def getAllMedicalDevices():
         if not request.args:
             return MedicalDeviceHandler().getAllMedicalDevices()
 
-@app.route('/ResourceApp/resources/<int:mdid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/ResourceApp/resources/medicaldevices/<int:mdid>', methods=['GET', 'PUT', 'DELETE'])
 def getMedicalDevicesById(mdid):
     if request.method == 'GET':
         return MedicalDeviceHandler().getMedicalDevicesById(mdid)
@@ -97,15 +97,15 @@ def getMedicalDevicesById(mdid):
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/resources/Name/<String:mdname>', methods=['GET'])
+@app.route('/ResourceApp/resources/medicaldevices/Name/<string:mdname>', methods=['GET'])
 def getMedicalDevicesByName(mdname):
     if request.method == 'GET':
         return MedicalDeviceHandler().getMedicalDevicesByName(mdname)
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/resources/Brand/<String:mdbrand>', methods=['GET'])
-def getMedicalDevicesByName(mdbrand):
+@app.route('/ResourceApp/resources/medicaldevices/Brand/<string:mdbrand>', methods=['GET'])
+def getMedicalDevicesByBrand(mdbrand):
     if request.method == 'GET':
         return MedicalDeviceHandler().getMedicalDevicesByBrand(mdbrand)
     else:
