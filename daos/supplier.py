@@ -32,14 +32,14 @@ class SupplierDAO:
         result = cursor.fetchone()
         return result
 
-    # def getResourcesBySupplierId(self, sid):
-    #     cursor = self.conn.cursor()
-    #     query = "select rid, rname, rtypte, rdescription, rlocation from resource natural inner join supplier where sid = %s;"
-    #     cursor.execute(query, (sid,))
-    #     result = []
-    #     for row in cursor:
-    #         result.append(row)
-    #     return result
+    def getResourcesBySupplierId(self, sid):
+        cursor = self.conn.cursor()
+        query = "select rid, rname, rtypte, rdescription, rlocation from resource natural inner join supplier where sid = %s;"
+        cursor.execute(query, (sid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
     def getSuppliersByAddress(self, address):
         cursor = self.conn.cursor()
