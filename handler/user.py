@@ -1,6 +1,7 @@
 from flask import jsonify
 from daos.user import userDAO
 
+
 class userHandler:
     def build_user_dict(self, row):
         result = {}
@@ -14,16 +15,8 @@ class userHandler:
         result['address'] = row[7]
         return result
 
-    def getAllUsers(self):
-        dao = userDAO()
-        users_list = dao.getAllUsers()
-        result_list = []
-        for row in users_list:
-            result_list.append(self.build_user_dict(row))
-        return jsonify(Users=result_list)
-
     def insertUser(self, form):
-        if form and len(form) == 3:
+        if form and len(form) == 7:
             username = form['username']
             password = form['password']
             fname = form['fname']
@@ -50,59 +43,121 @@ class userHandler:
         else:
             return jsonify(Error="Malformed post request")
 
-    def getUserById(self, id):
+    def deleteUser(self, uid):
         dao = userDAO()
-        if not dao.getUserById(id):
+        if not dao.getUserById(uid):
             return jsonify(Error="User not found"), 404
         else:
-            user = self.getUserById(id)
-            return jsonify(User=user)
+            dao.delete(uid)
+            return jsonify(DeleteStatus="User deleted successfully."), 200
+
+    def updateUser(self, uid, form):
+        dao = userDAO()
+        if not dao.getUserById(uid):
+            return jsonify(Error="User not found."), 404
+        else
+            if len(form) != 7:
+                return jsonify(Error="Malformed update request."), 400
+            else:
+                username = form['username']
+                password = form['password']
+                fname = form['fname']
+                lname = form['lname']
+                email = form['email']
+                phone = form['phone']
+                address = form['address']
+                if username and password and fname and lname and email and phone and address:
+                    dao.update(uid, username, password, fname, lname, email, phone, address)
+                    result = {}
+                    result['uid'] = uid
+                    result['username'] = username
+                    result['password'] = password
+                    result['fname'] = fname
+                    result['lname'] = lname
+                    result['email'] = email
+                    result['phone'] = phone
+                    result['address'] = address
+                    return jsonify(User=result), 200
+                else:
+                    return  jsonify(Error="Unexpected attributes in update request."), 400
+
+    def getAllUsers(self):
+        dao = userDAO()
+        users_list = dao.getAllUsers()
+        result_list = []
+        for row in users_list:
+            result_list.append(self.build_user_dict(row))
+        return jsonify(Users=result_list)
+
+    def getUserById(self, id):
+        dao = userDAO()
+        user = dao.getUserById(id)
+        if not user:
+            return jsonify(Error="User not found"), 404
+        else:
+            result = self.build_user_dict(user)
+            return jsonify(User=result)
 
     def getUserByUsername(self, username):
         dao = userDAO()
-        if not dao.getUserById(username):
+        user = dao.getUserById(username)
+        if not user:
             return jsonify(Error="User not found"), 404
         else:
-            user = self.getUserByUsername(username)
-            return jsonify(User=user)
+            result = self.build_user_dict(user)
+            return jsonify(User=result)
 
     def getUserByFirstName(self, fname):
         dao = userDAO()
-        if not dao.getUserById(fname):
+        user_list = dao.getUserByFirstName(fname)
+        result_list = []
+        if not user_list:
             return jsonify(Error="Users not found"), 404
         else:
-            user_list = self.getUserByUsername(fname)
-            return jsonify(Users=user_list)
+            for row in user_list:
+                result = self.build_user_dict(row)
+                result_list.append(result)
+            return jsonify(Users=result_list)
 
     def getUserByLastName(self, lname):
         dao = userDAO()
-        if not dao.getUserById(lname):
+        user_list = dao.getUserByFirstName(lname)
+        result_list = []
+        if not user_list:
             return jsonify(Error="Users not found"), 404
         else:
-            user_list = self.getUserByUsername(lname)
-            return jsonify(Users=user_list)
+            for row in user_list:
+                result = self.build_user_dict(row)
+                result_list.append(result)
+            return jsonify(Users=result_list)
 
     def getUserByEmail(self, email):
         dao = userDAO()
-        if not dao.getUserById(email):
+        user = dao.getUserByEmail(email)
+        if not user:
             return jsonify(Error="User not found"), 404
         else:
-            user = self.getUserByUsername(email)
-            return jsonify(User=user)
+            result = self.build_user_dict(user)
+            return jsonify(User=result)
 
     def getUserByPhoneNumber(self, phone):
         dao = userDAO()
-        if not dao.getUserById(phone):
+        user = dao.getUserById(phone)
+        if not user:
             return jsonify(Error="User not found"), 404
         else:
-            user = self.getUserByUsername(phone)
-            return jsonify(User=user)
+            result = self.build_user_dict(user)
+            return jsonify(User=result)
 
     def getUserByAddress(self, address):
         dao = userDAO()
-        if not dao.getUserById(address):
+        user_list = dao.getUserByAddress(address)
+        result_list = []
+        if not user_list:
             return jsonify(Error="Users not found"), 404
         else:
-            user_list = self.getUserByUsername(address)
-            return jsonify(Users=user_list)
+            for row in user_list:
+                result = self.build_user_dict(row)
+                result_list.append(result)
+            return jsonify(Users=result_list)
 
