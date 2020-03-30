@@ -39,7 +39,7 @@ class MedicalDeviceHandler:
         result['rlocation'] = row[6]
         return result
 
-    def build_md_attributes(self, mdid, rid, mdbrand, mdname, mddescription):
+    def build_MedicalDevices_attributes(self, mdid, rid, mdbrand, mdname, mddescription):
         result = {};
         result['mdid'] = mdid
         result['rid'] = rid
@@ -59,7 +59,7 @@ class MedicalDeviceHandler:
 
     def getMedicalDevicesById(self, mdid):
         dao = MedicalDeviceDAO()
-        row = dao.getMedicalDeviceById(mdid)
+        row = dao.getMedicalDevicesById(mdid)
         if not row:
             return jsonify(Error = "Medical Device Not Found"), 404
         else:
@@ -68,25 +68,31 @@ class MedicalDeviceHandler:
 
     def getMedicalDevicesByName(self, mdname):
         dao = MedicalDeviceDAO()
-        row = dao.getMedicalDeviceByName(mdname)
-        if not row:
-            return jsonify(Error = "Medical Device Not Found"), 404
+        MedicalDevices_list = dao.getMedicalDevicesByName(mdname)
+        result_list = []
+        if not MedicalDevices_list:
+            return jsonify(Error = "No Medical Devices Found with the Specified Name."), 404
         else:
-            MedicalDevice = self.build_MedicalDevices_dict(row)
-            return jsonify(MedicalDevice = MedicalDevice)
+            for row in MedicalDevices_list:
+                result = self.build_MedicalDevices_dict(row)
+                result_list.append(result)
+            return jsonify(Results= result_list)
 
     def getMedicalDevicesByBrand(self, mdbrand):    #Filter by MedicalDevice category
         dao = MedicalDeviceDAO()
-        row = dao.getMedicalDeviceByType(mdbrand)
-        if not row:
-            return jsonify(Error = "No Medical Devices Found with the Specified Brand"), 404
+        MedicalDevices_list = dao.getMedicalDevicesByBrand(mdbrand)
+        result_list = []
+        if not MedicalDevices_list:
+            return jsonify(Error = "No Medical Devices Found with the Specified Brand."), 404
         else:
-            MedicalDevice = self.build_MedicalDevices_dict(row)
-            return jsonify(MedicalDevice = MedicalDevice)
+            for row in MedicalDevices_list:
+                result = self.build_MedicalDevices_dict(row)
+                result_list.append(result)
+            return jsonify(Results = result_list)
 
     def insertMedicalDevice(self, form):
         print("form: ", form)
-        if len(form) != 4:
+        if len(form) != 7:
             return jsonify(Error = "Malformed post request"), 400
         else:
             rname = form['rname']
@@ -134,7 +140,7 @@ class MedicalDeviceHandler:
         dao = MedicalDeviceDAO()
         resourceDAO = ResourceDAO()
 
-        if not dao.getMedicalDeviceById(mdid):
+        if not dao.getMedicalDevicesById(mdid):
             return jsonify(Error = "MedicalDevice not found."), 404
         else:
             rid = dao.getResourceID(mdid)
@@ -145,10 +151,10 @@ class MedicalDeviceHandler:
     def updateMedicalDevice(self, mdid, form):
         resourceDAO = ResourceDAO()
         dao = MedicalDeviceDAO()
-        if not dao.getMedicalDeviceById(mdid):
+        if not dao.getMedicalDevicesById(mdid):
             return jsonify(Error = "MedicalDevice not found."), 404
         else:
-            if len(form) != 4:
+            if len(form) != 7:
                 return jsonify(Error="Malformed update request"), 400
             else:
                 rname = form['rname']
@@ -157,15 +163,16 @@ class MedicalDeviceHandler:
                 sid = form['sid']
 
                 mdbrand = form['mdbrand']
-                mdname = form['rname']
+                mdname = form['mdname']
                 mddescription = form['mddescription']
 
                 rid = dao.getResourceID(mdid)
+                sid = 42  ##MEGADUMMYVALUE
 
                 if rtype and rname and rlocation and sid and mdbrand and mdname and mddescription:
                     dao.update(mdbrand, mdname, mddescription)
-                    resourceDAO.update(rname,rtype,rlocation)
-                    result = self.build_part_attributes(mdid, rid, mdbrand, mdname,mddescription)
+                    resourceDAO.update(rid,rname,rtype,rlocation,sid)
+                    result = self.build_MedicalDevices_attributes(mdid, rid, mdbrand, mdname,mddescription)
                     return jsonify(MedicalDevice=result), 200
                 else:
                     return jsonify(Error="Unexpected attributes in update request"), 400

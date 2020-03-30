@@ -40,7 +40,7 @@ class MedicalDeviceDAO:
 
        return row
 
-    def getMedicalDevicesByName(self, rname):
+    def getMedicalDevicesByName(self, mdname):
         #cursor = self.conn.cursor()
         #query = "select * from parts where pmaterial = %s;"
         #cursor.execute(query, (material,))

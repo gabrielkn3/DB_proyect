@@ -15,14 +15,13 @@ class ResourceHandler:
 
     def build_supplier_dict(self, row):
         result = {}
-        result['uid'] = row[0]
-        result['sid'] = row[1]
-        result['sfirstname'] = row[2]
-        result['slastname'] = row[3]
-        result['semail'] = row[4]
-        result['sphone'] = row[5]
-        result['saddress'] = row[6]
-        result['slocation'] = row[7]
+        result['sid'] = row[0]
+        result['stype'] = row[1]
+        result['sname'] = row[2]
+        result['semail'] = row[3]
+        result['sphone'] = row[4]
+        result['saddress'] = row[5]
+        result['sfinance'] = row[6]
         return result
 
     def build_requester_dict(self, row):
@@ -167,64 +166,6 @@ class ResourceHandler:
             result = self.build_requester_dict(row)
             result_list.append(result)
         return jsonify(Suppliers=result_list)
-
-    # def insertResource(self, form):
-    #     print("form: ", form)
-    #     if len(form) != 4:
-    #         return jsonify(Error = "Malformed post request"), 400
-    #     else:
-    #         rtype = form['rtype']
-    #         rname = form['rname']
-    #         rlocation = form['rlocation']
-    #         sid = form['sid']
-    #         if rtype and rname and rlocation and sid:
-    #             dao = ResourceDAO()
-    #             rid = dao.insert(rtype,rname,rlocation,sid)
-    #             result = self.build_resources_attributes(rid, rtype, rname, rlocation, sid)
-    #             return jsonify(Resource=result), 201
-    #         else:
-    #             return jsonify(Error="Unexpected attributes in post request"), 400
-    #
-    # def insertResourceJson(self, json):
-    #     rtype = json['rtype']
-    #     rname = json['rname']
-    #     rlocation = json['rlocation']
-    #     sid = json['sid']
-    #     if rtype and rname and rlocation and sid:
-    #         dao = ResourceDAO()
-    #         rid = dao.insert(rtype, rname, rlocation, sid)
-    #         result = self.build_resources_attributes(rid, rtype, rname, rlocation, sid)
-    #         return jsonify(Resource=result), 201
-    #
-    #     else:
-    #         return jsonify(Error="Unexpected attributes in post request"), 400
-    #
-    # def deleteResource(self, rid):
-    #     dao = ResourceDAO()
-    #     if not dao.getResourceById(rid):
-    #         return jsonify(Error = "Resource not found."), 404
-    #     else:
-    #         dao.delete(rid)
-    #         return jsonify(DeleteStatus = "OK"), 200
-    #
-    # def updateResource(self, rid, form):
-    #     dao = ResourceDAO()
-    #     if not dao.getResourceById(rid):
-    #         return jsonify(Error = "Resource not found."), 404
-    #     else:
-    #         if len(form) != 4:
-    #             return jsonify(Error="Malformed update request"), 400
-    #         else:
-    #             rtype = form['rtype']
-    #             rname = form['rname']
-    #             rlocation = form['rlocation']
-    #             sid = form['sid']
-    #             if rtype and rname and rlocation and sid:
-    #                 dao.update(rid, rtype, rname, rlocation, sid)
-    #                 result = self.build_part_attributes(rid, rtype, rname, rlocation, sid)
-    #                 return jsonify(Resource=result), 200
-    #             else:
-    #                 return jsonify(Error="Unexpected attributes in update request"), 400
 
     def build_resource_counts(self, resource_counts):
         result = []
