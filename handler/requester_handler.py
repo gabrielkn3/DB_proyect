@@ -15,9 +15,10 @@ class RequesterHandler:
 
     def build_resource_from_request(self, row):
         result = {}
-        result['rtype'] = row[3]
-        result['rquantity'] = row[6]
-        result['reqid'] = row[2]
+        result['rid'] = row[2]
+        result['Quantity'] = row[6]
+        result['Requested Date'] = row[7]
+
         return result
 
     def build_requester_attributes(self, reqid, reqlocation):
@@ -29,12 +30,12 @@ class RequesterHandler:
     def getAllRequesters(self):
 
         dao = RequesterDAO()
-        suppliers_list = dao.getAllSuppliers()
+        requesters_list = dao.getAllRequesters()
         result_list = []
-        for row in suppliers_list:
-            result = self.build_supplier_dict(row)
+        for row in requesters_list:
+            result = self.build_requester_dict(row)
             result_list.append(result)
-        return jsonify(Suppliers=result_list)
+        return jsonify(Requesters=result_list)
 
     def getRequesterById(self, reqid):
 
@@ -42,7 +43,7 @@ class RequesterHandler:
 
         row = dao.getRequesterById(reqid)
         if not row:
-            return jsonify(Error="Supplier Not Found"), 404
+            return jsonify(Error="Requester Not Found"), 404
         else:
             requester = self.build_requester_dict(row)
         return jsonify(Requester=requester)
@@ -68,8 +69,8 @@ class RequesterHandler:
         dao = RequesterDAO()
         row = dao.getRequesterById(reqid)
         if not row:
-            return jsonify(Error="Supplier Not Found"), 404
-        else:  # supplier exists
+            return jsonify(Error="Requester Not Found"), 404
+        else:  # Requester exists
             requests = dao.getResourcesByREQID(reqid)
             resources = self.build_resource_from_request(requests)
             return jsonify(Resources=resources)
@@ -79,15 +80,15 @@ class RequesterHandler:
              dao = RequesterDAO()
              user_handler = userHandler()
              if not dao.getRequesterById(reqid):
-                return jsonify(Error = "Supplier not found."), 404
+                return jsonify(Error = "Requester not found."), 404
              else:
                 if len(form) > 1:
                     return user_handler.updateUser(form["uid"], form)
                 else:
-                    reqlocation = form['slocation']
+                    reqlocation = form['reqlocation']
                     if reqlocation:
                         dao.update(reqid, reqlocation)
-                        result = self.build_supplier_attributes(reqid, reqlocation)
+                        result = self.build_requester_attributes(reqid, reqlocation)
                         return jsonify(Requester=result), 200
                     else:
                         return jsonify(Error="Unexpected attributes in update(REQUESTER) request"), 400
@@ -95,8 +96,8 @@ class RequesterHandler:
 
     def deleteRequester(self,reqid):
         dao = RequesterDAO()
-        if not dao.getSupplierById(reqid):
-            return jsonify(Error="Supplier not found."), 404
+        if not dao.getRequesterById(reqid):
+            return jsonify(Error="Requester not found."), 404
         else:
             status = dao.delete(reqid)
             if status:

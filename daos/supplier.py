@@ -66,14 +66,14 @@ class SupplierDAO:
         else:
             return None
 
-    # def getSuppliersByLocation(self, slocation):
-    #     suppliers = self.getAllSuppliers()
-    #     result = []
-    #     for i in range(0, len(suppliers)):
-    #         for row in suppliers:
-    #             if row[2] == slocation:
-    #                 result.append[row]
-    #     return result
+    def getSuppliersByLocation(self, slocation):
+        suppliers = self.getAllSuppliers()
+        result = []
+        for i in range(0, len(suppliers)):
+            for row in suppliers:
+                if row[2] == slocation:
+                    result.append(row)
+        return result
 
 
     # def insert(self, uid, slocation):

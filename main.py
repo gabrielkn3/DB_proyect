@@ -84,7 +84,7 @@ def getAllSuppliers():
         else:
             return jsonify(Error="Method not allowed, try other route"), 405
 
-@app.route('/ResourceApp/suppliers/<string:slocation>', methods=['GET'])
+@app.route('/ResourceApp/suppliers/location', methods=['GET'])
 def getSupplierByLocation():
     if request.method == 'GET':
         return SupplierHandler().searchSuppliers(request.form)
@@ -127,24 +127,15 @@ def getAllRequesters():
         # print("REQUEST: ", request.json)
         # return SupplierHandler().insertSupplier(request.json)
         pass
-    else :
+    else:
         if not request.args:
             return RequesterHandler().getAllRequesters()
         else:
             return jsonify(Error="Method not allowed, try other route"), 405
 
-@app.route('/ResourceApp/requesters/<string:reqlocation>', methods=['GET'])
-def getRequestersByLocation():
-    if request.method == 'GET':
-        return RequesterHandler().searchRequesters(request.form)
-    else:
-        return jsonify(Error="Method not allowed, try other route"), 405
 
 
-
-
-
-@app.route('/ResourceApp/requester/<int:sid>/',
+@app.route('/ResourceApp/requesters/<int:reqid>/',
            methods=['GET', 'PUT', 'DELETE'])
 def getRequesterById(reqid):
     if request.method == 'GET':
@@ -158,18 +149,20 @@ def getRequesterById(reqid):
 
 
 
+@app.route('/ResourceApp/requesters/location', methods=['GET'])
+def getRequestersByLocation():
+    if request.method == 'GET':
+        return RequesterHandler().searchRequesters(request.form)
+    else:
+        return jsonify(Error="Method not allowed, try other route"), 405
+
+
+
+
 #Requested items
-@app.route('/ResourceApp/requester/<int:reqid>/resources')
+@app.route('/ResourceApp/requesters/<int:reqid>/resources')
 def getResourcesByRequesterId(reqid):
     return RequesterHandler().getResourcesByRequesterId(reqid)
-
-
-
-
-
-
-
-
 
 
 

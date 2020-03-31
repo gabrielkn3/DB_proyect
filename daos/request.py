@@ -1,11 +1,26 @@
 class RequestDAO:
-
+    global request_list, request_id
+    request_list = []
+    request_id = 0
     # def __init__(self):
     #
     #     connection_url = "dbname=%s user=%s password=%s" % (pg_config['dbname'],
     #                                                         pg_config['user'],
     #                                                         pg_config['passwd'])
     #     self.conn = psycopg2._connect(connection_url)
+
+    def first_time(self):
+        row = {}
+        row[0] = 23
+        row[1] = "In progress."
+        row[2] = 456
+        row[3] = 3499445
+        row[4] = 7214
+        row[5] = 1150
+        row[6] = 45
+        row[7] = "January 23"
+        request_list.append(row)
+
 
     def getAllRequests(self):
         # cursor = self.conn.cursor()
@@ -16,6 +31,9 @@ class RequestDAO:
         #     result.append(row)
         # return result
 
+        if len(request_list) ==0:
+            self.first_time()
+            return request_list[0]
         row = {};
         row[0] = 'Get'
         row[1] = 'All'
@@ -31,7 +49,9 @@ class RequestDAO:
         # cursor.execute(query, (RequestID,))
         # result = cursor.fetchone()
         # return result
-
+        if len(request_list) ==0:
+            self.first_time()
+            return request_list[0]
         row = {};
         row[0] = 'Get'
         row[1] = 'Request'
@@ -50,6 +70,10 @@ class RequestDAO:
     #         result.append(row)
     #     return result
 
+        if len(request_list) == 0:
+            self.first_time()
+            return request_list[0]
+
         row = {};
         row[0] = 'Get'
         row[1] = 'Request'
@@ -67,7 +91,9 @@ class RequestDAO:
         # for row in cursor:
         #     result.append(row)
         # return result
-
+        if len(request_list) ==0:
+            self.first_time()
+            return request_list[0]
         row = {};
         row[0] = 'Get'
         row[1] = 'Request'

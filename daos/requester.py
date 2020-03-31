@@ -16,8 +16,8 @@ class RequesterDAO:
 
     def first_time(self):
         row = {}
-        row[0] = 50
-        row[1] = 7214
+        row[0] = 7214
+        row[1] = 50
         row[2] = "Ponce"
         req_list.append(row)
 
@@ -46,8 +46,6 @@ class RequesterDAO:
             for row in req_list:
                 if row[0] == reqid:
                  result.append(row)
-
-
         return result[0]
 
     def getRequesterByEmail(self, email):
@@ -74,7 +72,7 @@ class RequesterDAO:
         for i in range(0, len(requesters)):
             for row in requesters:
                 if row[2] == reqlocation:
-                    result.append[row]
+                    result.append(row)
         return result
 
     # def insert(self, uid, reqlocation):
