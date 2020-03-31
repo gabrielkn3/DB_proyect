@@ -12,6 +12,8 @@ from handler.MedicalDevicesHandler import MedicalDeviceHandler
 from handler.MedicationHandler import MedicationHandler
 from handler.ToolHandler import ToolHandler
 from handler.Water_handler import WaterHandler
+from handler.listing_handler import ListingHandler
+from handler.request_handler import RequestHandler
 from handler.resource_handler import ResourceHandler
 from handler.supplier import SupplierHandler
 from handler.CannedFoodHandler import CannedFoodHandler
@@ -29,43 +31,88 @@ app = Flask(__name__)
 # Apply CORS to this app
 CORS(app)
 
+#*********************************************************************PRIMARY APP FUNCTIONS*********************************************************************************************************************
 
+#HomePage
 @app.route('/')
 def greeting():
     return 'Hello, this is the Resource Manager DB App!'
 
 
-@app.route('/ResourceApp/resources', methods=['GET', 'POST'])
+#GetAllResources
+@app.route('/ResourceApp/resources', methods=['GET'])
 def getAllResources():
-    if request.method == 'POST':
-        # cambie a request.json pq el form no estaba bregando
-        # parece q estaba poseido por satanas ...
-        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
-        print("REQUEST: ", request.json)
-        return ResourceHandler().insertResourceJson(request.json)
-    else:
         if not request.args:
             return ResourceHandler().getAllResources()
         else:
             return ResourceHandler().searchResources(request.args)
 
-
-@app.route('/ResourceApp/resources/<int:rid>', methods=['GET', 'PUT', 'DELETE'])
+#Get,Update, or Delete Resource By ID
+@app.route('/ResourceApp/resources/<int:rid>', methods=['GET'])
 def getResourceById(rid):
     if request.method == 'GET':
         return ResourceHandler().getResourcesById(rid)
-    elif request.method == 'PUT':
-        return ResourceHandler().updateResource(rid, request.form)
-    elif request.method == 'DELETE':
-        return ResourceHandler().deleteResource(rid)
+    # elif request.method == 'PUT':                     #Resource Updates and Deletes are managed by individual resource type handlers to guarantee consistency with resource master table
+    #     return ResourceHandler().updateResource(rid, request.form)
+    # elif request.method == 'DELETE':
+    #     return ResourceHandler().deleteResource(rid)
     else:
         return jsonify(Error="Method not allowed."), 405
 
-
+#GetSuppliersByResourceID
 @app.route('/ResourceApp/resources/<int:rid>/suppliers')
 def getSuppliersByResourceId(rid):
     return ResourceHandler().getSuppliersByResourceId(rid)
 
+#GetRequestersByResourceID
+@app.route('/ResourceApp/resources/<int:rid>/requesters')
+def getRequestersByResourceId(rid):
+    return ResourceHandler().getRequestersByResourceId(rid)
+
+#Browse All Requests or insert new request
+@app.route('/ResourceApp/requests', methods=['GET', 'POST'])
+def getAllRequests():
+    if request.method == 'POST':
+
+        print("REQUEST: ", request.json)
+        return RequestHandler().insertRequestJson(request.json)
+    else:
+        if not request.args:
+            return RequestHandler().getAllRequests()
+
+#Browse All Listings or Insert new Listing
+@app.route('/ResourceApp/listings', methods=['GET', 'POST'])
+def getAllListings():
+    if request.method == 'POST':
+
+        print("REQUEST: ", request.json)
+        return ListingHandler().insertListingJson(request.json)
+    else:
+        if not request.args:
+            return ListingHandler().getAllListings()
+
+#Keyword Search Requests by Resource Name
+@app.route('/ResourceApp/requests/<string:rname>', methods=['GET', 'POST'])
+def getRequestsByName(rname):
+    if request.method == 'GET':
+        return RequestHandler().getRequestsByResourceName(rname)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+#Keyword Search Listings by Resource Name
+@app.route('/ResourceApp/listings/<string:rname>', methods=['GET'])
+def getListingsByName(rname):
+    if request.method == 'GET':
+        return ListingHandler().getListingsByResourceName(rname)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+    
+#Keyword Search Listings by Resource Name
+@app.route('/ResourceApp/Dashboard/Daily', methods=['GET'])
+
+@app.route('/ResourceApp/Dashboard/Trending>', methods=['GET'])
+
+@app.route('/ResourceApp/Dashboard/Regions', methods=['GET'])
 
 
 
@@ -73,6 +120,8 @@ def getSuppliersByResourceId(rid):
 #************************************************************SUPPLIER*********************************************************************
 
 @app.route ('/ResourceApp/suppliers', methods=['GET'])
+
+#Get All Suppliers or REGISTER AS A SUPPLIER
 def getAllSuppliers():
     if request.method == 'POST':
         # print("REQUEST: ", request.json)
@@ -108,8 +157,6 @@ def getSupplierById(sid):
         return jsonify(Error = "Method not allowed"), 405
 
 
-#Supplied items
-
 
 @app.route('/ResourceApp/suppliers/<int:sid>/resources')
 def getResourcesBySupplierId(sid):
@@ -120,7 +167,7 @@ def getResourcesBySupplierId(sid):
 #*********************************************************REQUESTER****************************************************************************************************************
 
 
-
+#Get All Requesters or REGISTER AS A REQUESTER
 @app.route ('/ResourceApp/requesters', methods=['GET'])
 def getAllRequesters():
     if request.method == 'POST':
@@ -168,13 +215,13 @@ def getResourcesByRequesterId(reqid):
 
 
 
+
+
 #************************************************************MEDICAL DEVICES******************************************************************************
 @app.route('/ResourceApp/resources/medicaldevices', methods=['GET', 'POST'])
 def getAllMedicalDevices():
     if request.method == 'POST':
-        # cambie a request.json pq el form no estaba bregando
-        # parece q estaba poseido por satanas ...
-        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        
         print("REQUEST: ", request.json)
         return MedicalDeviceHandler().insertMedicalDeviceJson(request.json)
     else:
@@ -213,9 +260,7 @@ def getMedicalDevicesByBrand(mdbrand):
 @app.route('/ResourceApp/resources/medication', methods=['GET', 'POST'])
 def getAllMedication():
     if request.method == 'POST':
-        # cambie a request.json pq el form no estaba bregando
-        # parece q estaba poseido por satanas ...
-        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        
         print("REQUEST: ", request.json)
         return MedicationHandler().insertMedicationJson(request.json)
     else:
@@ -252,9 +297,7 @@ def getMedicationByDosage(mdosage):
 @app.route('/ResourceApp/resources/babyfood', methods=['GET', 'POST'])
 def getAllBabyFood():
     if request.method == 'POST':
-        # cambie a request.json pq el form no estaba bregando
-        # parece q estaba poseido por satanas ...
-        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        
         print("REQUEST: ", request.json)
         return BabyFoodHandler().insertBabyFoodJson(request.json)
     else:
@@ -291,9 +334,7 @@ def getBabyFoodByFlavor(bfflavor):
 @app.route('/ResourceApp/resources/cannedfood', methods=['GET', 'POST'])
 def getAllCannedFood():
     if request.method == 'POST':
-        # cambie a request.json pq el form no estaba bregando
-        # parece q estaba poseido por satanas ...
-        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        
         print("REQUEST: ", request.json)
         return CannedFoodHandler().insertCannedFoodJson(request.json)
     else:
@@ -330,9 +371,7 @@ def getCannedFoodByFlavor(cfname):
 @app.route('/ResourceApp/resources/dryfood', methods=['GET', 'POST'])
 def getAllDryFood():
     if request.method == 'POST':
-        # cambie a request.json pq el form no estaba bregando
-        # parece q estaba poseido por satanas ...
-        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        
         print("REQUEST: ", request.json)
         return DryFoodHandler().insertDryFoodJson(request.json)
     else:
@@ -370,9 +409,7 @@ def getDryFoodByFlavor(dfname):
 @app.route('/ResourceApp/resources/ice', methods=['GET', 'POST'])
 def getAllIce():
     if request.method == 'POST':
-        # cambie a request.json pq el form no estaba bregando
-        # parece q estaba poseido por satanas ...
-        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        
         print("REQUEST: ", request.json)
         return IceHandler().insertIceJson(request.json)
     else:
@@ -411,9 +448,7 @@ def getIceByWeight(iweight):
 @app.route('/ResourceApp/resources/tool', methods=['GET', 'POST'])
 def getAllTool():
     if request.method == 'POST':
-        # cambie a request.json pq el form no estaba bregando
-        # parece q estaba poseido por satanas ...
-        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        
         print("REQUEST: ", request.json)
         return ToolHandler().insertToolJson(request.json)
     else:
@@ -450,9 +485,7 @@ def getToolByName(tname):
 @app.route('/ResourceApp/resources/water', methods=['GET', 'POST'])
 def getAllWater():
     if request.method == 'POST':
-        # cambie a request.json pq el form no estaba bregando
-        # parece q estaba poseido por satanas ...
-        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        
         print("REQUEST: ", request.json)
         return WaterHandler().insertWaterJson(request.json)
     else:
@@ -492,9 +525,7 @@ def getWaterByBrand(wbrand):
 @app.route('/ResourceApp/resources/heavyequipment', methods=['GET', 'POST'])
 def getAllHeavyEquipment():
     if request.method == 'POST':
-        # cambie a request.json pq el form no estaba bregando
-        # parece q estaba poseido por satanas ...
-        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        
         print("REQUEST: ", request.json)
         return HeavyEquipmentHandler().insertHeavyEquipmentJson(request.json)
     else:
@@ -533,9 +564,7 @@ def getHeavyEquipmentByBrand(hbrand):
 @app.route('/ResourceApp/resources/fuel', methods=['GET', 'POST'])
 def getAllFuel():
     if request.method == 'POST':
-        # cambie a request.json pq el form no estaba bregando
-        # parece q estaba poseido por satanas ...
-        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        
         print("REQUEST: ", request.json)
         return FuelHandler().insertFuelJson(request.json)
     else:
@@ -583,9 +612,7 @@ def getFuelByQuantity(fquantity):
 @app.route('/ResourceApp/resources/generator', methods=['GET', 'POST'])
 def getAllGenerator():
     if request.method == 'POST':
-        # cambie a request.json pq el form no estaba bregando
-        # parece q estaba poseido por satanas ...
-        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        
         print("REQUEST: ", request.json)
         return GeneratorHandler().insertGeneratorJson(request.json)
     else:
@@ -626,9 +653,7 @@ def getCountByResourceId():
 @app.route('/ResourceApp/resources/clothing', methods=['GET', 'POST'])
 def getAllClothing():
     if request.method == 'POST':
-        # cambie a request.json pq el form no estaba bregando
-        # parece q estaba poseido por satanas ...
-        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        
         print("REQUEST: ", request.json)
         return ClothingHandler().insertClothingJson(request.json)
     else:
@@ -674,9 +699,7 @@ def getClothingBySize(clsize):
 @app.route('/ResourceApp/resources/batteries', methods=['GET', 'POST'])
 def getAllBatteries():
     if request.method == 'POST':
-        # cambie a request.json pq el form no estaba bregando
-        # parece q estaba poseido por satanas ...
-        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        
         print("REQUEST: ", request.json)
         return BatteriesHandler().insertBatteriesJson(request.json)
     else:
@@ -726,6 +749,7 @@ def getAllUsers():
     else:
         return userHandler().getAllUsers()
 
+#Get All Admins or REGISTER AS ADMIN
 @app.route('/ResourceApp/user/administrator', methods=['GET', 'POST'])
 def getAllAdmins():
     if request.method == 'POST':

@@ -99,11 +99,7 @@ class ResourceDAO:
         result = [];
         row[0] = 'dummysid'
         row[1] = 'Get'
-        row[2] = 'Suppliers'
-        row[3] = 'by'
-        row[4] = 'ResourceID'
-        row[5] = 'dummyval'
-        row[6] = 'dummyval2'
+        row[2] = 'Suppliers By REsource ID'
 
         result.append(row)
         return result
@@ -113,11 +109,7 @@ class ResourceDAO:
         result = [];
         row[0] = 'dummyrid'
         row[1] = 'get'
-        row[2] = 'requesters'
-        row[3] = 'By'
-        row[4] = 'ResourceID'
-        row[5] = 'dummyprice'
-        row[6] = 'dummyval2'
+        row[2] = 'requesters by resource id'
 
         result.append(row)
         return result
@@ -127,11 +119,7 @@ class ResourceDAO:
         result = [];
         row[0] = 'dummyrid'
         row[1] = 'get'
-        row[2] = 'suppliers'
-        row[3] = 'By'
-        row[4] = 'ResourceType'
-        row[5] = 'dummyprice'
-        row[6] = 'dummyval2'
+        row[2] = 'SupplierByResourceType'
 
         result.append(row)
         return result
@@ -141,11 +129,7 @@ class ResourceDAO:
         result = [];
         row[0] = 'dummyrid'
         row[1] = 'get'
-        row[2] = 'requesters'
-        row[3] = 'by'
-        row[4] = 'ResourceType'
-        row[5] = 'dummyprice'
-        row[6] = 'dummyval2'
+        row[2] = 'RequesterByResourceType'
 
         result.append(row)
         return result
@@ -155,11 +139,7 @@ class ResourceDAO:
         result = [];
         row[0] = 'dummyrid'
         row[1] = 'Get'
-        row[2] = 'Suppliers'
-        row[3] = 'By'
-        row[4] = 'Resource Name'
-        row[5] = 'dummyprice'
-        row[6] = 'dummyval2'
+        row[2] = 'Suppliers By Resource Name'
 
         result.append(row)
         return result
@@ -169,11 +149,7 @@ class ResourceDAO:
         result = [];
         row[0] = 'dummyrid'
         row[1] = 'Get'
-        row[2] = 'supplies'
-        row[3] = 'By'
-        row[4] = 'ResourceName'
-        row[5] = 'dummyprice'
-        row[6] = 'dummyval2'
+        row[2] = 'RequesterByResourceName'
 
         result.append(row)
         return result

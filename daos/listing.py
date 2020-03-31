@@ -46,6 +46,9 @@ class ListingDAO:
         row[1] = 'By'
         row[2] = 'ID'
         row[3] = 'Tested'
+        row[4] = "February 10"
+        row[5] = "10.00"
+        row[6] = 3
         return row
 
     def getListingsByType(self, rtype):
@@ -62,7 +65,9 @@ class ListingDAO:
         row[1] = 'By'
         row[2] = 'Resource'
         row[3] = 'Type'
-        row[4] = 'Successful'
+        row[4] = "February 10"
+        row[5] = "10.00"
+        row[6] = 3
 
         return row
 
@@ -80,7 +85,9 @@ class ListingDAO:
         row[1] = 'Listings'
         row[2] = 'By'
         row[3] = 'Price'
-        row[4] = 'Successful'
+        row[4] = "February 10"
+        row[5] = "10.00"
+        row[6] = 3
 
         return row
 
@@ -101,7 +108,9 @@ class ListingDAO:
         row[1] = 'Listings'
         row[2] = 'By'
         row[3] = 'Resource ID'
-        row[4] = 'Successful'
+        row[4] = "February 10"
+        row[5] = "10.00"
+        row[6] = 3
 
         return row
 
@@ -113,6 +122,15 @@ class ListingDAO:
             self.first_run()
             return listing_list[0]
         result = []
+        row = {};
+        row[0] = 'Get'
+        row[1] = 'Listings'
+        row[2] = 'By'
+        row[3] = 'Resource ID'
+        row[4] = "February 10"
+        row[5] = "10.00"
+        row[6] = 3
+        result.append(row)
         # for row in cursor:
         #     result.append(row)
         # return result
@@ -132,7 +150,10 @@ class ListingDAO:
         row[1] = 'Listings'
         row[2] = 'By'
         row[3] = 'ResourceType and Price'
-        row[4] = 'Successful'
+        row[4] = "February 10"
+        row[5] = "10.00"
+        row[6] = 3
+
         result.append(row)
 
         return result
@@ -151,7 +172,9 @@ class ListingDAO:
         row[1] = 'Listings'
         row[2] = 'By'
         row[3] = 'RID and price'
-        row[4] = 'Successful'
+        row[4] = "February 10"
+        row[5] = "10.00"
+        row[6] = 3
 
         return row
 
@@ -169,7 +192,9 @@ class ListingDAO:
         row[1] = 'Suppliers'
         row[2] = 'From'
         row[3] = 'Listing ID'
-        row[4] = 'Successful'
+        row[4] = "February 10"
+        row[5] = "10.00"
+        row[6] = 3
 
         return row
 
@@ -185,7 +210,9 @@ class ListingDAO:
         row[1] = 'listing rid'
         row[2] = 'listing rtype'
         row[3] = 'listing post date'
-        row[4] = 'listing uid, etc'
+        row[4] = "February 10"
+        row[5] = "10.00"
+        row[6] = 3
 
         return lid
 
@@ -200,7 +227,9 @@ class ListingDAO:
         row[1] = 'deleting rid'
         row[2] = 'deleting rtype'
         row[3] = 'deleting post date'
-        row[4] = 'deleting uid, etc'
+        row[4] = "February 10"
+        row[5] = "10.00"
+        row[6] = 3
 
         return lid
 
@@ -216,6 +245,8 @@ class ListingDAO:
         row[1] = 'new listing rid'
         row[2] = 'new listing rtype'
         row[3] = 'new listing post date'
-        row[4] = 'new listing uid, etc'
+        row[4] = "February 10"
+        row[5] = "10.00"
+        row[6] = 3
 
         return lid

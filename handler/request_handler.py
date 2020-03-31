@@ -1,5 +1,6 @@
 from flask import jsonify
 from daos.request import RequestDAO
+from daos.resource import ResourceDAO
 
 
 class RequestHandler:
@@ -8,22 +9,18 @@ class RequestHandler:
         result['RequestID'] = row[0]
         result['status'] = row[1]
         result['rid'] = row[2]
-        result['lid'] = row[3]
-        result['reqID'] = row[4]
-        result['sid'] = row[5]
-        result['amount'] = row[6]
-        result['date'] = row[7]
+        result['reqID'] = row[3]
+        result['requantity'] = row[4]
+        result['date'] = row[5]
         return result
 
-    def build_request_attributes(self, RequestID, status, rid, lid, reqID, sid, amount, date):
+    def build_request_attributes(self, RequestID, status, rid, lid, reqID, sid, requantity, date):
         result = {}
         result['RequestID'] = RequestID
         result['status'] = status
         result['rid'] = rid
-        result['lid'] = lid
         result['reqID'] = reqID
-        result['sid'] = sid
-        result['amount'] = amount
+        result['requantity'] = requantity
         result['date'] = date
         return result
 
@@ -45,14 +42,14 @@ class RequestHandler:
             req = self.build_request_dict(row)
         return jsonify(Request=req)
 
-    def getRequestBysid(self, sid):
-        dao = RequestDAO()
-        row = dao.getRequestBysid(sid)
-        if not row:
-            return jsonify(Error="Request Not Found"), 404
-        else:
-            req = self.build_request_dict(row)
-        return jsonify(Request=req)
+    # def getRequestBysid(self, sid):
+    #     dao = RequestDAO()
+    #     row = dao.getRequestBysid(sid)
+    #     if not row:
+    #         return jsonify(Error="Request Not Found"), 404
+    #     else:
+    #         req = self.build_request_dict(row)
+    #     return jsonify(Request=req)
 
 
     def getRequestByreqID(self, reqID):
@@ -73,7 +70,18 @@ class RequestHandler:
             req = self.build_request_dict(row)
         return jsonify(Request=req)
 
-    def searchListings(self, args):
+    def getRequestsByResourceName(self, rname):
+        resourcedao = ResourceDAO()
+        dao = RequestDAO()
+        rid = resourcedao.getResourceByName(rname)
+        row = dao.getRequestByRID(rid)
+        if not row:
+            return jsonify(Error="Request Not Found"), 404
+        else:
+            req = self.build_request_dict(row)
+        return jsonify(Request=req)
+
+    def searchRequests(self, args):
 
         rid = args.get("rid")
         status = args.get("status")
@@ -99,45 +107,39 @@ class RequestHandler:
 
     def insertRequest(self, form):
         print("form: ", form)
-        if len(form) != 8:
+        if len(form) != 6:
             return jsonify(Error="Malformed post request"), 400
         else:
-            RequestID = form['RequestID']
             status = form['status']
             rid = form['status']
-            lid = form['lid']
             reqID = form['reqID']
-            sid = form['sid']
-            amount = form['amount']
+            requantity = form['requantity']
             date = form['date']
 
-            if RequestID and status and rid and lid and reqID and sid and amount and date:
+            if status and rid and reqID and requantity and date:
                 dao = RequestDAO()
-                RequestID = dao.insert(RequestID, status, rid, lid, reqID, sid, amount, date)
-                result = self.build_request_attributes(RequestID, status, rid, lid, reqID, sid, amount, date)
+                RequestID = dao.insert(status, rid, reqID, requantity, date)
+                result = self.build_request_attributes(RequestID, status, rid, reqID, requantity, date)
                 return jsonify(Request=result), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
 
-    def insertListingJson(self, json):
-        RequestID = json['RequestID']
+    def insertRequestJson(self, json):
         status = json['status']
         rid = json['status']
-        lid = json['lid']
         reqID = json['reqID']
-        sid = json['sid']
-        amount = json['amount']
+        requantity = json['requantity']
         date = json['date']
 
-        if RequestID and status and rid and lid and reqID and sid and amount and date:
+        if status and rid and reqID and requantity and date:
             dao = RequestDAO()
-            lid = dao.insert(RequestID, status, rid, lid, reqID, sid, amount, date)
-            result = self.build_request_attributes(RequestID, status, rid, lid, reqID, sid, amount, date)
+            RequestID = dao.insert(status, rid, reqID, requantity, date)
+            result = self.build_request_attributes(RequestID, status, rid, reqID, requantity, date)
             return jsonify(Request=result), 201
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
 
-    def deleteListing(self, RequestID):
+    def deleteRequest(self, RequestID):
         dao = RequestDAO()
         if not dao.getRequestsById(RequestID):
             return jsonify(Error="Part not found."), 404
@@ -145,25 +147,22 @@ class RequestHandler:
             dao.delete(RequestID)
             return jsonify(DeleteStatus="OK"), 200
 
-    def updateListing(self, RequestID, form):
+    def updateRequest(self, RequestID, form):
         dao = RequestDAO()
         if not dao.getRequestsById(RequestID):
             return jsonify(Error="Part not found."), 404
         else:
-            if len(form) != 8:
+            if len(form) != 5:
                 return jsonify(Error="Malformed update request"), 400
             else:
-                RequestID = form['RequestID']
                 status = form['status']
                 rid = form['status']
-                lid = form['lid']
                 reqID = form['reqID']
-                sid = form['sid']
-                amount = form['amount']
+                requantity = form['requantity']
                 date = form['date']
-                if RequestID and status and rid and lid and reqID and sid and amount and date:
-                    dao.update(RequestID, status, rid, lid, reqID, sid, amount, date)
-                    result = self.build_request_attributes(RequestID, status, rid, lid, reqID, sid, amount, date)
+                if status and rid and reqID and requantity and date:
+                    dao.update(RequestID, status, rid, reqID, requantity, date)
+                    result = self.build_request_attributes(RequestID, status, rid, reqID, requantity, date)
                     return jsonify(Request=result), 200
                 else:
                     return jsonify(Error="Unexpected attributes in update request"), 400
@@ -178,7 +177,7 @@ class RequestHandler:
             D['lid'] = P[3]
             D['reqID'] = P[4]
             D['sid'] = P[5]
-            D['amount'] = P[6]
+            D['requantity'] = P[6]
             D['date'] = P[7]
             result.append(D)
         return result

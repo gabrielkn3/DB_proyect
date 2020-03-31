@@ -16,24 +16,15 @@ class ResourceHandler:
     def build_supplier_dict(self, row):
         result = {}
         result['sid'] = row[0]
-        result['stype'] = row[1]
-        result['sname'] = row[2]
-        result['semail'] = row[3]
-        result['sphone'] = row[4]
-        result['saddress'] = row[5]
-        result['sfinance'] = row[6]
+        result['uid'] = row[1]
+        result['slocation'] = row[2]
         return result
 
     def build_requester_dict(self, row):
         result = {}
-        result['uid'] = row[0]
-        result['ReqID'] = row[1]
-        result['rfirstname'] = row[2]
-        result['rlastname'] = row[3]
-        result['remail'] = row[4]
-        result['rphone'] = row[5]
-        result['raddress'] = row[6]
-        result['rlocation'] = row[6]
+        result['reqid'] = row[0]
+        result['uid'] = row[1]
+        result['reqlocation'] = row[2]
         return result
 
     def build_resources_attributes(self, rid, rname, rtype, rlocation, sid):

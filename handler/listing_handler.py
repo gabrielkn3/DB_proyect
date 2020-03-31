@@ -1,5 +1,7 @@
 from flask import jsonify
 from daos.listing import ListingDAO
+from daos.resource import ResourceDAO
+
 
 class ListingHandler:
     def build_listing_dict(self, row):
@@ -10,11 +12,11 @@ class ListingHandler:
         result['rtype'] = row[3]
         result['postDate'] = row[4]
         result['lprice'] = row[5]
-        result['quantity'] = row[6]
+        result['lquantity'] = row[6]
         result['rlocation'] = row[7]
         return result
 
-    def build_listing_attributes(self, lid, rid, sid, rtype, postDate, lprice, quantity, rlocation):
+    def build_listing_attributes(self, lid, rid, sid, rtype, postDate, lprice, lquantity, rlocation):
         result = {}
         result['lid'] = lid
         result['rid'] = rid
@@ -22,7 +24,7 @@ class ListingHandler:
         result['rtype'] = rtype
         result['postDate'] = postDate
         result['lprice'] = lprice
-        result['quantity'] = quantity
+        result['lquantity'] = lquantity
         result['rlocation'] = rlocation
         return result
 
@@ -44,6 +46,18 @@ class ListingHandler:
         else:
             listing = self.build_listing_dict(row)
             return jsonify(Listing=listing)
+
+
+    def getListingsByResourceName(self, rname):
+        dao = ListingDAO()
+        resourcedao = ResourceDAO()
+        rid = resourcedao.getResourceByName()
+        listings_list = dao.getListingsByRID(rid)
+        result_list = []
+        for row in listings_list:
+            result = self.build_listing_dict(row)
+            result_list.append(result)
+        return jsonify(Listing=result_list)
 
     def searchListings(self, args):
 
@@ -88,10 +102,9 @@ class ListingHandler:
 
     def insertListing(self, form):
         print("form: ", form)
-        if len(form) != 8:
+        if len(form) != 7:
             return jsonify(Error="Malformed post request"), 400
         else:
-            lid = form['lid']
             rid = form['rid']
             rtype = form['rtype']
             postDate = form['postDate']
@@ -100,16 +113,15 @@ class ListingHandler:
             amount = form['amount']
             rlocation = form['rlocation']
 
-            if lid and rid and rtype and postDate and uid and lprice and amount and rlocation:
+            if rid and rtype and postDate and uid and lprice and amount and rlocation:
                 dao = ListingDAO()
-                lid = dao.insert(lid, rid, rtype, postDate, uid, lprice, amount, rlocation)
-                result = self.build_listing_attributes(lid, rid, rtype, postDate, uid, lprice, amount, rlocation)
+                lid = dao.insert(rid, rtype, postDate, uid, lprice, amount, rlocation)
+                result = self.build_listing_attributes(rid, rtype, postDate, uid, lprice, amount, rlocation)
                 return jsonify(Listing=result), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
 
     def insertListingJson(self, json):
-        lid = json['lid']
         rid = json['rid']
         rtype = json['rtype']
         postDate = json['postDate']
@@ -117,10 +129,10 @@ class ListingHandler:
         lprice = json['lprice']
         amount = json['amount']
         rlocation = json['rlocation']
-        if lid and rid and rtype and postDate and uid and lprice and amount and rlocation:
+        if rid and rtype and postDate and uid and lprice and amount and rlocation:
             dao = ListingDAO()
-            lid = dao.insert(lid, rid, rtype, postDate, uid, lprice, amount, rlocation)
-            result = self.build_listing_attributes(lid, rid, rtype, postDate, uid, lprice, amount, rlocation)
+            lid = dao.insert(rid, rtype, postDate, uid, lprice, amount, rlocation)
+            result = self.build_listing_attributes(rid, rtype, postDate, uid, lprice, amount, rlocation)
             return jsonify(Listing=result), 201
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
@@ -141,7 +153,6 @@ class ListingHandler:
             if len(form) != 8:
                 return jsonify(Error="Malformed update request"), 400
             else:
-                lid = form['lid']
                 rid = form['rid']
                 rtype = form['rtype']
                 postDate = form['postDate']
@@ -149,7 +160,7 @@ class ListingHandler:
                 lprice = form['lprice']
                 amount = form['amount']
                 rlocation = form['rlocation']
-                if lid and rid and rtype and postDate and uid and lprice and amount and rlocation:
+                if rid and rtype and postDate and uid and lprice and amount and rlocation:
                     dao.update(lid, rid, rtype, postDate, uid, lprice, amount, rlocation)
                     result = self.build_listing_attributes(lid, rid, rtype, postDate, uid, lprice, amount, rlocation)
                     return jsonify(Listing=result), 200

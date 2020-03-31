@@ -15,10 +15,9 @@ class RequestDAO:
         row[1] = "In progress."
         row[2] = 456
         row[3] = 3499445
-        row[4] = 7214
-        row[5] = 1150
-        row[6] = 45
-        row[7] = "January 23"
+        row[4] = 1150
+        row[5] = 45
+        row[6] = "January 23"
         request_list.append(row)
 
 
@@ -118,6 +117,7 @@ class RequestDAO:
         row[2] = 'By'
         row[3] = 'Resource ID'
         row[4] = 'Successful'
+        row[5] = 'Successful'
 
         return row
 
@@ -136,6 +136,7 @@ class RequestDAO:
         row[2] = 'By'
         row[3] = 'Status'
         row[4] = 'Successful'
+        row[5] = 'Successful'
 
         return row
 
@@ -154,6 +155,7 @@ class RequestDAO:
         row[2] = 'By'
         row[3] = 'Quantity'
         row[4] = 'Successful'
+        row[5] = 'Successful'
 
         return row
 
@@ -172,6 +174,7 @@ class RequestDAO:
         row[2] = 'By'
         row[3] = 'RID and Status'
         row[4] = 'Successful'
+        row[5] = 'Successful'
 
         return row
 
@@ -190,6 +193,7 @@ class RequestDAO:
         row[2] = 'By'
         row[3] = 'RID and Quantity'
         row[4] = 'Successful'
+        row[5] = 'Successful'
 
         return row
 
@@ -206,7 +210,7 @@ class RequestDAO:
         row[1] = 'Request'
         row[2] = 'Successfully'
 
-        return row
+        return 232
 
     def delete(self, RequestID):
         # cursor = self.conn.cursor()
@@ -220,7 +224,7 @@ class RequestDAO:
         row[1] = 'Request'
         row[2] = 'Successful'
 
-        return row
+        return 123
 
     def update(self, RequestID, status, rid, lid, reqID, sid, amount, date):
         # cursor = self.conn.cursor()
@@ -233,5 +237,8 @@ class RequestDAO:
         row[0] = 'Updating'
         row[1] = 'Request'
         row[2] = 'Successfully'
+        row[3] = 'RID and Quantity'
+        row[4] = 'Successful'
+        row[5] = 'Successful'
 
         return row
