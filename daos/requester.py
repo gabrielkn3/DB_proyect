@@ -1,5 +1,6 @@
-from config.dbconfig import database_config
-import psycopg2
+# from config.dbconfig import database_config
+# import psycopg2
+
 from daos.user import userDAO
 from daos.request import RequestDAO
 class RequesterDAO:
