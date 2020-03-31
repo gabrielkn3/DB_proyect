@@ -211,7 +211,7 @@ class ResourceDAO:
         result.append(row)
         return rid
 
-    def update(self, rname, rtype, rlocation):
+    def update(self, rid, rname, rtype, rlocation):
         #cursor = self.conn.cursor()
         #query = "update parts set pname = %s, pcolor = %s, pmaterial = %s, pprice = %s where pid = %s;"
         #cursor.execute(query, (pname, pcolor, pmaterial, pprice, pid,))

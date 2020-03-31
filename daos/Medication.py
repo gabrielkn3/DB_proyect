@@ -109,7 +109,7 @@ class MedicationDAO:
         result.append(row)
         return mid
 
-    def update(self, mname, mdosage, mdescription):
+    def update(self, mid, mname, mdosage, mdescription):
         #cursor = self.conn.cursor()
         #query = "update parts set pname = %s, pcolor = %s, pmaterial = %s, pprice = %s where pid = %s;"
         #cursor.execute(query, (pname, pcolor, pmaterial, pprice, pid,))

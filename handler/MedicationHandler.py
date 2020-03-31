@@ -100,7 +100,7 @@ class MedicationHandler:
             sid = form['sid']
 
             mname = form['mname']
-            mdosage = form['rname']
+            mdosage = form['mdosage']
             mdescription = form['mdescription']
 
             if rtype and rname and rlocation and sid and mname and mdosage and mdescription:
@@ -168,8 +168,8 @@ class MedicationHandler:
                 rid = dao.getResourceID(mid)
 
                 if rtype and rname and rlocation and sid and mname and mdosage and mdescription:
-                    dao.update(mname, mdosage, mdescription)
-                    resourceDAO.update(rname,rtype,rlocation)
+                    dao.update(mid, mname, mdosage, mdescription)
+                    resourceDAO.update(rid, rname,rtype,rlocation)
                     result = self.build_Medication_attributes(mid, rid, mname, mdosage,mdescription)
                     return jsonify(Medication=result), 200
                 else:

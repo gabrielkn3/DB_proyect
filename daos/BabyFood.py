@@ -1,5 +1,5 @@
 #import psycopg2
-class MedicalDeviceDAO:
+class BabyFoodDAO:
     def __init__(self):
 
        connection_url = "dbname=%s user=%s password=%s" % ('dbname',
@@ -7,16 +7,16 @@ class MedicalDeviceDAO:
                                                           'passwd')
        #self.conn = psycopg2._connect(connection_url)
 
-    def getAllMedicalDevices(self):
+    def getAllBabyFood(self):
         #cursor = self.conn.cursor()
         #query = "select pid, pname, pmaterial, pcolor, pprice from parts;"
         #cursor.execute(query)
         row={};
         result = [];
-        row[0] = 'dummymdid'
+        row[0] = 'dummybfid'
         row[1] = 'Get'
         row[2] = 'All'
-        row[3] = 'MedicalDevices'
+        row[3] = 'BabyFood'
         row[4] = 'Test'
 
 
@@ -25,7 +25,7 @@ class MedicalDeviceDAO:
         #    result.append(row)
         return result
 
-    def getMedicalDevicesById(self, mdid):
+    def getBabyFoodById(self, bfid):
        # cursor = self.conn.cursor()
         #query = "select pid, pname, pmaterial, pcolor, pprice from parts where pid = %s;"
         #cursor.execute(query, (pid,))
@@ -33,14 +33,14 @@ class MedicalDeviceDAO:
        row = {};
        row[0] = '21'
        row[1] = 'get'
-       row[2] = 'MedicalDevices'
+       row[2] = 'BabyFood'
        row[3] = 'by'
        row[4] = 'iD Values'
 
 
        return row
 
-    def getMedicalDevicesByName(self, mdname):
+    def getBabyFoodByFlavor(self, bfflavor):
         #cursor = self.conn.cursor()
         #query = "select * from parts where pmaterial = %s;"
         #cursor.execute(query, (material,))
@@ -51,14 +51,14 @@ class MedicalDeviceDAO:
         result = [];
         row[0] = 'dummyrid'
         row[1] = 'Get'
-        row[2] = 'MedicalDevices'
+        row[2] = 'BabyFood'
         row[3] = 'by'
-        row[4] = 'Name'
+        row[4] = 'Flavor'
 
         result.append(row)
         return result
 
-    def getMedicalDevicesByBrand(self, mdbrand):
+    def getBabyFoodByBrand(self, bfbrand):
         # cursor = self.conn.cursor()
         # query = "select * from parts where pcolor = %s;"
         # cursor.execute(query, (color,))
@@ -69,14 +69,14 @@ class MedicalDeviceDAO:
         result = [];
         row[0] = 'dummyrid'
         row[1] = 'Get'
-        row[2] = 'MedicalDevices'
+        row[2] = 'BabyFood'
         row[3] = 'By'
-        row[4] = 'Type'
+        row[4] = 'Brand'
 
         result.append(row)
         return result
 
-    def insert(self, rid, mdbrand, mdname, mdescription):
+    def insert(self, rid, bfbrand, bfflavor, bfdescription):
         #cursor = self.conn.cursor()
         #query = "insert into parts(pname, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
         #cursor.execute(query, (pname, pcolor, pmaterial, pprice,))
@@ -93,7 +93,7 @@ class MedicalDeviceDAO:
         result.append(row)
         return rid
 
-    def delete(self, mdid):
+    def delete(self, bfid):
         #cursor = self.conn.cursor()
         #query = "delete from parts where pid = %s;"
         #cursor.execute(query, (pid,))
@@ -107,9 +107,9 @@ class MedicalDeviceDAO:
         row[4] = 'deleteid'
 
         result.append(row)
-        return mdid
+        return bfid
 
-    def update(self, mdid, mdbrand, mdname, mddescription):
+    def update(self, bfid, bfbrand, bfflavor, bfdescription):
         #cursor = self.conn.cursor()
         #query = "update parts set pname = %s, pcolor = %s, pmaterial = %s, pprice = %s where pid = %s;"
         #cursor.execute(query, (pname, pcolor, pmaterial, pprice, pid,))
@@ -123,14 +123,14 @@ class MedicalDeviceDAO:
         row[5] = 'updatesid'
 
         result.append(row)
-        return mdbrand
+        return bfbrand
 
-    def getResourceID(self,mdid):
-        rid = mdid+2;  #dummy code
-        #select rid from MedicalDevices where mdid = %s;
+    def getResourceID(self,bfid):
+        rid = bfid+2;  #dummy code
+        #select rid from BabyFood where bfid = %s;
         return rid
 
-    def getCountByMedicalDevicesId(self):
+    def getCountByBabyFoodId(self):
         #cursor = self.conn.cursor()
         #query = "select pid, pname, sum(stock) from parts natural inner join supplies group by pid, pname order by pname;"
         #cursor.execute(query)
