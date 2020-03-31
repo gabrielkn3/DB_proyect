@@ -50,6 +50,7 @@ class ListingHandler:
         rtype = args.get("rtype")
         lprice = args.get("lprice")
         rid = args.get("rid")
+        sid = args.get("sid")
 
         dao = ListingDAO()
         listings_list = []
@@ -57,6 +58,8 @@ class ListingHandler:
             listings_list = dao.getListingsByType(rtype)
         elif (len(args) == 1) and lprice:
             listings_list = dao.getListingsByPrice(lprice)
+        elif (len(args) == 1) and sid:
+            listings_list = dao.getListingsBySupplierID(sid)
         elif (len(args) == 1) and rid:
             listings_list = dao.getListingsByRID(rid)
         elif (len(args) == 2) and rtype and lprice:

@@ -1,6 +1,7 @@
 from config.dbconfig import database_config
 import psycopg2
 from daos.user import userDAO
+from daos.listing import ListingDAO
 class SupplierDAO:
     global supplier_list, s_id
     supplier_list = []
@@ -55,6 +56,15 @@ class SupplierDAO:
         u = userDAO()
         return u.getUserByAddress(address)
 
+    def getResourcesBySID(self,sid):
+        l = ListingDAO()
+        result = ListingDAO.getListingsBySupplierID(sid)
+        resources=[]
+        for i in range(0, len(result)):
+            for row in result:
+                resources.append(row['rname'])
+        return resources
+
 
     def insert(self, uid, slocation):
         row={}
@@ -72,3 +82,12 @@ class SupplierDAO:
                     return sid
         return -1 #failed
 
+    def update(self, sid, slocation):
+        result = []
+        for i in range(0, len(supplier_list)):
+            for row in supplier_list:
+                if row[0] == sid:
+                    row[2] = slocation
+                    result.append(row)
+
+        return result

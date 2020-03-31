@@ -20,11 +20,10 @@ class SupplierHandler:
         result['sid'] = row[4]
         return result
 
-    def build_supplier_attributes(self, sid, uid, slocation):
+    def build_supplier_attributes(self, sid, slocation):
         result = {};
         result['sid'] = sid
         result['slocation'] = slocation
-        result['uid'] = uid
         return result
 
     def getAllSuppliers(self):
@@ -65,10 +64,22 @@ class SupplierHandler:
     #         else:
     #             return jsonify(Error="Malformed search string."), 400
 
-    def insertSupplier(self, uid, form):
-        if form and len(form) == 1:
-            slocation = form['slocation']
+    def getResourcesBySupplierId(self, sid):
+        dao=SupplierDAO()
+        row = dao.getSupplierById(sid)
+        if not row:
+            return jsonify(Error="Supplier Not Found"), 404
+        else:#supplier exists
+            result = dao.getResourcesBySID(sid)
+            return jsonify(Resources=result)
 
+
+
+
+    def insertSupplier(self, form):
+        if form and len(form) == 2:
+            slocation = form['slocation']
+            uid = form["uid"]
             if uid and slocation:
                 dao = SupplierDAO()
                 sid = dao.insert(uid, slocation)
@@ -83,19 +94,19 @@ class SupplierHandler:
             return jsonify(Error="Malformed post(SUPPLIER) request")
 
 
-    def updateSupplier(self, sid, uid, form):
+    def updateSupplier(self, sid, form):
              dao = SupplierDAO()
              user_handler = userHandler()
              if not dao.getSupplierById(sid):
                 return jsonify(Error = "Supplier not found."), 404
              else:
-                if len(form) != 1:
-                    return user_handler.updateUser(uid, form)
+                if len(form) > 1:
+                    return user_handler.updateUser(form["uid"], form)
                 else:
                     slocation = form['slocation']
                     if slocation:
-                        dao.update(slocation)
-                        result = self.build_supplier_attributes(sid, uid, slocation)
+                        dao.update(sid, slocation)
+                        result = self.build_supplier_attributes(sid, slocation)
                         return jsonify(Supplier=result), 200
                     else:
                         return jsonify(Error="Unexpected attributes in update(SUPPLIER) request"), 400
