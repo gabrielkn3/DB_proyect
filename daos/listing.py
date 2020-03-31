@@ -9,7 +9,6 @@ class ListingDAO:
     #                                                         pg_config['passwd'])
         # self.conn = psycopg2._connect(connection_url)
 
-
     def first_run(self):
         row = {}
         row[0] = 0
@@ -18,8 +17,8 @@ class ListingDAO:
         row[3] = "Tools"
         row[4] = "February 10"
         row[5] = "10.00"
-        row[6] = 3
-        row[7]="Rio Grande"
+        row[6] = 3  #Quantity
+        row[7] = "Rio Grande"
         listing_list.append(row)
 
 
