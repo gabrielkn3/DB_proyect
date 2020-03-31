@@ -12,6 +12,7 @@ class RequestHandler:
         result['reqID'] = row[3]
         result['requantity'] = row[4]
         result['date'] = row[5]
+
         return result
 
     def build_request_attributes(self, RequestID, status, rid, reqID, requantity, date):

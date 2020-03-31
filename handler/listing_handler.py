@@ -28,7 +28,7 @@ class ListingHandler:
         result = {}
         result['lid'] = lid
         result['rid'] = rid
-        result['uid'] = sid
+        result['sid'] = sid
         result['rtype'] = rtype
         result['postDate'] = postDate
         result['lprice'] = lprice
@@ -60,7 +60,7 @@ class ListingHandler:
         dao = ListingDAO()
         resourcedao = ResourceDAO()
         rid = resourcedao.getResourceByName(rname)
-        listings_list = dao.getListingsByRID(rid)
+        listings_list = dao.getListingsByTypeAndPrice(rid, "price")
         result_list = []
         for row in listings_list:
             result = self.build_listing_dict(row)
@@ -118,13 +118,13 @@ class ListingHandler:
             postDate = form['postDate']
             sid = form['sid']
             lprice = form['lprice']
-            amount = form['amount']
+            lquantity = form['lquantity']
             rlocation = form['rlocation']
 
-            if rid and rtype and postDate and sid and lprice and amount and rlocation:
+            if rid and rtype and postDate and sid and lprice and lquantity and rlocation:
                 dao = ListingDAO()
-                lid = dao.insert(rid, rtype, postDate, sid, lprice, amount, rlocation)
-                result = self.build_listing_attributes(rid, rtype, postDate, sid, lprice, amount, rlocation)
+                lid = dao.insert(rid, rtype, postDate, sid, lprice, lquantity, rlocation)
+                result = self.build_listing_attributes(lid, rid, sid, rtype, postDate, lprice, lquantity, rlocation)
                 return jsonify(Listing=result), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
@@ -135,12 +135,12 @@ class ListingHandler:
         postDate = json['postDate']
         sid = json['sid']
         lprice = json['lprice']
-        amount = json['amount']
+        lquantity = json['lquantity']
         rlocation = json['rlocation']
-        if rid and rtype and postDate and sid and lprice and amount and rlocation:
+        if rid and rtype and postDate and sid and lprice and lquantity and rlocation:
             dao = ListingDAO()
-            lid = dao.insert(rid, rtype, postDate, sid, lprice, amount, rlocation)
-            result = self.build_listing_attributes(rid, rtype, postDate, sid, lprice, amount, rlocation)
+            lid = dao.insert(rid, rtype, postDate, sid, lprice, lquantity, rlocation)
+            result = self.build_listing_attributes(lid, rid, rtype, postDate, sid, lprice, lquantity, rlocation)
             return jsonify(Listing=result), 201
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
@@ -164,13 +164,13 @@ class ListingHandler:
                 rid = form['rid']
                 rtype = form['rtype']
                 postDate = form['postDate']
-                uid = form['uid']
+                sid = form['sid']
                 lprice = form['lprice']
-                amount = form['amount']
+                lquantity = form['lquantity']
                 rlocation = form['rlocation']
-                if rid and rtype and postDate and uid and lprice and amount and rlocation:
-                    dao.update(lid, rid, rtype, postDate, uid, lprice, amount, rlocation)
-                    result = self.build_listing_attributes(lid, rid, rtype, postDate, uid, lprice, amount, rlocation)
+                if rid and rtype and postDate and sid and lprice and lquantity and rlocation:
+                    dao.update(lid, rid, rtype, postDate, sid, lprice, lquantity, rlocation)
+                    result = self.build_listing_attributes(lid, rid, rtype, postDate, sid, lprice, lquantity, rlocation)
                     return jsonify(Listing=result), 200
                 else:
                     return jsonify(Error="Unexpected attributes in update request"), 400
