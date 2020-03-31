@@ -70,6 +70,7 @@ class paymentHandler:
                 else:
                     return jsonify(Error="Unexpected attributes in update request."), 400
 
+
     def getAllPayments(self):
         dao = paymentDAO()
         # payment_list = dao.getAllPayments()
@@ -81,7 +82,7 @@ class paymentHandler:
 
     def getPaymentByPaymentId(self, pid):
         dao = paymentDAO()
-        payment = dao.getPaymentByPaymentId(id)
+        payment = dao.getPaymentByPaymentId(pid)
         # if not payment:
         #     return jsonify(Error="Payment not found."), 404
         # else:

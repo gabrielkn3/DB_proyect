@@ -47,11 +47,21 @@ class userDAO:
         return uid
 
     def update(self, uid, username, password, fname, lname, email, phone, address):
-        cursor = self.conn.cursor()
-        query = "update user set username = %s, password = %s, fname = %s, lname = %s, email = %s, phone = %s, address = %s where uid = %s;"
-        cursor.execute(query, (username, password, fname, lname, email, phone, address, uid,))
-        self.conn.commit()
-        return uid
+        # cursor = self.conn.cursor()
+        # query = "update user set username = %s, password = %s, fname = %s, lname = %s, email = %s, phone = %s, address = %s where uid = %s;"
+        # cursor.execute(query, (username, password, fname, lname, email, phone, address, uid,))
+        # self.conn.commit()
+        # return uid
+        for row in elist:
+            if row[0] == uid:
+                row[1] = username
+                row[2] = password
+                row[3] = fname
+                row[4] = lname
+                row[5] = email
+                row[6] = phone
+                row[7] = address
+                return row
 
     def getAllUsers(self):
         # cursor = self.conn.cursor()
