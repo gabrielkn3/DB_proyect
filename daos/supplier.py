@@ -61,12 +61,8 @@ class SupplierDAO:
 
     def getResourcesBySID(self, sid):
         l = ListingDAO()
-        result = ListingDAO.getListingsBySupplierID(sid)
-        resources = []
-        for i in range(0, len(result)):
-            for row in result:
-                resources.append(row['rname'])
-        return resources
+        listings = l.getListingsBySupplierID(sid)
+        return listings
 
     def getSuppliersByLocation(self, slocation):
         suppliers = self.getAllSuppliers()

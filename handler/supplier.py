@@ -11,13 +11,11 @@ class SupplierHandler:
         result['slocation'] = row[2]
         return result
 
-    def build_resource_dict(self, row):
+    def build_resource_from_listing(self, row):
         result = {}
-        result['rid'] = row[0]
-        result['rname'] = row[1]
-        result['rtype'] = row[2]
-        result['rlocation'] = row[3]
-        result['sid'] = row[4]
+        result['rtype'] = row[3]
+        result['rquantity'] = row[6]
+        result['sid'] = row[2]
         return result
 
     def build_supplier_attributes(self, sid, slocation):
@@ -65,13 +63,14 @@ class SupplierHandler:
                 return jsonify(Error="Malformed search string."), 400
 
     def getResourcesBySupplierId(self, sid):
-        dao=SupplierDAO()
+        dao = SupplierDAO()
         row = dao.getSupplierById(sid)
         if not row:
             return jsonify(Error="Supplier Not Found"), 404
         else:#supplier exists
-            result = dao.getResourcesBySID(sid)
-            return jsonify(Resources=result)
+            listings = dao.getResourcesBySID(sid)
+            resources = self.build_resource_from_listing(listings)
+            return jsonify(Resources=resources)
 
 
 
@@ -94,7 +93,8 @@ class SupplierHandler:
             return jsonify(Error="Malformed post(SUPPLIER) request")
 
 
-    def updateSupplier(self, sid, form):
+
+    def updateSupplier (self, sid, form):
              dao = SupplierDAO()
              user_handler = userHandler()
              if not dao.getSupplierById(sid):
@@ -110,6 +110,8 @@ class SupplierHandler:
                         return jsonify(Supplier=result), 200
                     else:
                         return jsonify(Error="Unexpected attributes in update(SUPPLIER) request"), 400
+
+
     def deleteSupplier(self,sid):
         dao = SupplierDAO()
         if not dao.getSupplierById(sid):
