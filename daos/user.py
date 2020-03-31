@@ -48,8 +48,8 @@ class userDAO:
 
     def update(self, uid, username, password, fname, lname, email, phone, address):
         cursor = self.conn.cursor()
-        query = "update user set username = %s, password = %s, fname = %s, lname = %s, email = %s, phone = %s, address = %s;"
-        cursor.execute(query, (pid,))
+        query = "update user set username = %s, password = %s, fname = %s, lname = %s, email = %s, phone = %s, address = %s where uid = %s;"
+        cursor.execute(query, (username, password, fname, lname, email, phone, address, uid,))
         self.conn.commit()
         return uid
 
