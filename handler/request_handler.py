@@ -14,7 +14,7 @@ class RequestHandler:
         result['date'] = row[5]
         return result
 
-    def build_request_attributes(self, RequestID, status, rid, lid, reqID, sid, requantity, date):
+    def build_request_attributes(self, RequestID, status, rid, reqID, requantity, date):
         result = {}
         result['RequestID'] = RequestID
         result['status'] = status
@@ -42,14 +42,6 @@ class RequestHandler:
             req = self.build_request_dict(row)
         return jsonify(Request=req)
 
-    # def getRequestBysid(self, sid):
-    #     dao = RequestDAO()
-    #     row = dao.getRequestBysid(sid)
-    #     if not row:
-    #         return jsonify(Error="Request Not Found"), 404
-    #     else:
-    #         req = self.build_request_dict(row)
-    #     return jsonify(Request=req)
 
 
     def getRequestByreqID(self, reqID):
@@ -101,7 +93,7 @@ class RequestHandler:
             return jsonify(Error="Malformed query string"), 400
         result_list = []
         for row in request_list:
-            result = self.build_listing_dict(row)
+            result = self.build_request_dict(row)
             result_list.append(result)
         return jsonify(Request=result_list)
 
@@ -141,7 +133,7 @@ class RequestHandler:
 
     def deleteRequest(self, RequestID):
         dao = RequestDAO()
-        if not dao.getRequestsById(RequestID):
+        if not dao.getRequestByID(RequestID):
             return jsonify(Error="Part not found."), 404
         else:
             dao.delete(RequestID)
@@ -149,7 +141,7 @@ class RequestHandler:
 
     def updateRequest(self, RequestID, form):
         dao = RequestDAO()
-        if not dao.getRequestsById(RequestID):
+        if not dao.getRequestByID(RequestID):
             return jsonify(Error="Part not found."), 404
         else:
             if len(form) != 5:
@@ -167,26 +159,24 @@ class RequestHandler:
                 else:
                     return jsonify(Error="Unexpected attributes in update request"), 400
 
-    def build_listing_counts(self, request_counts):
+    def build_request_counts(self, request_counts):
         result = []
         for P in request_counts:
             D = {}
             D['RequestID'] = P[0]
             D['status'] = P[1]
             D['rid'] = P[2]
-            D['lid'] = P[3]
             D['reqID'] = P[4]
-            D['sid'] = P[5]
             D['requantity'] = P[6]
             D['date'] = P[7]
             result.append(D)
         return result
 
-    def getCountByRequestId(self):
-        dao = RequestDAO()
-        result = dao.getCountByRequestId()
-        # print(self.build_listing_counts(result))
-        return jsonify(RequestCounts=self.build_listing_counts(result)), 200
+    # def getCountByRequestId(self):
+    #     dao = RequestDAO()
+    #     result = dao.getCountByRequestId()
+    #     # print(self.build_listing_counts(result))
+    #     return jsonify(RequestCounts=self.build_listing_counts(result)), 200
 
 
 

@@ -19,6 +19,7 @@ class ListingDAO:
         row[4] = "February 10"
         row[5] = "10.00"
         row[6] = 3
+        row[7]="Rio Grande"
         listing_list.append(row)
 
 
@@ -32,7 +33,7 @@ class ListingDAO:
 
         return listing_list
 
-    def getListingsById(self, lid):
+    def getListingById(self, lid):
         # cursor = self.conn.cursor()
         # query = "select * from listings where lid = %s;"
         # cursor.execute(query, (lid,))
@@ -126,14 +127,12 @@ class ListingDAO:
         row[0] = 'Get'
         row[1] = 'Listings'
         row[2] = 'By'
-        row[3] = 'Resource ID'
+        row[3] = 'Supplier ID'
         row[4] = "February 10"
         row[5] = "10.00"
         row[6] = 3
         result.append(row)
-        # for row in cursor:
-        #     result.append(row)
-        # return result
+
         return result
 
     def getListingsByTypeAndPrice(self, rtype, lprice):
@@ -178,9 +177,9 @@ class ListingDAO:
 
         return row
 
-    def getSuppliersByListingid(self, lid):
+    def getSuppliersByListingId(self, lid):
         # cursor = self.conn.cursor()
-        # query = "select uid from listings where lid = %s"
+        # query = "select sid, rtype, location from (select * from listings where lid = %s")
         # cursor.execute(query, (lid,))
         # result = []
         # for row in cursor:

@@ -107,12 +107,12 @@ def getListingsByName(rname):
     else:
         return jsonify(Error="Method not allowed."), 405
     
-#Keyword Search Listings by Resource Name
-@app.route('/ResourceApp/Dashboard/Daily', methods=['GET'])
-
-@app.route('/ResourceApp/Dashboard/Trending>', methods=['GET'])
-
-@app.route('/ResourceApp/Dashboard/Regions', methods=['GET'])
+# Filters for dashboard, NEXT PHASE
+# @app.route('/ResourceApp/Dashboard/Daily', methods=['GET'])
+#
+# @app.route('/ResourceApp/Dashboard/Trending>', methods=['GET'])
+#
+# @app.route('/ResourceApp/Dashboard/Regions', methods=['GET'])
 
 
 

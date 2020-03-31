@@ -60,27 +60,6 @@ class RequestDAO:
 
         return row
 
-    def getRequestBysid(self, sid):
-    #     cursor = self.conn.cursor()
-    #     query = "select * from requests where sid = %s;"
-    #     cursor.execute(query, (sid,))
-    #     result = []
-    #     for row in cursor:
-    #         result.append(row)
-    #     return result
-
-        if len(request_list) == 0:
-            self.first_time()
-            return request_list[0]
-
-        row = {};
-        row[0] = 'Get'
-        row[1] = 'Request'
-        row[2] = 'By'
-        row[3] = 'Supplier ID'
-        row[4] = 'Successful'
-
-        return row
 
     def getRequestByreqID(self, reqID):
         # cursor = self.conn.cursor()
@@ -140,7 +119,7 @@ class RequestDAO:
 
         return row
 
-    def getRequestByQuantity(self, quantity):
+    def getRequestsByQuantity(self, quantity):
         # cursor = self.conn.cursor()
         # query = "select * from requests where quantity = %s;"
         # cursor.execute(query, (quantity,))
