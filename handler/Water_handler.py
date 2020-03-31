@@ -6,12 +6,12 @@ from daos.resource import ResourceDAO
 
 
 class WaterHandler:
-    def build_water_dict(self, row):
+    def build_Water_dict(self, row):
         result = {};
         result['wid'] = row[0]
         result['rid'] = row[1]
-        result['brand'] = row[2]
-        result['size'] = row[3]
+        result['wbrand'] = row[2]
+        result['wsize'] = row[3]
         result['wdescription'] = row[4]
         return result
 
@@ -38,12 +38,12 @@ class WaterHandler:
         result['rlocation'] = row[6]
         return result
 
-    def build_Water_attributes(self, wid, rid, brand, size, wdescription):
+    def build_Water_attributes(self, wid, rid, wbrand, wsize, wdescription):
         result = {};
         result['wid'] = wid
         result['rid'] = rid
-        result['brand'] = brand
-        result['size'] = size
+        result['wbrand'] = wbrand
+        result['wsize'] = wsize
         result['wdescription'] = wdescription
         return result
 
@@ -65,9 +65,9 @@ class WaterHandler:
             Water = self.build_Water_dict(row)
             return jsonify(Water = Water)
 
-    def getWaterBySize(self, size):
+    def getWaterBySize(self, wsize):
         dao = WaterDAO()
-        Waterlist = dao.getWaterBySize(size)
+        Waterlist = dao.getWaterBySize(wsize)
         result_list = []
         if not Waterlist:
             return jsonify(Error = "No Water Found with the specified Size"), 404
@@ -77,9 +77,9 @@ class WaterHandler:
                 result_list.append(result)
             return jsonify(Water = result_list)
 
-    def getWaterByBrand(self, brand):    #Filter by Water category
+    def getWaterByBrand(self, wbrand):    #Filter by Water category
         dao = WaterDAO()
-        Waterlist = dao.getWaterByBrand(brand)
+        Waterlist = dao.getWaterByBrand(wbrand)
         result_list = []
         if not Waterlist:
             return jsonify(Error = "No Water Found with the Specified Brand"), 404
@@ -99,16 +99,16 @@ class WaterHandler:
             rlocation = form['rlocation']
             sid = form['sid']
 
-            brand = form['brand']
-            size = form['rname']
+            wbrand = form['wbrand']
+            wsize = form['rname']
             wdescription = form['wdescription']
 
-            if rtype and rname and rlocation and sid and brand and size and wdescription:
+            if rtype and rname and rlocation and sid and wbrand and wsize and wdescription:
                 resourcedao = ResourceDAO()
                 dao = WaterDAO()
                 rid = resourcedao.insert(rtype,rname,rlocation,sid)
-                wid = dao.insert(rid, brand, size, wdescription)
-                result = self.build_Water_attributes(wid, rid, brand, size, wdescription)
+                wid = dao.insert(rid, wbrand, wsize, wdescription)
+                result = self.build_Water_attributes(wid, rid, wbrand, wsize, wdescription)
                 return jsonify(Water=result), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
@@ -119,17 +119,17 @@ class WaterHandler:
         rtype = json['rtype']
         rlocation = json['rlocation']
         sid = json['sid']
-        brand = json['brand']
-        size = json['size']
+        wbrand = json['wbrand']
+        wsize = json['wsize']
         wdescription = json['wdescription']
 
 
-        if rtype and rname and rlocation and sid and brand and size and wdescription:
+        if rtype and rname and rlocation and sid and wbrand and wsize and wdescription:
             resourcedao = ResourceDAO()
             dao = WaterDAO()
             rid = resourcedao.insert(rtype, rname, rlocation, sid)
-            wid = dao.insert(rid, brand, size, wdescription)
-            result = self.build_Water_attributes(wid, rid, brand, size, wdescription)
+            wid = dao.insert(rid, wbrand, wsize, wdescription)
+            result = self.build_Water_attributes(wid, rid, wbrand, wsize, wdescription)
             return jsonify(Water=result), 201
 
         else:
@@ -161,16 +161,16 @@ class WaterHandler:
                 rlocation = form['rlocation']
                 sid = form['sid']
 
-                brand = form['brand']
-                size = form['size']
+                wbrand = form['wbrand']
+                wsize = form['wsize']
                 wdescription = form['wdescription']
 
                 rid = dao.getResourceID(wid)
 
-                if rtype and rname and rlocation and sid and brand and size and wdescription:
-                    dao.update(brand, size, wdescription)
-                    resourceDAO.update(rname,rtype,rlocation)
-                    result = self.build_Water_attributes(wid, rid, brand, size,wdescription)
+                if rtype and rname and rlocation and sid and wbrand and wsize and wdescription:
+                    dao.update(wid,wbrand, wsize, wdescription)
+                    resourceDAO.update(rid,rname,rtype,rlocation)
+                    result = self.build_Water_attributes(wid, rid, wbrand, wsize,wdescription)
                     return jsonify(Water=result), 200
                 else:
                     return jsonify(Error="Unexpected attributes in update request"), 400

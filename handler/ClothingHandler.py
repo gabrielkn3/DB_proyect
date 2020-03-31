@@ -39,7 +39,7 @@ class ClothingHandler:
         result['rlocation'] = row[6]
         return result
 
-    def build_clothing_attributes(self, clid, rid, clname, clbrand, cldescription, clsize):
+    def build_Clothing_attributes(self, clid, rid, clname, clbrand, cldescription, clsize):
         result = {};
         result['clid'] = clid
         result['rid'] = rid
@@ -105,7 +105,7 @@ class ClothingHandler:
 
     def insertClothing(self, form):
         print("form: ", form)
-        if len(form) != 7:
+        if len(form) != 8:
             return jsonify(Error = "Malformed post request"), 400
         else:
             rname = form['rname']
@@ -144,7 +144,7 @@ class ClothingHandler:
             resourcedao = ResourceDAO()
             dao = ClothingDAO()
             rid = resourcedao.insert(rtype, rname, rlocation, sid)
-            clid = dao.insert(rid, clname, clbrand, cldescription,clsize)
+            clid = dao.insert(rid, clbrand, clname, clsize, cldescription)
             result = self.build_Clothing_attributes(clid, rid, clname, clbrand, cldescription,clsize)
             return jsonify(Clothing=result), 201
 
@@ -169,7 +169,7 @@ class ClothingHandler:
         if not dao.getClothingById(clid):
             return jsonify(Error = "Clothing not found."), 404
         else:
-            if len(form) != 7:
+            if len(form) != 8:
                 return jsonify(Error="Malformed update request"), 400
             else:
                 rname = form['rname']

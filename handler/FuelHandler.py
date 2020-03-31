@@ -12,8 +12,9 @@ class FuelHandler:
         result['rid'] = row[1]
         result['ftype'] = row[2]
         result['fquantity'] = row[3]
-        result['fdescription'] = row[4]
-        result['octane'] = row[5]
+        result['octane'] = row[4]
+        result['fdescription'] = row[5]
+
         return result
 
     def build_supplier_dict(self, row):
@@ -39,12 +40,13 @@ class FuelHandler:
         result['rlocation'] = row[6]
         return result
 
-    def build_Fuel_attributes(self, fid, rid, ftype, fquantity, fdescription):
+    def build_Fuel_attributes(self, fid, rid, ftype, fquantity, octane, fdescription):
         result = {};
         result['fid'] = fid
         result['rid'] = rid
         result['ftype'] = ftype
         result['fquantity'] = fquantity
+        result['octane'] = octane
         result['fdescription'] = fdescription
         return result
 
@@ -78,9 +80,9 @@ class FuelHandler:
                 result_list.append(result)
             return jsonify(Fuel = result_list)
 
-    def getFuelBytype(self, ftype):    #Filter by Fuel category
+    def getFuelByType(self, ftype):    #Filter by Fuel category
         dao = FuelDAO()
-        Fuellist = dao.getFuelBytype(ftype)
+        Fuellist = dao.getFuelByType(ftype)
         result_list = []
         if not Fuellist:
             return jsonify(Error = "No Fuel Found with the Specified type"), 404
@@ -104,10 +106,10 @@ class FuelHandler:
 
     def insertFuel(self, form):
         print("form: ", form)
-        if len(form) != 7:
+        if len(form) != 8:
             return jsonify(Error = "Malformed post request"), 400
         else:
-            rtype = form['rtype']
+            rname = form['rname']
             rtype = form['rtype']
             rlocation = form['rlocation']
             sid = form['sid']
@@ -115,34 +117,36 @@ class FuelHandler:
             ftype = form['ftype']
             fquantity = form['fquantity']
             fdescription = form['fdescription']
+            octane = form['octane']
 
-            if rtype and rtype and rlocation and sid and ftype and fquantity and fdescription:
+            if rname and rtype and rlocation and sid and ftype and fquantity and fdescription and octane:
                 resourcedao = ResourceDAO()
                 dao = FuelDAO()
-                rid = resourcedao.insert(rtype,rtype,rlocation,sid)
-                fid = dao.insert(rid, ftype, fquantity, fdescription)
-                result = self.build_Fuel_attributes(fid, rid, ftype, fquantity, fdescription)
+                rid = resourcedao.insert(rname,rtype,rlocation,sid)
+                fid = dao.insert(rid, ftype, fquantity, octane, fdescription)
+                result = self.build_Fuel_attributes(fid, rid, ftype, fquantity, octane, fdescription)
                 return jsonify(Fuel=result), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
 
     def insertFuelJson(self, json):
 
-        rtype = json['rtype']
+        rname = json['rname']
         rtype = json['rtype']
         rlocation = json['rlocation']
         sid = json['sid']
         ftype = json['ftype']
         fquantity = json['fquantity']
+        octane = json['octane']
         fdescription = json['fdescription']
 
 
-        if rtype and rtype and rlocation and sid and ftype and fquantity and fdescription:
+        if rname and rtype and rlocation and sid and ftype and fquantity and fdescription and octane:
             resourcedao = ResourceDAO()
             dao = FuelDAO()
-            rid = resourcedao.insert(rtype, rtype, rlocation, sid)
-            fid = dao.insert(rid, ftype, fquantity, fdescription)
-            result = self.build_Fuel_attributes(fid, rid, ftype, fquantity, fdescription)
+            rid = resourcedao.insert(rname, rtype, rlocation, sid)
+            fid = dao.insert(rid, ftype, fquantity, octane, fdescription)
+            result = self.build_Fuel_attributes(fid, rid, ftype, fquantity, octane, fdescription)
             return jsonify(Fuel=result), 201
 
         else:
@@ -166,10 +170,10 @@ class FuelHandler:
         if not dao.getFuelById(fid):
             return jsonify(Error = "Fuel not found."), 404
         else:
-            if len(form) != 7:
+            if len(form) != 8:
                 return jsonify(Error="Malformed update request"), 400
             else:
-                rtype = form['rtype']
+                rname = form['rname']
                 rtype = form['rtype']
                 rlocation = form['rlocation']
                 sid = form['sid']
@@ -181,9 +185,9 @@ class FuelHandler:
 
                 rid = dao.getResourceID(fid)
 
-                if rtype and rtype and rlocation and sid and ftype and fquantity and octane and fdescription:
+                if rname and rtype and rlocation and sid and ftype and fquantity and octane and fdescription:
                     dao.update(fid, ftype, fquantity, fdescription, octane)
-                    resourceDAO.update(rid, rtype,rtype,rlocation, octane)
+                    resourceDAO.update(rid, rname,rtype,rlocation)
                     result = self.build_Fuel_attributes(fid, rid, ftype, fquantity,fdescription, octane)
                     return jsonify(Fuel=result), 200
                 else:

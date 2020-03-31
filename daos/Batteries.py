@@ -18,6 +18,7 @@ class BatteriesDAO:
         row[2] = 'GET'
         row[3] = 'TEST'
         row[4] = 'SUCCESSFUL'
+        row[5] = 'dummyval'
 
 
         result.append(row)
@@ -36,6 +37,7 @@ class BatteriesDAO:
        row[2] = 'Batteries'
        row[3] = 'by'
        row[4] = 'iD Values'
+       row[5] = 'dummyval'
 
 
        return row
@@ -54,6 +56,7 @@ class BatteriesDAO:
         row[2] = 'Batteries'
         row[3] = 'by'
         row[4] = 'Brand'
+        row[5] = 'dummyval'
 
         result.append(row)
         return result
@@ -72,12 +75,13 @@ class BatteriesDAO:
         row[2] = 'Batteries'
         row[3] = 'By'
         row[4] = 'Type'
+        row[5] = 'dummyval'
 
 
         result.append(row)
         return result
 
-    def getBatteriesByBatteryLife(self, batteryLife):
+    def getBatteriesByBatteryLife(self, blife):
         # cursor = self.conn.cursor()
         # query = "select * from parts where pcolor = %s;"
         # cursor.execute(query, (color,))
@@ -91,11 +95,12 @@ class BatteriesDAO:
         row[2] = 'Batteries'
         row[3] = 'By'
         row[4] = 'BatteryLife'
+        row[5] = 'dummyval'
 
         result.append(row)
         return result
 
-    def insert(self, rid, btype, bbrand, bdescription):
+    def insert(self, rid, bbrand, btype, blife, bdescription):
         #cursor = self.conn.cursor()
         #query = "insert into parts(pType, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
         #cursor.execute(query, (pType, pcolor, pmaterial, pprice,))
@@ -128,7 +133,7 @@ class BatteriesDAO:
         result.append(row)
         return bid
 
-    def update(self, bid, btype, bbrand, bdescription):
+    def update(self, bid, bbrand, btype, blife, bdescription):
         #cursor = self.conn.cursor()
         #query = "update parts set pType = %s, pcolor = %s, pmaterial = %s, pprice = %s where pid = %s;"
         #cursor.execute(query, (pType, pcolor, pmaterial, pprice, pid,))

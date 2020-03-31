@@ -18,7 +18,7 @@ class ClothingDAO:
         row[2] = 'GET'
         row[3] = 'TEST'
         row[4] = 'SUCCESSFUL'
-
+        row[5] = 'DUMMYVAL'
 
         result.append(row)
         #for row in cursor:
@@ -36,6 +36,7 @@ class ClothingDAO:
        row[2] = 'Clothing'
        row[3] = 'by'
        row[4] = 'iD Values'
+       row[5] = 'DUMMYVAL'
 
 
        return row
@@ -54,6 +55,7 @@ class ClothingDAO:
         row[2] = 'Clothing'
         row[3] = 'by'
         row[4] = 'Brand'
+        row[5] = 'DUMMYVAL'
 
         result.append(row)
         return result
@@ -72,6 +74,7 @@ class ClothingDAO:
         row[2] = 'Clothing'
         row[3] = 'By'
         row[4] = 'Name'
+        row[5] = 'DUMMYVAL'
 
 
         result.append(row)
@@ -91,11 +94,12 @@ class ClothingDAO:
         row[2] = 'Clothing'
         row[3] = 'By'
         row[4] = 'Size'
+        row[5] = 'DUMMYVAL'
 
         result.append(row)
         return result
 
-    def insert(self, rid, clname, clbrand, cldescription):
+    def insert(self, rid, clbrand, clname, clsize, cldescription):
         #cursor = self.conn.cursor()
         #query = "insert into parts(pname, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
         #cursor.execute(query, (pname, pcolor, pmaterial, pprice,))
@@ -108,6 +112,7 @@ class ClothingDAO:
         row[2] = 'insertname'
         row[3] = 'insertlocation'
         row[4] = 'Insertdescription'
+        row[5] = 'DUMMYVAL'
 
         result.append(row)
         return rid
@@ -128,7 +133,7 @@ class ClothingDAO:
         result.append(row)
         return clid
 
-    def update(self, clid, clname, clbrand, cldescription):
+    def update(self, clid, clbrand, clname, clsize, cldescription):
         #cursor = self.conn.cursor()
         #query = "update parts set pname = %s, pcolor = %s, pmaterial = %s, pprice = %s where pid = %s;"
         #cursor.execute(query, (pname, pcolor, pmaterial, pprice, pid,))

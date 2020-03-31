@@ -18,6 +18,7 @@ class GeneratorDAO:
         row[2] = 'All'
         row[3] = 'Generator'
         row[4] = 'Test'
+        row[5] = 'Dummyval'
 
 
         result.append(row)
@@ -36,6 +37,7 @@ class GeneratorDAO:
        row[2] = 'Generator'
        row[3] = 'by'
        row[4] = 'iD Values'
+       row[5] = 'Dummyval'
 
 
        return row
@@ -54,6 +56,7 @@ class GeneratorDAO:
         row[2] = 'Generator'
         row[3] = 'by'
         row[4] = 'Fuel Type'
+        row[5] = 'Dummyval'
 
         result.append(row)
         return result
@@ -72,6 +75,7 @@ class GeneratorDAO:
         row[2] = 'Generator'
         row[3] = 'By'
         row[4] = 'Power Output'
+        row[5] = 'Dummyval'
 
         result.append(row)
         return result
@@ -89,6 +93,7 @@ class GeneratorDAO:
         row[2] = 'insergfueltype'
         row[3] = 'insertlocation'
         row[4] = 'Insergdescription'
+        row[5] = 'Dummyval'
 
         result.append(row)
         return rid
@@ -105,6 +110,7 @@ class GeneratorDAO:
         row[2] = 'deletename'
         row[3] = 'deletelocation'
         row[4] = 'deleteid'
+        row[5] = 'Dummyval'
 
         result.append(row)
         return gid

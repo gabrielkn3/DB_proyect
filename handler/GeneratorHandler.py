@@ -49,9 +49,9 @@ class GeneratorHandler:
         result['gdescription'] = gdescription
         return result
 
-    def getAllGenerators(self):
+    def getAllGenerator(self):
         dao = GeneratorDAO()
-        Generator_list = dao.getAllGenerators()
+        Generator_list = dao.getAllGenerator()
         result_list = []
         for row in Generator_list:
             result = self.build_Generator_dict(row)
@@ -157,7 +157,7 @@ class GeneratorHandler:
         if not dao.getGeneratorById(gid):
             return jsonify(Error = "Generator not found."), 404
         else:
-            if len(form) != 7:
+            if len(form) != 8:
                 return jsonify(Error="Malformed update request"), 400
             else:
                 rname = form['rname']
@@ -173,7 +173,7 @@ class GeneratorHandler:
                 rid = dao.getResourceID(gid)
 
                 if rtype and rname and rlocation and sid and gbrand and gfueltype and gpoweroutput and gdescription:
-                    dao.update(gid, rid, gbrand, gfueltype, gpoweroutput, gdescription)
+                    dao.update(gid, gbrand, gfueltype, gpoweroutput, gdescription)
                     resourceDAO.update(rid,rname,rtype,rlocation)
                     result = self.build_Generator_attributes(gid, rid, gbrand, gfueltype, gpoweroutput, gdescription)
                     return jsonify(Generator=result), 200

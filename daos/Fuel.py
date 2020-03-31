@@ -18,6 +18,7 @@ class FuelDAO:
         row[2] = 'All'
         row[3] = 'Fuel'
         row[4] = 'Test'
+        row[5] = 'Octane'
 
 
         result.append(row)
@@ -36,6 +37,7 @@ class FuelDAO:
        row[2] = 'Fuel'
        row[3] = 'by'
        row[4] = 'iD Values'
+       row[5] = 'iD Values'
 
 
        return row
@@ -54,6 +56,7 @@ class FuelDAO:
         row[2] = 'Fuel'
         row[3] = 'by'
         row[4] = 'Quantity'
+        row[5] = 'iD Values'
 
         result.append(row)
         return result
@@ -72,6 +75,7 @@ class FuelDAO:
         row[2] = 'Fuel'
         row[3] = 'by'
         row[4] = 'Type'
+        row[5] = 'iD Values'
 
         result.append(row)
         return result
@@ -82,15 +86,18 @@ class FuelDAO:
         #cursor.execute(query, (pid,))
         #result = cursor.fetchone()
        row = {};
+       result = [];
        row[0] = '86octane'
        row[1] = 'get'
        row[2] = 'Fuel'
        row[3] = 'by'
        row[4] = 'octane'
+       row[5] = 'iD Values'
+       result.append(row)
 
-       return row
+       return result
 
-    def insert(self, rid, ftype, fquantity, fdescription):
+    def insert(self, rid, ftype, fquantity, octane, fdescription):
         #cursor = self.conn.cursor()
         #query = "insert into parts(pType, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
         #cursor.execute(query, (pType, pcolor, pmaterial, pprice,))
@@ -103,6 +110,7 @@ class FuelDAO:
         row[2] = 'insertname'
         row[3] = 'insertlocation'
         row[4] = 'Insertdescription'
+
 
         result.append(row)
         return rid
@@ -123,7 +131,7 @@ class FuelDAO:
         result.append(row)
         return fid
 
-    def update(self, fid, ftype, fquantity, fdescription):
+    def update(self, fid, ftype, fquantity, octane, fdescription):
         #cursor = self.conn.cursor()
         #query = "update parts set pType = %s, pcolor = %s, pmaterial = %s, pprice = %s where pid = %s;"
         #cursor.execute(query, (pType, pcolor, pmaterial, pprice, pid,))

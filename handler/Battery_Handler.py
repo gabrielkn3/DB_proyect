@@ -13,7 +13,7 @@ class BatteriesHandler:
         result['btype'] = row[2]
         result['bbrand'] = row[3]
         result['bdescription'] = row[4]
-        result['batteryLife'] = row[5]
+        result['blife'] = row[5]
         return result
 
     def build_supplier_dict(self, row):
@@ -39,14 +39,14 @@ class BatteriesHandler:
         result['rlocation'] = row[6]
         return result
 
-    def build_Batteries_attributes(self, bid, rid, btype, bbrand, bdescription, batteryLife):
+    def build_Batteries_attributes(self, bid, rid, bbrand, btype, blife, bdescription):
         result = {};
         result['bid'] = bid
         result['rid'] = rid
         result['btype'] = btype
         result['bbrand'] = bbrand
         result['bdescription'] = bdescription
-        result['batteryLife'] = batteryLife
+        result['blife'] = blife
         return result
 
     def getAllBatteries(self):
@@ -91,12 +91,12 @@ class BatteriesHandler:
                 result_list.append(result)
             return jsonify(Batteries = result_list)
 
-    def getBatteriesByBatteryLife(self, batteryLife):
+    def getBatteriesByLife(self, blife):
         dao = BatteriesDAO()
-        Batterieslist = dao.getBatteriesByBatteryLife(batteryLife)
+        Batterieslist = dao.getBatteriesByBatteryLife(blife)
         result_list = []
         if not Batterieslist:
-            return jsonify(Error="No Batteries Found with the specified BatteryLife"), 404
+            return jsonify(Error="No Batteries Found with the specified Battery Life"), 404
         else:
             for row in Batterieslist:
                 result = self.build_Batteries_dict(row)
@@ -105,10 +105,10 @@ class BatteriesHandler:
 
     def insertBatteries(self, form):
         print("form: ", form)
-        if len(form) != 7:
+        if len(form) != 8:
             return jsonify(Error = "Malformed post request"), 400
         else:
-            rType = form['rType']
+            rname = form['rname']
             rtype = form['rtype']
             rlocation = form['rlocation']
             sid = form['sid']
@@ -116,36 +116,36 @@ class BatteriesHandler:
             btype = form['btype']
             bbrand = form['bbrand']
             bdescription = form['bdescription']
-            batteryLife = form['batteryLife']
+            blife = form['blife']
 
-            if rtype and rType and rlocation and sid and btype and bbrand and batteryLife and bdescription:
+            if rtype and rname and rlocation and sid and btype and bbrand and blife and bdescription:
                 resourcedao = ResourceDAO()
                 dao = BatteriesDAO()
-                rid = resourcedao.insert(rtype,rType,rlocation,sid)
-                bid = dao.insert(rid, btype, bbrand, bdescription, batteryLife)
-                result = self.build_Batteries_attributes(bid, rid, btype, bbrand, bdescription, batteryLife)
+                rid = resourcedao.insert(rtype,rname,rlocation,sid)
+                bid = dao.insert(rid, bbrand, btype, blife, bdescription)
+                result = self.build_Batteries_attributes(bid, rid, bbrand, btype, blife, bdescription)
                 return jsonify(Batteries=result), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
 
     def insertBatteriesJson(self, json):
 
-        rType = json['rType']
+        rname = json['rname']
         rtype = json['rtype']
         rlocation = json['rlocation']
         sid = json['sid']
         btype = json['btype']
         bbrand = json['bbrand']
         bdescription = json['bdescription']
-        batteryLife = json['batteryLife']
+        blife = json['blife']
 
 
-        if rtype and rType and rlocation and sid and btype and bbrand and bdescription and batteryLife:
+        if rtype and rname and rlocation and sid and btype and bbrand and bdescription and blife:
             resourcedao = ResourceDAO()
             dao = BatteriesDAO()
-            rid = resourcedao.insert(rtype, rType, rlocation, sid)
-            bid = dao.insert(rid, btype, bbrand, bdescription,batteryLife)
-            result = self.build_Batteries_attributes(bid, rid, btype, bbrand, bdescription,batteryLife)
+            rid = resourcedao.insert(rtype, rname, rlocation, sid)
+            bid = dao.insert(rid, bbrand, btype, blife, bdescription)
+            result = self.build_Batteries_attributes(bid, rid, btype, bbrand, bdescription,blife)
             return jsonify(Batteries=result), 201
 
         else:
@@ -169,10 +169,10 @@ class BatteriesHandler:
         if not dao.getBatteriesById(bid):
             return jsonify(Error = "Batteries not found."), 404
         else:
-            if len(form) != 7:
+            if len(form) != 8:
                 return jsonify(Error="Malformed update request"), 400
             else:
-                rType = form['rType']
+                rname = form['rname']
                 rtype = form['rtype']
                 rlocation = form['rlocation']
                 sid = form['sid']
@@ -180,14 +180,14 @@ class BatteriesHandler:
                 btype = form['btype']
                 bbrand = form['bbrand']
                 bdescription = form['bdescription']
-                batteryLife = form['batteryLife']
+                blife = form['blife']
 
                 rid = dao.getResourceID(bid)
 
-                if rtype and rType and rlocation and sid and btype and bbrand and bdescription and batteryLife:
-                    dao.update(bid, btype, bbrand, bdescription, batteryLife)
-                    resourceDAO.update(rid, rType,rtype,rlocation)
-                    result = self.build_Batteries_attributes(bid, rid, btype, bbrand,bdescription, batteryLife)
+                if rtype and rname and rlocation and sid and btype and bbrand and bdescription and blife:
+                    dao.update(bid, bbrand, btype, blife, bdescription)
+                    resourceDAO.update(rid, rname,rtype,rlocation)
+                    result = self.build_Batteries_attributes(bid, rid, bbrand, btype, blife, bdescription)
                     return jsonify(Batteries=result), 200
                 else:
                     return jsonify(Error="Unexpected attributes in update request"), 400

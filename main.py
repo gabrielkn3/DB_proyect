@@ -479,14 +479,14 @@ def getWaterById(wid):
         return jsonify(Error="Method not allowed."), 405
 
 
-@app.route('/ResourceApp/resources/water/Size/<string:wsize>', methods=['GET'])
+@app.route('/ResourceApp/resources/water/size/<string:wsize>', methods=['GET'])
 def getWaterBySize(wsize):
     if request.method == 'GET':
         return WaterHandler().getWaterBySize(wsize)
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/resources/water/Brand/<string:wbrand>', methods=['GET'])
+@app.route('/ResourceApp/resources/water/brand/<string:wbrand>', methods=['GET'])
 def getWaterByBrand(wbrand):
     if request.method == 'GET':
         return WaterHandler().getWaterByBrand(wbrand)
@@ -521,14 +521,14 @@ def getHeavyEquipmentById(hid):
         return jsonify(Error="Method not allowed."), 405
 
 
-@app.route('/ResourceApp/resources/heavyequipment/Name/<string:hname>', methods=['GET'])
+@app.route('/ResourceApp/resources/heavyequipment/name/<string:hname>', methods=['GET'])
 def getHeavyEquipmentByName(hname):
     if request.method == 'GET':
         return HeavyEquipmentHandler().getHeavyEquipmentByName(hname)
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/resources/heavyequipment/Brand/<string:hbrand>', methods=['GET'])
+@app.route('/ResourceApp/resources/heavyequipment/brand/<string:hbrand>', methods=['GET'])
 def getHeavyEquipmentByBrand(hbrand):
     if request.method == 'GET':
         return HeavyEquipmentHandler().getHeavyEquipmentByBrand(hbrand)
@@ -562,14 +562,21 @@ def getFuelById(fid):
         return jsonify(Error="Method not allowed."), 405
 
 
-@app.route('/ResourceApp/resources/fuel/Type/<string:ftype>', methods=['GET'])
+@app.route('/ResourceApp/resources/fuel/type/<string:ftype>', methods=['GET'])
 def getFuelByType(ftype):
     if request.method == 'GET':
         return FuelHandler().getFuelByType(ftype)
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/resources/fuel/Quantity/<string:fquantity>', methods=['GET'])
+@app.route('/ResourceApp/resources/fuel/octane/<string:octane>', methods=['GET'])
+def getFuelByOctance(octane):
+    if request.method == 'GET':
+        return FuelHandler().getFuelByOctane(octane)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/resources/fuel/quantity/<string:fquantity>', methods=['GET'])
 def getFuelByQuantity(fquantity):
     if request.method == 'GET':
         return FuelHandler().getFuelByQuantity(fquantity)
@@ -610,7 +617,7 @@ def getGeneratorByFuelType(gfueltype):
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/resources/generator/powerputput/<string:gpoweroutput>', methods=['GET'])
+@app.route('/ResourceApp/resources/generator/poweroutput/<string:gpoweroutput>', methods=['GET'])
 def getGeneratorByPowerOutput(gpoweroutput):
     if request.method == 'GET':
         return GeneratorHandler().getGeneratorByPowerOutput(gpoweroutput)
@@ -648,21 +655,21 @@ def getClothingById(clid):
         return jsonify(Error="Method not allowed."), 405
 
 
-@app.route('/ResourceApp/resources/clothing/Brand/<string:clbrand>', methods=['GET'])
+@app.route('/ResourceApp/resources/clothing/brand/<string:clbrand>', methods=['GET'])
 def getClothingByBrand(clbrand):
     if request.method == 'GET':
         return ClothingHandler().getClothingByBrand(clbrand)
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/resources/clothing/Name/<string:clname>', methods=['GET'])
+@app.route('/ResourceApp/resources/clothing/name/<string:clname>', methods=['GET'])
 def getClothingByName(clname):
     if request.method == 'GET':
         return ClothingHandler().getClothingByName(clname)
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/resources/clothing/Size/<string:clsize>', methods=['GET'])
+@app.route('/ResourceApp/resources/clothing/size/<string:clsize>', methods=['GET'])
 def getClothingBySize(clsize):
     if request.method == 'GET':
         return ClothingHandler().getClothingBySize(clsize)
@@ -696,21 +703,21 @@ def getBatteriesById(bid):
         return jsonify(Error="Method not allowed."), 405
 
 
-@app.route('/ResourceApp/resources/batteries/Brand/<string:bbrand>', methods=['GET'])
+@app.route('/ResourceApp/resources/batteries/brand/<string:bbrand>', methods=['GET'])
 def getBatteriesByBrand(bbrand):
     if request.method == 'GET':
         return BatteriesHandler().getBatteriesByBrand(bbrand)
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/resources/batteries/Type/<string:btype>', methods=['GET'])
+@app.route('/ResourceApp/resources/batteries/type/<string:btype>', methods=['GET'])
 def getBatteriesByType(btype):
     if request.method == 'GET':
         return BatteriesHandler().getBatteriesByType(btype)
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/resources/batteries/Life/<string:blife>', methods=['GET'])
+@app.route('/ResourceApp/resources/batteries/life/<string:blife>', methods=['GET'])
 def getBatteriesByLife(blife):
     if request.method == 'GET':
         return BatteriesHandler().getBatteriesByLife(blife)

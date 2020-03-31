@@ -107,7 +107,7 @@ class WaterDAO:
         result.append(row)
         return wid
 
-    def update(self, wbrand, wsize, wdescription):
+    def update(self, wid, wbrand, wsize, wdescription):
         #cursor = self.conn.cursor()
         #query = "update parts set pname = %s, pcolor = %s, pmaterial = %s, pprice = %s where pid = %s;"
         #cursor.execute(query, (pname, pcolor, pmaterial, pprice, pid,))
