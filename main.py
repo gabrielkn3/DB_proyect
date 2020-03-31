@@ -5,6 +5,7 @@ from handler.MedicalDevicesHandler import MedicalDeviceHandler
 from handler.MedicationHandler import MedicationHandler
 from handler.resource_handler import ResourceHandler
 from handler.supplier import SupplierHandler
+from handler.CannedFoodHandler import CannedFoodHandler
 # Import Cross-Origin Resource Sharing to enable
 # services on other ports on this machine or on other
 # machines to access this app
@@ -199,6 +200,45 @@ def getBabyFoodByBrand(bfbrand):
 def getBabyFoodByFlavor(bfflavor):
     if request.method == 'GET':
         return BabyFoodHandler().getBabyFoodByFlavor(bfflavor)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+##***********************************************BABY_FOOD**********************************************************************
+
+@app.route('/ResourceApp/resources/cannedfood', methods=['GET', 'POST'])
+def getAllCannedFood():
+    if request.method == 'POST':
+        # cambie a request.json pq el form no estaba bregando
+        # parece q estaba poseido por satanas ...
+        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        print("REQUEST: ", request.json)
+        return CannedFoodHandler().insertCannedFoodJson(request.json)
+    else:
+        if not request.args:
+            return CannedFoodHandler().getAllCannedFood()
+
+@app.route('/ResourceApp/resources/cannedfood/<int:cfid>', methods=['GET', 'PUT', 'DELETE'])
+def getCannedFoodById(cfid):
+    if request.method == 'GET':
+        return CannedFoodHandler().getCannedFoodById(cfid)
+    elif request.method == 'PUT':
+        return CannedFoodHandler().updateCannedFood(cfid, request.form)
+    elif request.method == 'DELETE':
+        return CannedFoodHandler().deleteCannedFood(cfid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/resources/cannedfood/brand/<string:cfbrand>', methods=['GET'])
+def getCannedFoodByBrand(cfbrand):
+    if request.method == 'GET':
+        return CannedFoodHandler().getCannedFoodByBrand(cfbrand)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/resources/cannedfood/name/<string:cfname>', methods=['GET'])
+def getCannedFoodByFlavor(cfname):
+    if request.method == 'GET':
+        return CannedFoodHandler().getCannedFoodByName(cfname)
     else:
         return jsonify(Error="Method not allowed."), 405
 
