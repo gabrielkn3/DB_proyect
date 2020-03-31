@@ -25,13 +25,13 @@ class ClothingDAO:
         #    result.append(row)
         return result
 
-    def getClothingById(self, cid):
+    def getClothingById(self, clid):
        # cursor = self.conn.cursor()
         #query = "select pid, pname, pmaterial, pcolor, pprice from parts where pid = %s;"
         #cursor.execute(query, (pid,))
         #result = cursor.fetchone()
        row = {};
-       row[0] = 'CID 9810'
+       row[0] = 'clid 9810'
        row[1] = 'get'
        row[2] = 'Clothing'
        row[3] = 'by'
@@ -40,7 +40,7 @@ class ClothingDAO:
 
        return row
 
-    def getClothingByBrand(self, cbrand):
+    def getClothingByBrand(self, clbrand):
         #cursor = self.conn.cursor()
         #query = "select * from parts where pmaterial = %s;"
         #cursor.execute(query, (material,))
@@ -58,7 +58,7 @@ class ClothingDAO:
         result.append(row)
         return result
 
-    def getClothingByName(self, cname):
+    def getClothingByName(self, clname):
         # cursor = self.conn.cursor()
         # query = "select * from parts where pcolor = %s;"
         # cursor.execute(query, (color,))
@@ -77,7 +77,7 @@ class ClothingDAO:
         result.append(row)
         return result
 
-    def getClothingBySize(self, csize):
+    def getClothingBySize(self, clsize):
         # cursor = self.conn.cursor()
         # query = "select * from parts where pcolor = %s;"
         # cursor.execute(query, (color,))
@@ -95,7 +95,7 @@ class ClothingDAO:
         result.append(row)
         return result
 
-    def insert(self, rid, cname, cbrand, cdescription):
+    def insert(self, rid, clname, clbrand, cldescription):
         #cursor = self.conn.cursor()
         #query = "insert into parts(pname, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
         #cursor.execute(query, (pname, pcolor, pmaterial, pprice,))
@@ -112,7 +112,7 @@ class ClothingDAO:
         result.append(row)
         return rid
 
-    def delete(self, cid):
+    def delete(self, clid):
         #cursor = self.conn.cursor()
         #query = "delete from parts where pid = %s;"
         #cursor.execute(query, (pid,))
@@ -126,9 +126,9 @@ class ClothingDAO:
         row[4] = 'deleteid'
 
         result.append(row)
-        return cid
+        return clid
 
-    def update(self, cid, cname, cbrand, cdescription):
+    def update(self, clid, clname, clbrand, cldescription):
         #cursor = self.conn.cursor()
         #query = "update parts set pname = %s, pcolor = %s, pmaterial = %s, pprice = %s where pid = %s;"
         #cursor.execute(query, (pname, pcolor, pmaterial, pprice, pid,))
@@ -142,11 +142,11 @@ class ClothingDAO:
         row[5] = 'updatesid'
 
         result.append(row)
-        return cname
+        return clname
 
-    def getResourceID(self,cid):
-        rid = cid+2;  #dummy code
-        #select rid from Clothing where cid = %s;
+    def getResourceID(self,clid):
+        rid = clid+2;  #dummy code
+        #select rid from Clothing where clid = %s;
         return rid
 
     def getCountByClothingId(self):

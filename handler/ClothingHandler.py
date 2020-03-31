@@ -8,12 +8,12 @@ from daos.resource import ResourceDAO
 class ClothingHandler:
     def build_Clothing_dict(self, row):
         result = {};
-        result['cid'] = row[0]
+        result['clid'] = row[0]
         result['rid'] = row[1]
-        result['cname'] = row[2]
-        result['cbrand'] = row[3]
-        result['cdescription'] = row[4]
-        result['csize'] = row[5]
+        result['clname'] = row[2]
+        result['clbrand'] = row[3]
+        result['cldescription'] = row[4]
+        result['clsize'] = row[5]
         return result
 
     def build_supplier_dict(self, row):
@@ -39,14 +39,14 @@ class ClothingHandler:
         result['rlocation'] = row[6]
         return result
 
-    def build_clothing_attributes(self, cid, rid, cname, cbrand, cdescription, csize):
+    def build_clothing_attributes(self, clid, rid, clname, clbrand, cldescription, clsize):
         result = {};
-        result['cid'] = cid
+        result['clid'] = clid
         result['rid'] = rid
-        result['cname'] = cname
-        result['cbrand'] = cbrand
-        result['cdescription'] = cdescription
-        result['csize'] = csize
+        result['clname'] = clname
+        result['clbrand'] = clbrand
+        result['cldescription'] = cldescription
+        result['clsize'] = clsize
         return result
 
     def getAllClothing(self):
@@ -58,18 +58,18 @@ class ClothingHandler:
             result_list.append(result)
         return jsonify(Results=result_list)
 
-    def getClothingById(self, cid):
+    def getClothingById(self, clid):
         dao = ClothingDAO()
-        row = dao.getClothingById(cid)
+        row = dao.getClothingById(clid)
         if not row:
             return jsonify(Error = "Clothing Not Found"), 404
         else:
             Clothing = self.build_Clothing_dict(row)
             return jsonify(Clothing = Clothing)
 
-    def getClothingByBrand(self, cbrand):
+    def getClothingByBrand(self, clbrand):
         dao = ClothingDAO()
-        Clothinglist = dao.getClothingByBrand(cbrand)
+        Clothinglist = dao.getClothingByBrand(clbrand)
         result_list = []
         if not Clothinglist:
             return jsonify(Error = "No Clothing Found with the specified Brand"), 404
@@ -79,9 +79,9 @@ class ClothingHandler:
                 result_list.append(result)
             return jsonify(Clothing = result_list)
 
-    def getClothingByName(self, cname):    #Filter by Clothing category
+    def getClothingByName(self, clname):    #Filter by Clothing category
         dao = ClothingDAO()
-        Clothinglist = dao.getClothingByName(cname)
+        Clothinglist = dao.getClothingByName(clname)
         result_list = []
         if not Clothinglist:
             return jsonify(Error = "No Clothing Found with the Specified Name"), 404
@@ -91,9 +91,9 @@ class ClothingHandler:
                 result_list.append(result)
             return jsonify(Clothing = result_list)
 
-    def getClothingBySize(self, csize):
+    def getClothingBySize(self, clsize):
         dao = ClothingDAO()
-        Clothinglist = dao.getClothingBySize(csize)
+        Clothinglist = dao.getClothingBySize(clsize)
         result_list = []
         if not Clothinglist:
             return jsonify(Error="No Clothing Found with the specified Size"), 404
@@ -113,17 +113,17 @@ class ClothingHandler:
             rlocation = form['rlocation']
             sid = form['sid']
 
-            cname = form['cname']
-            cbrand = form['cbrand']
-            cdescription = form['cdescription']
-            csize = form['csize']
+            clname = form['clname']
+            clbrand = form['clbrand']
+            cldescription = form['cldescription']
+            clsize = form['clsize']
 
-            if rtype and rname and rlocation and sid and cname and cbrand and csize and cdescription:
+            if rtype and rname and rlocation and sid and clname and clbrand and clsize and cldescription:
                 resourcedao = ResourceDAO()
                 dao = ClothingDAO()
                 rid = resourcedao.insert(rtype,rname,rlocation,sid)
-                cid = dao.insert(rid, cname, cbrand, cdescription, csize)
-                result = self.build_Clothing_attributes(cid, rid, cname, cbrand, cdescription, csize)
+                clid = dao.insert(rid, clname, clbrand, cldescription, clsize)
+                result = self.build_Clothing_attributes(clid, rid, clname, clbrand, cldescription, clsize)
                 return jsonify(Clothing=result), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
@@ -134,39 +134,39 @@ class ClothingHandler:
         rtype = json['rtype']
         rlocation = json['rlocation']
         sid = json['sid']
-        cname = json['cname']
-        cbrand = json['cbrand']
-        cdescription = json['cdescription']
-        csize = json['csize']
+        clname = json['clname']
+        clbrand = json['clbrand']
+        cldescription = json['cldescription']
+        clsize = json['clsize']
 
 
-        if rtype and rname and rlocation and sid and cname and cbrand and cdescription and csize:
+        if rtype and rname and rlocation and sid and clname and clbrand and cldescription and clsize:
             resourcedao = ResourceDAO()
             dao = ClothingDAO()
             rid = resourcedao.insert(rtype, rname, rlocation, sid)
-            cid = dao.insert(rid, cname, cbrand, cdescription,csize)
-            result = self.build_Clothing_attributes(cid, rid, cname, cbrand, cdescription,csize)
+            clid = dao.insert(rid, clname, clbrand, cldescription,clsize)
+            result = self.build_Clothing_attributes(clid, rid, clname, clbrand, cldescription,clsize)
             return jsonify(Clothing=result), 201
 
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
 
-    def deleteClothing(self, cid):
+    def deleteClothing(self, clid):
         dao = ClothingDAO()
         resourceDAO = ResourceDAO()
 
-        if not dao.getClothingById(cid):
+        if not dao.getClothingById(clid):
             return jsonify(Error = "Clothing not found."), 404
         else:
-            rid = dao.getResourceID(cid)
-            dao.delete(cid)
+            rid = dao.getResourceID(clid)
+            dao.delete(clid)
             resourceDAO.delete(rid)
             return jsonify(DeleteStatus = "OK"), 200
 
-    def updateClothing(self, cid, form):
+    def updateClothing(self, clid, form):
         resourceDAO = ResourceDAO()
         dao = ClothingDAO()
-        if not dao.getClothingById(cid):
+        if not dao.getClothingById(clid):
             return jsonify(Error = "Clothing not found."), 404
         else:
             if len(form) != 7:
@@ -177,17 +177,17 @@ class ClothingHandler:
                 rlocation = form['rlocation']
                 sid = form['sid']
 
-                cname = form['cname']
-                cbrand = form['cbrand']
-                cdescription = form['cdescription']
-                csize = form['csize']
+                clname = form['clname']
+                clbrand = form['clbrand']
+                cldescription = form['cldescription']
+                clsize = form['clsize']
 
-                rid = dao.getResourceID(cid)
+                rid = dao.getResourceID(clid)
 
-                if rtype and rname and rlocation and sid and cname and cbrand and cdescription and csize:
-                    dao.update(cid, cname, cbrand, cdescription, csize)
+                if rtype and rname and rlocation and sid and clname and clbrand and cldescription and clsize:
+                    dao.update(clid, clname, clbrand, cldescription, clsize)
                     resourceDAO.update(rid, rname,rtype,rlocation)
-                    result = self.build_Clothing_attributes(cid, rid, cname, cbrand,cdescription, csize)
+                    result = self.build_Clothing_attributes(clid, rid, clname, clbrand,cldescription, clsize)
                     return jsonify(Clothing=result), 200
                 else:
                     return jsonify(Error="Unexpected attributes in update request"), 400
