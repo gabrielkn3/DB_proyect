@@ -373,6 +373,8 @@ def getCountByResourceId():
     return ResourceHandler().getCountByResourceId()
 
 
+
+
 #************************************************************ Users & Administrators ******************************************************************************
 
 @app.route('/ResourceApp/user', methods=['GET', 'POST'])
