@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 
 from handler.BabyFoodHandler import BabyFoodHandler
 from handler.DryFoodHandler import DryFoodHandler
+from handler.GeneratorHandler import GeneratorHandler
 from handler.IceHandler import IceHandler
 from handler.MedicalDevicesHandler import MedicalDeviceHandler
 from handler.MedicationHandler import MedicationHandler
@@ -368,10 +369,48 @@ def getToolByName(tname):
     else:
         return jsonify(Error="Method not allowed."), 405
 
+##***********************************************GENERATOR**********************************************************************
+
+@app.route('/ResourceApp/resources/generator', methods=['GET', 'POST'])
+def getAllGenerator():
+    if request.method == 'POST':
+        # cambie a request.json pq el form no estaba bregando
+        # parece q estaba poseido por satanas ...
+        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        print("REQUEST: ", request.json)
+        return GeneratorHandler().insertGeneratorJson(request.json)
+    else:
+        if not request.args:
+            return GeneratorHandler().getAllGenerator()
+
+@app.route('/ResourceApp/resources/generator/<int:gid>', methods=['GET', 'PUT', 'DELETE'])
+def getGeneratorById(gid):
+    if request.method == 'GET':
+        return GeneratorHandler().getGeneratorById(gid)
+    elif request.method == 'PUT':
+        return GeneratorHandler().updateGenerator(gid, request.form)
+    elif request.method == 'DELETE':
+        return GeneratorHandler().deleteGenerator(gid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/resources/generator/fueltype/<string:gfueltype>', methods=['GET'])
+def getGeneratorByFuelType(gfueltype):
+    if request.method == 'GET':
+        return GeneratorHandler().getGeneratorByFuelType(gfueltype)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/resources/generator/powerputput/<string:gpoweroutput>', methods=['GET'])
+def getGeneratorByPowerOutput(gpoweroutput):
+    if request.method == 'GET':
+        return GeneratorHandler().getGeneratorByPowerOutput(gpoweroutput)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
 @app.route('/ResourceApp/resources/countbyresourceid')
 def getCountByResourceId():
     return ResourceHandler().getCountByResourceId()
-
 
 
 
