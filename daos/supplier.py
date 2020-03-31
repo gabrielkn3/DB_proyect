@@ -46,9 +46,8 @@ class SupplierDAO:
             for row in supplier_list:
                 if row[0] == sid:
                  result.append(row)
-
-
-        return result[0]
+                 return result[0]
+        return None
 
     def getSupplierByEmail(self, email):
         u = userDAO()
@@ -61,26 +60,29 @@ class SupplierDAO:
 
     def getResourcesBySID(self, sid):
         l = ListingDAO()
-        listings = l.getListingsBySupplierID(sid)
-        return listings
+        if self.getSupplierById(sid):
+            listings = l.getListingsBySupplierID(sid)
+            return listings
+        else:
+            return None
 
-    def getSuppliersByLocation(self, slocation):
-        suppliers = self.getAllSuppliers()
-        result = []
-        for i in range(0, len(suppliers)):
-            for row in suppliers:
-                if row[2] == slocation:
-                    result.append[row]
-        return result
+    # def getSuppliersByLocation(self, slocation):
+    #     suppliers = self.getAllSuppliers()
+    #     result = []
+    #     for i in range(0, len(suppliers)):
+    #         for row in suppliers:
+    #             if row[2] == slocation:
+    #                 result.append[row]
+    #     return result
 
 
-    def insert(self, uid, slocation):
-        row={}
-        row[0] = ++s_id
-        row[1] = uid
-        row[2] = slocation
-        supplier_list.append(row)
-        return s_id
+    # def insert(self, uid, slocation):
+    #     row={}
+    #     row[0] = ++s_id
+    #     row[1] = uid
+    #     row[2] = slocation
+    #     supplier_list.append(row)
+    #     return s_id
 
     def delete(self, sid):
         for i in range(0, len(supplier_list)):

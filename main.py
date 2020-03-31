@@ -17,6 +17,8 @@ from handler.supplier import SupplierHandler
 from handler.CannedFoodHandler import CannedFoodHandler
 from handler.user import userHandler
 from handler.administrator import adminHandler
+from handler.requester_handler import RequesterHandler
+
 # Import Cross-Origin Resource Sharing to enable
 # services on other ports on this machine or on other
 # machines to access this app
@@ -65,6 +67,11 @@ def getSuppliersByResourceId(rid):
     return ResourceHandler().getSuppliersByResourceId(rid)
 
 
+
+
+
+#************************************************************SUPPLIER*********************************************************************
+
 @app.route ('/ResourceApp/suppliers', methods=['GET'])
 def getAllSuppliers():
     if request.method == 'POST':
@@ -75,8 +82,17 @@ def getAllSuppliers():
         if not request.args:
             return SupplierHandler().getAllSuppliers()
         else:
-            #return SupplierHandler().searchSuppliers(request.args)
-            return jsonify(Error="Method not allowed"), 405
+            return jsonify(Error="Method not allowed, try other route"), 405
+
+@app.route('/ResourceApp/suppliers/<string:slocation>', methods=['GET'])
+def getSupplierByLocation():
+    if request.method == 'GET':
+        return SupplierHandler().searchSuppliers(request.form)
+    else:
+        return jsonify(Error="Method not allowed, try other route"), 405
+
+
+
 
 
 @app.route('/ResourceApp/suppliers/<int:sid>/',
@@ -92,9 +108,71 @@ def getSupplierById(sid):
         return jsonify(Error = "Method not allowed"), 405
 
 
+#Supplied items
+
+
 @app.route('/ResourceApp/suppliers/<int:sid>/resources')
 def getResourcesBySupplierId(sid):
     return SupplierHandler().getResourcesBySupplierId(sid)
+
+
+
+#*********************************************************REQUESTER****************************************************************************************************************
+
+
+
+@app.route ('/ResourceApp/requesters', methods=['GET'])
+def getAllRequesters():
+    if request.method == 'POST':
+        # print("REQUEST: ", request.json)
+        # return SupplierHandler().insertSupplier(request.json)
+        pass
+    else :
+        if not request.args:
+            return RequesterHandler().getAllRequesters()
+        else:
+            return jsonify(Error="Method not allowed, try other route"), 405
+
+@app.route('/ResourceApp/requesters/<string:reqlocation>', methods=['GET'])
+def getRequestersByLocation():
+    if request.method == 'GET':
+        return RequesterHandler().searchRequesters(request.form)
+    else:
+        return jsonify(Error="Method not allowed, try other route"), 405
+
+
+
+
+
+@app.route('/ResourceApp/requester/<int:sid>/',
+           methods=['GET', 'PUT', 'DELETE'])
+def getRequesterById(reqid):
+    if request.method == 'GET':
+        return RequesterHandler().getRequesterById(reqid)
+    elif request.method == 'PUT':
+        return RequesterHandler().updateRequester(reqid, request.form)
+    elif request.method == 'DELETE':
+        return RequesterHandler().deleteRequester(reqid)
+    else:
+        return jsonify(Error = "Method not allowed"), 405
+
+
+
+#Requested items
+@app.route('/ResourceApp/requester/<int:reqid>/resources')
+def getResourcesByRequesterId(reqid):
+    return RequesterHandler().getResourcesByRequesterId(reqid)
+
+
+
+
+
+
+
+
+
+
+
 
 
 #************************************************************MEDICAL DEVICES******************************************************************************
