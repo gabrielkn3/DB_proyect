@@ -9,7 +9,6 @@ class ListingDAO:
     #                                                         pg_config['passwd'])
         # self.conn = psycopg2._connect(connection_url)
 
-
     def first_run(self):
         row = {}
         row[0] = 0
@@ -18,8 +17,8 @@ class ListingDAO:
         row[3] = "Tools"
         row[4] = "February 10"
         row[5] = "10.00"
-        row[6] = 3
-        row[7]="Rio Grande"
+        row[6] = 3  #Quantity
+        row[7] = "Rio Grande"
         listing_list.append(row)
 
 
@@ -28,8 +27,7 @@ class ListingDAO:
         # cursor = self.conn.cursor()
         # query = "select * from listings;"
         # cursor.execute(query)
-        if len(listing_list) == 0:
-            self.first_run()
+        self.first_run()
 
         return listing_list
 
@@ -39,18 +37,18 @@ class ListingDAO:
         # cursor.execute(query, (lid,))
         # result = cursor.fetchone()
         # return result
-        if len(listing_list) == 0:
-            self.first_run()
-            return listing_list[0]
-        row = {};
-        row[0] = 'Listing'
-        row[1] = 'By'
-        row[2] = 'ID'
-        row[3] = 'Tested'
-        row[4] = "February 10"
-        row[5] = "10.00"
-        row[6] = 3
-        return row
+        # if len(listing_list) == 0:
+        self.first_run()
+        return listing_list[0]
+        # row = {};
+        # row[0] = 'Listing'
+        # row[1] = 'By'
+        # row[2] = 'ID'
+        # row[3] = 'Tested'
+        # row[4] = "February 10"
+        # row[5] = "10.00"
+        # row[6] = 3
+        # return row
 
     def getListingsByType(self, rtype):
         # cursor = self.conn.cursor()
@@ -100,40 +98,39 @@ class ListingDAO:
         # for row in cursor:
         #     result.append(row)
         # return result
-        if len(listing_list) == 0:
-            self.first_run()
-            return listing_list[0]
+        self.first_run()
+        return listing_list[0]
 
-        row = {};
-        row[0] = 'Get'
-        row[1] = 'Listings'
-        row[2] = 'By'
-        row[3] = 'Resource ID'
-        row[4] = "February 10"
-        row[5] = "10.00"
-        row[6] = 3
-
-        return row
+        # row = {};
+        # row[0] = 'Get'
+        # row[1] = 'Listings'
+        # row[2] = 'By'
+        # row[3] = 'Resource ID'
+        # row[4] = "February 10"
+        # row[5] = "10.00"
+        # row[6] = 3
+        #
+        # return row
 
     def getListingsBySupplierID(self, sid):
         # cursor = self.conn.cursor()
         # query = "select * from listings where sid = %s;"
         # cursor.execute(query, (sid,))
-        if len(listing_list) == 0:
+        # if len(listing_list) == 0:
             self.first_run()
             return listing_list[0]
-        result = []
-        row = {};
-        row[0] = 'Get'
-        row[1] = 'Listings'
-        row[2] = 'By'
-        row[3] = 'Supplier ID'
-        row[4] = "February 10"
-        row[5] = "10.00"
-        row[6] = 3
-        result.append(row)
-
-        return result
+        # result = []
+        # row = {};
+        # row[0] = 'Get'
+        # row[1] = 'Listings'
+        # row[2] = 'By'
+        # row[3] = 'Supplier ID'
+        # row[4] = "February 10"
+        # row[5] = "10.00"
+        # row[6] = 3
+        # result.append(row)
+        #
+        # return result
 
     def getListingsByTypeAndPrice(self, rtype, lprice):
         # cursor = self.conn.cursor()

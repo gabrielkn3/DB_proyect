@@ -61,8 +61,7 @@ class SupplierDAO:
     def getResourcesBySID(self, sid):
         l = ListingDAO()
         if self.getSupplierById(sid):
-            listings = l.getListingsBySupplierID(sid)
-            return listings
+            return l.getListingsBySupplierID(sid)
         else:
             return None
 
