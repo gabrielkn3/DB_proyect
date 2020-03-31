@@ -14,9 +14,11 @@ app = Flask(__name__)
 # Apply CORS to this app
 CORS(app)
 
+
 @app.route('/')
 def greeting():
     return 'Hello, this is the Resource Manager DB App!'
+
 
 @app.route('/ResourceApp/resources', methods=['GET', 'POST'])
 def getAllResources():
@@ -32,6 +34,7 @@ def getAllResources():
         else:
             return ResourceHandler().searchResources(request.args)
 
+
 @app.route('/ResourceApp/resources/<int:rid>', methods=['GET', 'PUT', 'DELETE'])
 def getResourceById(rid):
     if request.method == 'GET':
@@ -43,20 +46,24 @@ def getResourceById(rid):
     else:
         return jsonify(Error="Method not allowed."), 405
 
+
 @app.route('/ResourceApp/resources/<int:rid>/suppliers')
 def getSuppliersByResourceId(rid):
     return ResourceHandler().getSuppliersByResourceId(rid)
 
-@app.route('/ResourceApp/suppliers', methods=['GET', 'POST'])
+
+@app.route ('/ResourceApp/suppliers', methods=['GET'])
 def getAllSuppliers():
     if request.method == 'POST':
-        print("REQUEST: ", request.json)
-        return SupplierHandler().insertSupplier(request.json)
+        # print("REQUEST: ", request.json)
+        # return SupplierHandler().insertSupplier(request.json)
+        pass
     else :
         if not request.args:
             return SupplierHandler().getAllSuppliers()
         else:
             return SupplierHandler().searchSuppliers(request.args)
+
 
 @app.route('/ResourceApp/suppliers/<int:sid>/',
            methods=['GET', 'PUT', 'DELETE'])
@@ -73,7 +80,8 @@ def getSupplierById(sid):
 
 @app.route('/ResourceApp/suppliers/<int:sid>/resources')
 def getResourcesBySupplierId(sid):
-    return SupplierHandler().getPartsBySupplierId(sid)
+    return SupplierHandler().getResourcesBySupplierId(sid)
+
 
 #************************************************************MEDICAL DEVICES******************************************************************************
 @app.route('/ResourceApp/resources/medicaldevices', methods=['GET', 'POST'])
@@ -88,6 +96,7 @@ def getAllMedicalDevices():
         if not request.args:
             return MedicalDeviceHandler().getAllMedicalDevices()
 
+
 @app.route('/ResourceApp/resources/medicaldevices/<int:mdid>', methods=['GET', 'PUT', 'DELETE'])
 def getMedicalDevicesById(mdid):
     if request.method == 'GET':
@@ -98,6 +107,7 @@ def getMedicalDevicesById(mdid):
         return MedicalDeviceHandler().deleteMedicalDevice(mdid)
     else:
         return jsonify(Error="Method not allowed."), 405
+
 
 @app.route('/ResourceApp/resources/medicaldevices/Name/<string:mdname>', methods=['GET'])
 def getMedicalDevicesByName(mdname):
