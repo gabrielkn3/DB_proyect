@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 
+from handler.BabyFoodHandler import BabyFoodHandler
 from handler.MedicalDevicesHandler import MedicalDeviceHandler
 from handler.MedicationHandler import MedicationHandler
 from handler.resource_handler import ResourceHandler
@@ -149,6 +150,45 @@ def getMedicationByName(mname):
 def getMedicationByDosage(mdosage):
     if request.method == 'GET':
         return MedicationHandler().getMedicationByDosage(mdosage)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+##***********************************************BABY_FOOD**********************************************************************
+
+@app.route('/ResourceApp/resources/babyfood', methods=['GET', 'POST'])
+def getAllBabyFood():
+    if request.method == 'POST':
+        # cambie a request.json pq el form no estaba bregando
+        # parece q estaba poseido por satanas ...
+        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        print("REQUEST: ", request.json)
+        return BabyFoodHandler().insertBabyFoodJson(request.json)
+    else:
+        if not request.args:
+            return BabyFoodHandler().getAllBabyFood()
+
+@app.route('/ResourceApp/resources/babyfood/<int:bfid>', methods=['GET', 'PUT', 'DELETE'])
+def getBabyFoodById(bfid):
+    if request.method == 'GET':
+        return BabyFoodHandler().getBabyFoodById(bfid)
+    elif request.method == 'PUT':
+        return BabyFoodHandler().updateBabyFood(bfid, request.form)
+    elif request.method == 'DELETE':
+        return BabyFoodHandler().deleteBabyFood(bfid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/resources/babyfood/brand/<string:bfbrand>', methods=['GET'])
+def getBabyFoodByBrand(bfbrand):
+    if request.method == 'GET':
+        return BabyFoodHandler().getBabyFoodByBrand(bfbrand)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/resources/babyfood/flavor/<string:bfflavor>', methods=['GET'])
+def getBabyFoodByFlavor(bfflavor):
+    if request.method == 'GET':
+        return BabyFoodHandler().getBabyFoodByFlavor(bfflavor)
     else:
         return jsonify(Error="Method not allowed."), 405
 
