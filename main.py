@@ -1,12 +1,17 @@
 from flask import Flask, jsonify, request
 
 from handler.BabyFoodHandler import BabyFoodHandler
+from handler.Battery_Handler import BatteriesHandler
+from handler.ClothingHandler import ClothingHandler
 from handler.DryFoodHandler import DryFoodHandler
+from handler.FuelHandler import FuelHandler
 from handler.GeneratorHandler import GeneratorHandler
+from handler.HeavyEquipmentHandler import HeavyEquipmentHandler
 from handler.IceHandler import IceHandler
 from handler.MedicalDevicesHandler import MedicalDeviceHandler
 from handler.MedicationHandler import MedicationHandler
 from handler.ToolHandler import ToolHandler
+from handler.Water_handler import WaterHandler
 from handler.resource_handler import ResourceHandler
 from handler.supplier import SupplierHandler
 from handler.CannedFoodHandler import CannedFoodHandler
@@ -369,6 +374,132 @@ def getToolByName(tname):
     else:
         return jsonify(Error="Method not allowed."), 405
 
+##***********************************************WATER**********************************************************************
+
+@app.route('/ResourceApp/resources/water', methods=['GET', 'POST'])
+def getAllWater():
+    if request.method == 'POST':
+        # cambie a request.json pq el form no estaba bregando
+        # parece q estaba poseido por satanas ...
+        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        print("REQUEST: ", request.json)
+        return WaterHandler().insertWaterJson(request.json)
+    else:
+        if not request.args:
+            return WaterHandler().getAllWater()
+
+
+@app.route('/ResourceApp/resources/water/<int:wid>', methods=['GET', 'PUT', 'DELETE'])
+def getWaterById(wid):
+    if request.method == 'GET':
+        return WaterHandler().getWaterById(wid)
+    elif request.method == 'PUT':
+        return WaterHandler().updateWater(wid, request.form)
+    elif request.method == 'DELETE':
+        return WaterHandler().deleteWater(wid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+
+@app.route('/ResourceApp/resources/water/Size/<string:wsize>', methods=['GET'])
+def getWaterBySize(wsize):
+    if request.method == 'GET':
+        return WaterHandler().getWaterBySize(wsize)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/resources/water/Brand/<string:wbrand>', methods=['GET'])
+def getWaterByBrand(wbrand):
+    if request.method == 'GET':
+        return WaterHandler().getWaterByBrand(wbrand)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+
+##***********************************************HEAVY EQUIPMENT**********************************************************************
+
+@app.route('/ResourceApp/resources/heavyequipment', methods=['GET', 'POST'])
+def getAllHeavyEquipment():
+    if request.method == 'POST':
+        # cambie a request.json pq el form no estaba bregando
+        # parece q estaba poseido por satanas ...
+        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        print("REQUEST: ", request.json)
+        return HeavyEquipmentHandler().insertHeavyEquipmentJson(request.json)
+    else:
+        if not request.args:
+            return HeavyEquipmentHandler().getAllHeavyEquipment()
+
+
+@app.route('/ResourceApp/resources/heavyequipment/<int:hid>', methods=['GET', 'PUT', 'DELETE'])
+def getHeavyEquipmentById(hid):
+    if request.method == 'GET':
+        return HeavyEquipmentHandler().getHeavyEquipmentById(hid)
+    elif request.method == 'PUT':
+        return HeavyEquipmentHandler().updateHeavyEquipment(hid, request.form)
+    elif request.method == 'DELETE':
+        return HeavyEquipmentHandler().deleteHeavyEquipment(hid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+
+@app.route('/ResourceApp/resources/heavyequipment/Name/<string:hname>', methods=['GET'])
+def getHeavyEquipmentByName(hname):
+    if request.method == 'GET':
+        return HeavyEquipmentHandler().getHeavyEquipmentByName(hname)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/resources/heavyequipment/Brand/<string:hbrand>', methods=['GET'])
+def getHeavyEquipmentByBrand(hbrand):
+    if request.method == 'GET':
+        return HeavyEquipmentHandler().getHeavyEquipmentByBrand(hbrand)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+##***********************************************FUEL**********************************************************************
+
+@app.route('/ResourceApp/resources/fuel', methods=['GET', 'POST'])
+def getAllFuel():
+    if request.method == 'POST':
+        # cambie a request.json pq el form no estaba bregando
+        # parece q estaba poseido por satanas ...
+        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        print("REQUEST: ", request.json)
+        return FuelHandler().insertFuelJson(request.json)
+    else:
+        if not request.args:
+            return FuelHandler().getAllFuel()
+
+
+@app.route('/ResourceApp/resources/fuel/<int:fid>', methods=['GET', 'PUT', 'DELETE'])
+def getFuelById(fid):
+    if request.method == 'GET':
+        return FuelHandler().getFuelById(fid)
+    elif request.method == 'PUT':
+        return FuelHandler().updateFuel(fid, request.form)
+    elif request.method == 'DELETE':
+        return FuelHandler().deleteFuel(fid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+
+@app.route('/ResourceApp/resources/fuel/Type/<string:ftype>', methods=['GET'])
+def getFuelByType(ftype):
+    if request.method == 'GET':
+        return FuelHandler().getFuelByType(ftype)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/resources/fuel/Quantity/<string:fquantity>', methods=['GET'])
+def getFuelByQuantity(fquantity):
+    if request.method == 'GET':
+        return FuelHandler().getFuelByQuantity(fquantity)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+
+
 ##***********************************************GENERATOR**********************************************************************
 
 @app.route('/ResourceApp/resources/generator', methods=['GET', 'POST'])
@@ -412,7 +543,101 @@ def getGeneratorByPowerOutput(gpoweroutput):
 def getCountByResourceId():
     return ResourceHandler().getCountByResourceId()
 
+##************************************************CLOTHING***************************************************************
 
+@app.route('/ResourceApp/resources/clothing', methods=['GET', 'POST'])
+def getAllClothing():
+    if request.method == 'POST':
+        # cambie a request.json pq el form no estaba bregando
+        # parece q estaba poseido por satanas ...
+        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        print("REQUEST: ", request.json)
+        return ClothingHandler().insertClothingJson(request.json)
+    else:
+        if not request.args:
+            return ClothingHandler().getAllClothing()
+
+
+@app.route('/ResourceApp/resources/clothing/<int:clid>', methods=['GET', 'PUT', 'DELETE'])
+def getClothingById(clid):
+    if request.method == 'GET':
+        return ClothingHandler().getClothingById(clid)
+    elif request.method == 'PUT':
+        return ClothingHandler().updateClothing(clid, request.form)
+    elif request.method == 'DELETE':
+        return ClothingHandler().deleteClothing(clid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+
+@app.route('/ResourceApp/resources/clothing/Brand/<string:clbrand>', methods=['GET'])
+def getClothingByBrand(clbrand):
+    if request.method == 'GET':
+        return ClothingHandler().getClothingByBrand(clbrand)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/resources/clothing/Name/<string:clname>', methods=['GET'])
+def getClothingByName(clname):
+    if request.method == 'GET':
+        return ClothingHandler().getClothingByName(clname)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/resources/clothing/Size/<string:clsize>', methods=['GET'])
+def getClothingBySize(clsize):
+    if request.method == 'GET':
+        return ClothingHandler().getClothingBySize(clsize)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+##********************************************************BATTERIES*********************************************************************************
+
+@app.route('/ResourceApp/resources/batteries', methods=['GET', 'POST'])
+def getAllBatteries():
+    if request.method == 'POST':
+        # cambie a request.json pq el form no estaba bregando
+        # parece q estaba poseido por satanas ...
+        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        print("REQUEST: ", request.json)
+        return BatteriesHandler().insertBatteriesJson(request.json)
+    else:
+        if not request.args:
+            return BatteriesHandler().getAllBatteries()
+
+
+@app.route('/ResourceApp/resources/batteries/<int:bid>', methods=['GET', 'PUT', 'DELETE'])
+def getBatteriesById(bid):
+    if request.method == 'GET':
+        return BatteriesHandler().getBatteriesById(bid)
+    elif request.method == 'PUT':
+        return BatteriesHandler().updateBatteries(bid, request.form)
+    elif request.method == 'DELETE':
+        return BatteriesHandler().deleteBatteries(bid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+
+@app.route('/ResourceApp/resources/batteries/Brand/<string:bbrand>', methods=['GET'])
+def getBatteriesByBrand(bbrand):
+    if request.method == 'GET':
+        return BatteriesHandler().getBatteriesByBrand(bbrand)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/resources/batteries/Type/<string:btype>', methods=['GET'])
+def getBatteriesByType(btype):
+    if request.method == 'GET':
+        return BatteriesHandler().getBatteriesByType(btype)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/resources/batteries/Life/<string:blife>', methods=['GET'])
+def getBatteriesByLife(blife):
+    if request.method == 'GET':
+        return BatteriesHandler().getBatteriesByLife(blife)
+    else:
+        return jsonify(Error="Method not allowed."), 405
 
 #************************************************************ Users & Administrators ******************************************************************************
 

@@ -1,5 +1,5 @@
 #import psycopg2
-class MedicalDeviceDAO:
+class WaterDAO:
     def __init__(self):
 
        connection_url = "dbname=%s user=%s password=%s" % ('dbname',
