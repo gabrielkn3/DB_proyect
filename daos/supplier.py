@@ -50,7 +50,7 @@ class SupplierDAO:
         u = userDAO()
         return u.getUserByEmail(email)
 
-
+#need tu test
     def getSuppliersByAddress(self, address):
         u = userDAO()
         return u.getUserByAddress(address)
