@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 
 from handler.BabyFoodHandler import BabyFoodHandler
 from handler.DryFoodHandler import DryFoodHandler
+from handler.IceHandler import IceHandler
 from handler.MedicalDevicesHandler import MedicalDeviceHandler
 from handler.MedicationHandler import MedicationHandler
 from handler.resource_handler import ResourceHandler
@@ -282,6 +283,45 @@ def getDryFoodByFlavor(dfname):
     else:
         return jsonify(Error="Method not allowed."), 405
 
+
+##***********************************************ICE**********************************************************************
+
+@app.route('/ResourceApp/resources/ice', methods=['GET', 'POST'])
+def getAllIce():
+    if request.method == 'POST':
+        # cambie a request.json pq el form no estaba bregando
+        # parece q estaba poseido por satanas ...
+        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        print("REQUEST: ", request.json)
+        return IceHandler().insertIceJson(request.json)
+    else:
+        if not request.args:
+            return IceHandler().getAllIce()
+
+@app.route('/ResourceApp/resources/ice/<int:dfid>', methods=['GET', 'PUT', 'DELETE'])
+def getIceById(iid):
+    if request.method == 'GET':
+        return IceHandler().getIceById(iid)
+    elif request.method == 'PUT':
+        return IceHandler().updateIce(iid, request.form)
+    elif request.method == 'DELETE':
+        return IceHandler().deleteIce(iid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/resources/ice/icetype/<string:itype>', methods=['GET'])
+def getIceByType(itype):
+    if request.method == 'GET':
+        return IceHandler().getIceByType(itype)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/resources/ice/weight/<string:iweight>', methods=['GET'])
+def getIceByWeight(iweight):
+    if request.method == 'GET':
+        return IceHandler().getIceByWeight(iweight)
+    else:
+        return jsonify(Error="Method not allowed."), 405
 
 @app.route('/ResourceApp/resources/countbyresourceid')
 def getCountByResourceId():
