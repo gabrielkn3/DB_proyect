@@ -300,7 +300,7 @@ def getAllIce():
         if not request.args:
             return IceHandler().getAllIce()
 
-@app.route('/ResourceApp/resources/ice/<int:dfid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/ResourceApp/resources/ice/<int:iid>', methods=['GET', 'PUT', 'DELETE'])
 def getIceById(iid):
     if request.method == 'GET':
         return IceHandler().getIceById(iid)
@@ -311,7 +311,7 @@ def getIceById(iid):
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/resources/ice/icetype/<string:itype>', methods=['GET'])
+@app.route('/ResourceApp/resources/ice/type/<string:itype>', methods=['GET'])
 def getIceByType(itype):
     if request.method == 'GET':
         return IceHandler().getIceByType(itype)
