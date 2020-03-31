@@ -56,14 +56,23 @@ class SupplierDAO:
         u = userDAO()
         return u.getUserByAddress(address)
 
-    def getResourcesBySID(self,sid):
+    def getResourcesBySID(self, sid):
         l = ListingDAO()
         result = ListingDAO.getListingsBySupplierID(sid)
-        resources=[]
+        resources = []
         for i in range(0, len(result)):
             for row in result:
                 resources.append(row['rname'])
         return resources
+
+    def getSuppliersByLocation(self,slocation):
+        suppliers=self.getAllSuppliers()
+        result = []
+        for i in range(0, len(suppliers)):
+            for row in suppliers:
+                if row["slocation"] == slocation:
+                    result.append[row]
+        return result
 
 
     def insert(self, uid, slocation):
@@ -77,7 +86,7 @@ class SupplierDAO:
     def delete(self, sid):
         for i in range(0, len(supplier_list)):
             for row in supplier_list:
-                if row[0] == sid:
+                if row['sid'] == sid:
                     supplier_list.remove(row)
                     return sid
         return -1 #failed
