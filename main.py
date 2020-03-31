@@ -8,6 +8,8 @@ from handler.MedicationHandler import MedicationHandler
 from handler.resource_handler import ResourceHandler
 from handler.supplier import SupplierHandler
 from handler.CannedFoodHandler import CannedFoodHandler
+from handler.user import userHandler
+from handler.administrator import adminHandler
 # Import Cross-Origin Resource Sharing to enable
 # services on other ports on this machine or on other
 # machines to access this app
@@ -326,6 +328,98 @@ def getIceByWeight(iweight):
 @app.route('/ResourceApp/resources/countbyresourceid')
 def getCountByResourceId():
     return ResourceHandler().getCountByResourceId()
+
+
+#************************************************************ Users & Administrators ******************************************************************************
+
+@app.route('/ResourceApp/user', methods=['GET', 'POST'])
+def getAllUsers():
+    if request.method == 'POST':
+        return userHandler().insertUser(request.form)
+    else:
+        return userHandler().getAllUsers()
+
+@app.route('/ResourceApp/user/administrator', methods=['GET', 'POST'])
+def getAllAdmins():
+    if request.method == 'POST':
+        return adminHandler().insertAdmin(request.form)
+    else:
+        return adminHandler().getAllAdmins()
+
+@app.route('/ResourceApp/user/id/<int:uid>', methods=['GET', 'PUT', 'DELETE'])
+def getUserById(uid):
+    if request.method == 'GET':
+        return userHandler().getUserById(uid)
+    elif request.method == 'PUT':
+        return userHandler().updateUser(uid, request.form)
+    elif request.method == 'DELETE':
+        return userHandler().deleteUser(uid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/user/administrator/adminId/<int:aid>', methods=['GET', 'PUT', 'DELETE'])
+def getAdminByAid(aid):
+    if request.method == 'GET':
+        return adminHandler().getAdminByAdminId(aid)
+    elif request.method == 'PUT':
+        pass
+    elif request.method == 'DELETE':
+        return adminHandler().deleteAdmin(aid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/user/administrator/userId/<int:uid>', methods=['GET', 'PUT', 'DELETE'])
+def getAdminByUid(uid):
+    if request.method == 'GET':
+        return adminHandler().getAdminByUserId(uid)
+    elif request.method == 'PUT':
+        pass
+    elif request.method == 'DELETE':
+        pass
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/user/username/<string:username>', methods=['GET'])
+def getUserByUsername(username):
+    if request.method == 'GET':
+        return userHandler().getUserByUsername(username)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/user/firstname/<string:fname>', methods=['GET'])
+def getUserByfame(fname):
+    if request.method == 'GET':
+        return userHandler().getUserByFirstName(fname)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/user/lastname/<string:lname>', methods=['GET'])
+def getUserBylname(lname):
+    if request.method == 'GET':
+        return userHandler().getUserByLastName(lname)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/user/email/<string:email>', methods=['GET'])
+def getUserByEmail(email):
+    if request.method == 'GET':
+        return userHandler().getUserByEmail(email)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/user/phone/<int:phone>', methods=['GET'])
+def getUserByPhone(phone):
+    if request.method == 'GET':
+        return userHandler().getUserByPhoneNumber(phone)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/user/address/<string:address>', methods=['GET'])
+def getUserByAddress(address):
+    if request.method == 'GET':
+        return userHandler().getUserByAddress(address)
+    else:
+        return jsonify(Error="Method not allowed."), 405
 
 if __name__ == '__main__':
     app.run()
