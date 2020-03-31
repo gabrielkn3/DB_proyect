@@ -5,6 +5,7 @@ from handler.DryFoodHandler import DryFoodHandler
 from handler.IceHandler import IceHandler
 from handler.MedicalDevicesHandler import MedicalDeviceHandler
 from handler.MedicationHandler import MedicationHandler
+from handler.ToolHandler import ToolHandler
 from handler.resource_handler import ResourceHandler
 from handler.supplier import SupplierHandler
 from handler.CannedFoodHandler import CannedFoodHandler
@@ -322,6 +323,50 @@ def getIceByType(itype):
 def getIceByWeight(iweight):
     if request.method == 'GET':
         return IceHandler().getIceByWeight(iweight)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/resources/countbyresourceid')
+def getCountByResourceId():
+    return ResourceHandler().getCountByResourceId()
+
+
+##***********************************************TOOL**********************************************************************
+
+@app.route('/ResourceApp/resources/tool', methods=['GET', 'POST'])
+def getAllTool():
+    if request.method == 'POST':
+        # cambie a request.json pq el form no estaba bregando
+        # parece q estaba poseido por satanas ...
+        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        print("REQUEST: ", request.json)
+        return ToolHandler().insertToolJson(request.json)
+    else:
+        if not request.args:
+            return ToolHandler().getAllTool()
+
+@app.route('/ResourceApp/resources/tool/<int:tid>', methods=['GET', 'PUT', 'DELETE'])
+def getToolById(tid):
+    if request.method == 'GET':
+        return ToolHandler().getToolById(tid)
+    elif request.method == 'PUT':
+        return ToolHandler().updateTool(tid, request.form)
+    elif request.method == 'DELETE':
+        return ToolHandler().deleteTool(tid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/resources/tool/brand/<string:tbrand>', methods=['GET'])
+def getToolByBrand(tbrand):
+    if request.method == 'GET':
+        return ToolHandler().getToolByBrand(tbrand)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/resources/tool/name/<string:tname>', methods=['GET'])
+def getToolByName(tname):
+    if request.method == 'GET':
+        return ToolHandler().getToolByName(tname)
     else:
         return jsonify(Error="Method not allowed."), 405
 
