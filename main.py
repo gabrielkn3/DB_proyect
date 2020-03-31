@@ -50,20 +50,21 @@ def getSuppliersByResourceId(rid):
 @app.route('/ResourceApp/suppliers', methods=['GET', 'POST'])
 def getAllSuppliers():
     if request.method == 'POST':
-        return SupplierHandler().insertSupplier(request.form)
+        print("REQUEST: ", request.json)
+        return SupplierHandler().insertSupplier(request.json)
     else :
         if not request.args:
             return SupplierHandler().getAllSuppliers()
         else:
             return SupplierHandler().searchSuppliers(request.args)
 
-@app.route('/ResourceApp/suppliers/<int:sid>',
+@app.route('/ResourceApp/suppliers/<int:sid>/',
            methods=['GET', 'PUT', 'DELETE'])
 def getSupplierById(sid):
     if request.method == 'GET':
         return SupplierHandler().getSupplierById(sid)
     elif request.method == 'PUT':
-        pass
+        return SupplierHandler().updateSupplier(sid, request.form)
     elif request.method == 'DELETE':
         pass
     else:
