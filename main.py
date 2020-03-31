@@ -20,6 +20,7 @@ from handler.CannedFoodHandler import CannedFoodHandler
 from handler.user import userHandler
 from handler.administrator import adminHandler
 from handler.requester_handler import RequesterHandler
+from handler.Payment import paymentHandler
 
 # Import Cross-Origin Resource Sharing to enable
 # services on other ports on this machine or on other
@@ -827,6 +828,55 @@ def getUserByPhone(phone):
 def getUserByAddress(address):
     if request.method == 'GET':
         return userHandler().getUserByAddress(address)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+#************************************************************ Payments ******************************************************************************
+@app.route('/ResourceApp/payment', methods=['GET', 'POST'])
+def getAllPayments():
+    if request.method == 'POST':
+        return paymentHandler.insertPayment(request.form)
+    elif request.method == 'GET':
+        return paymentHandler.getAllPayments()
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/payment/paymentId/<int:pid>', methods=['GET', 'POST', 'DELETE'])
+def getPaymentByPaymentId(pid):
+    if request.method == 'GET':
+        return paymentHandler.getPaymentByPaymentId(pid)
+    elif request.method == 'PUT':
+        return paymentHandler.updatePayment(pid, request.form)
+    elif request.method == 'DELETE':
+        return paymentHandler.deletePayment(pid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/payment/requestorId/<int:reqid>', methods=['GET'])
+def getPaymentByRequestorId(reqid):
+    if request.method == 'GET':
+        return paymentHandler.getPaymentByRequestorId(reqid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/payment/supplierId/<int:sid>', methods=['GET'])
+def getPaymentBySupplierId(sid):
+    if request.method == 'GET':
+        return paymentHandler.getPaymentBySupplierId(sid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/payment/price/<int:price>', methods=['GET'])
+def getPaymentByPrice(price):
+    if request.method == 'GET':
+        return paymentHandler.getPaymentByPrice(price)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/payment/paymentType/<string:type>', methods=['GET'])
+def getPaymentByPaymentType(type):
+    if request.method == 'GET':
+        return paymentHandler.getPaymentByType(type)
     else:
         return jsonify(Error="Method not allowed."), 405
 
