@@ -91,7 +91,7 @@ class MedicationHandler:
 
     def insertMedication(self, form):
         print("form: ", form)
-        if len(form) != 4:
+        if len(form) != 7:
             return jsonify(Error = "Malformed post request"), 400
         else:
             rname = form['rname']
@@ -153,7 +153,7 @@ class MedicationHandler:
         if not dao.getMedicationById(mid):
             return jsonify(Error = "Medication not found."), 404
         else:
-            if len(form) != 4:
+            if len(form) != 7:
                 return jsonify(Error="Malformed update request"), 400
             else:
                 rname = form['rname']

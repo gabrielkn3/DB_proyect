@@ -170,7 +170,7 @@ class MedicalDeviceHandler:
 
                 if rtype and rname and rlocation and sid and mdbrand and mdname and mddescription:
                     dao.update(mdbrand, mdname, mddescription)
-                    resourceDAO.update(rid,rname,rtype,rlocation,sid)
+                    resourceDAO.update(rname,rtype,rlocation)
                     result = self.build_MedicalDevices_attributes(mdid, rid, mdbrand, mdname,mddescription)
                     return jsonify(MedicalDevice=result), 200
                 else:

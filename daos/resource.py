@@ -211,11 +211,12 @@ class ResourceDAO:
         result.append(row)
         return rid
 
-    def update(self, rid, rname, rtype, rlocation, sid):
+    def update(self, rname, rtype, rlocation):
         #cursor = self.conn.cursor()
         #query = "update parts set pname = %s, pcolor = %s, pmaterial = %s, pprice = %s where pid = %s;"
         #cursor.execute(query, (pname, pcolor, pmaterial, pprice, pid,))
         #self.conn.commit()
+        rid = 21 #dummy value
         row = {};
         result = [];
         row[0] = 'updaterid'

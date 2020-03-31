@@ -137,17 +137,17 @@ def getMedicationById(mid):
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/resources/Medication/Name/<string:mname>', methods=['GET'])
+@app.route('/ResourceApp/resources/medication/Name/<string:mname>', methods=['GET'])
 def getMedicationByName(mname):
     if request.method == 'GET':
         return MedicationHandler().getMedicationByName(mname)
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/resources/Medication/Brand/<string:mdosage>', methods=['GET'])
+@app.route('/ResourceApp/resources/medication/Dosage/<string:mdosage>', methods=['GET'])
 def getMedicationByDosage(mdosage):
     if request.method == 'GET':
-        return MedicationHandler().getMedicationByBrand(mdosage)
+        return MedicationHandler().getMedicationByDosage(mdosage)
     else:
         return jsonify(Error="Method not allowed."), 405
 
