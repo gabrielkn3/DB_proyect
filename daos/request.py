@@ -15,9 +15,8 @@ class RequestDAO:
         row[1] = "In progress."
         row[2] = 456
         row[3] = 3499445
-        row[4] = 1150
-        row[5] = 45
-        row[6] = "January 23"
+        row[4] = 45 #Quantity
+        row[5] = "January 23"
         request_list.append(row)
 
 

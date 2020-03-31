@@ -16,8 +16,8 @@ class RequesterHandler:
     def build_resource_from_request(self, row):
         result = {}
         result['rid'] = row[2]
-        result['Quantity'] = row[6]
-        result['Requested Date'] = row[7]
+        result['Quantity'] = row[4]
+        result['RequestedDate'] = row[5]
 
         return result
 
