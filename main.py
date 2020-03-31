@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 
 from handler.BabyFoodHandler import BabyFoodHandler
+from handler.DryFoodHandler import DryFoodHandler
 from handler.MedicalDevicesHandler import MedicalDeviceHandler
 from handler.MedicationHandler import MedicationHandler
 from handler.resource_handler import ResourceHandler
@@ -203,7 +204,7 @@ def getBabyFoodByFlavor(bfflavor):
     else:
         return jsonify(Error="Method not allowed."), 405
 
-##***********************************************BABY_FOOD**********************************************************************
+##***********************************************CANNED_FOOD**********************************************************************
 
 @app.route('/ResourceApp/resources/cannedfood', methods=['GET', 'POST'])
 def getAllCannedFood():
@@ -242,6 +243,49 @@ def getCannedFoodByFlavor(cfname):
     else:
         return jsonify(Error="Method not allowed."), 405
 
+##***********************************************DRY_FOOD**********************************************************************
+
+@app.route('/ResourceApp/resources/dryfood', methods=['GET', 'POST'])
+def getAllDryFood():
+    if request.method == 'POST':
+        # cambie a request.json pq el form no estaba bregando
+        # parece q estaba poseido por satanas ...
+        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        print("REQUEST: ", request.json)
+        return DryFoodHandler().insertDryFoodJson(request.json)
+    else:
+        if not request.args:
+            return DryFoodHandler().getAllDryFood()
+
+@app.route('/ResourceApp/resources/dryfood/<int:dfid>', methods=['GET', 'PUT', 'DELETE'])
+def getDryFoodById(dfid):
+    if request.method == 'GET':
+        return DryFoodHandler().getDryFoodById(dfid)
+    elif request.method == 'PUT':
+        return DryFoodHandler().updateDryFood(dfid, request.form)
+    elif request.method == 'DELETE':
+        return DryFoodHandler().deleteDryFood(dfid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/resources/dryfood/brand/<string:dfbrand>', methods=['GET'])
+def getDryFoodByBrand(dfbrand):
+    if request.method == 'GET':
+        return DryFoodHandler().getDryFoodByBrand(dfbrand)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/resources/dryfood/name/<string:dfname>', methods=['GET'])
+def getDryFoodByFlavor(dfname):
+    if request.method == 'GET':
+        return DryFoodHandler().getDryFoodByName(dfname)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+
+@app.route('/ResourceApp/resources/countbyresourceid')
+def getCountByResourceId():
+    return ResourceHandler().getCountByResourceId()
 
 @app.route('/ResourceApp/resources/countbyresourceid')
 def getCountByResourceId():
