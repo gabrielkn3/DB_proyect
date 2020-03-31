@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 
 from handler.MedicalDevicesHandler import MedicalDeviceHandler
+from handler.MedicationHandler import MedicationHandler
 from handler.resource_handler import ResourceHandler
 from handler.supplier import SupplierHandler
 # Import Cross-Origin Resource Sharing to enable
@@ -110,6 +111,46 @@ def getMedicalDevicesByBrand(mdbrand):
         return MedicalDeviceHandler().getMedicalDevicesByBrand(mdbrand)
     else:
         return jsonify(Error="Method not allowed."), 405
+
+##***********************************************MEDICATION**********************************************************************
+
+@app.route('/ResourceApp/resources/medication', methods=['GET', 'POST'])
+def getAllMedication():
+    if request.method == 'POST':
+        # cambie a request.json pq el form no estaba bregando
+        # parece q estaba poseido por satanas ...
+        # DEBUG a ver q trae el json q manda el cliente con la nueva pieza
+        print("REQUEST: ", request.json)
+        return MedicationHandler().insertMedicationJson(request.json)
+    else:
+        if not request.args:
+            return MedicationHandler().getAllMedication()
+
+@app.route('/ResourceApp/resources/medication/<int:mid>', methods=['GET', 'PUT', 'DELETE'])
+def getMedicationById(mid):
+    if request.method == 'GET':
+        return MedicationHandler().getMedicationById(mid)
+    elif request.method == 'PUT':
+        return MedicationHandler().updateMedication(mid, request.form)
+    elif request.method == 'DELETE':
+        return MedicationHandler().deleteMedication(mid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/resources/Medication/Name/<string:mname>', methods=['GET'])
+def getMedicationByName(mname):
+    if request.method == 'GET':
+        return MedicationHandler().getMedicationByName(mname)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/resources/Medication/Brand/<string:mdosage>', methods=['GET'])
+def getMedicationByDosage(mdosage):
+    if request.method == 'GET':
+        return MedicationHandler().getMedicationByBrand(mdosage)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
 
 @app.route('/ResourceApp/resources/countbyresourceid')
 def getCountByResourceId():

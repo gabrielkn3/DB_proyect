@@ -17,14 +17,13 @@ class MedicalDeviceHandler:
 
     def build_supplier_dict(self, row):
         result = {}
-        result['uid'] = row[0]
-        result['sid'] = row[1]
-        result['sfirstname'] = row[2]
-        result['slastname'] = row[3]
-        result['semail'] = row[4]
-        result['sphone'] = row[5]
-        result['saddress'] = row[6]
-        result['slocation'] = row[7]
+        result['sid'] = row[0]
+        result['stype'] = row[1]
+        result['sname'] = row[2]
+        result['semail'] = row[3]
+        result['sphone'] = row[4]
+        result['saddress'] = row[5]
+        result['sfinance'] = row[6]
         return result
 
     def build_requester_dict(self, row):
@@ -101,7 +100,7 @@ class MedicalDeviceHandler:
             sid = form['sid']
 
             mdbrand = form['mdbrand']
-            mdname = form['rname']
+            mdname = form['mdname']
             mddescription = form['mddescription']
 
             if rtype and rname and rlocation and sid and mdbrand and mdname and mddescription:
@@ -121,7 +120,7 @@ class MedicalDeviceHandler:
         rlocation = json['rlocation']
         sid = json['sid']
         mdbrand = json['mdbrand']
-        mdname = json['rname']
+        mdname = json['mdname']
         mddescription = json['mddescription']
 
 
