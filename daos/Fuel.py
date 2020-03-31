@@ -1,22 +1,22 @@
 #import psycopg2
-class HeavyEquipmentDAO:
+class FuelDAO:
     def __init__(self):
 
-       connection_url = "dbname=%s user=%s password=%s" % ('dbname',
+       connection_url = "dbType=%s user=%s password=%s" % ('dbType',
                                                     'user',
                                                           'passwd')
        #self.conn = psycopg2._connect(connection_url)
 
-    def getAllHeavyEquipment(self):
+    def getAllFuel(self):
         #cursor = self.conn.cursor()
-        #query = "select pid, pname, pmaterial, pcolor, pprice from parts;"
+        #query = "select pid, pType, pmaterial, pcolor, pprice from parts;"
         #cursor.execute(query)
         row={};
         result = [];
-        row[0] = 'HID 12345'
+        row[0] = 'FID 12345'
         row[1] = 'Get'
         row[2] = 'All'
-        row[3] = 'Heavy Equipment'
+        row[3] = 'Fuel'
         row[4] = 'Test'
 
 
@@ -25,22 +25,22 @@ class HeavyEquipmentDAO:
         #    result.append(row)
         return result
 
-    def getHeavyEquipmentById(self, hid):
+    def getFuelById(self, fid):
        # cursor = self.conn.cursor()
-        #query = "select pid, pname, pmaterial, pcolor, pprice from parts where pid = %s;"
+        #query = "select pid, pType, pmaterial, pcolor, pprice from parts where pid = %s;"
         #cursor.execute(query, (pid,))
         #result = cursor.fetchone()
        row = {};
-       row[0] = '21'
+       row[0] = '2211'
        row[1] = 'get'
-       row[2] = 'Heavy Equipment'
+       row[2] = 'Fuel'
        row[3] = 'by'
        row[4] = 'iD Values'
 
 
        return row
 
-    def getHeavyEquipmentByName(self, hname):
+    def getFuelByQuantity(self, fquantity):
         #cursor = self.conn.cursor()
         #query = "select * from parts where pmaterial = %s;"
         #cursor.execute(query, (material,))
@@ -49,16 +49,16 @@ class HeavyEquipmentDAO:
         #    result.append(row)
         row = {};
         result = [];
-        row[0] = 'POWER DRILL'
+        row[0] = '30GAL'
         row[1] = 'Get'
-        row[2] = 'Heavy Equipment'
+        row[2] = 'Fuel'
         row[3] = 'by'
-        row[4] = 'Name'
+        row[4] = 'Quantity'
 
         result.append(row)
         return result
 
-    def getHeavyEquipmentByBrand(self, hbrand):
+    def getFuelByType(self, ftype):
         # cursor = self.conn.cursor()
         # query = "select * from parts where pcolor = %s;"
         # cursor.execute(query, (color,))
@@ -67,19 +67,33 @@ class HeavyEquipmentDAO:
         #    result.append(row)
         row = {};
         result = [];
-        row[0] = 'HOME DEPOT'
+        row[0] = 'DIESEL'
         row[1] = 'Get'
-        row[2] = 'Heavy Equipment'
-        row[3] = 'By'
-        row[4] = 'Brand'
+        row[2] = 'Fuel'
+        row[3] = 'by'
+        row[4] = 'Type'
 
         result.append(row)
         return result
 
-    def insert(self, rid, hbrand, hname, hdescription):
+    def getFuelByOctane(self, octane):
+       # cursor = self.conn.cursor()
+        #query = "select pid, pType, pmaterial, pcolor, pprice from parts where pid = %s;"
+        #cursor.execute(query, (pid,))
+        #result = cursor.fetchone()
+       row = {};
+       row[0] = '86octane'
+       row[1] = 'get'
+       row[2] = 'Fuel'
+       row[3] = 'by'
+       row[4] = 'octane'
+
+       return row
+
+    def insert(self, rid, ftype, fquantity, fdescription):
         #cursor = self.conn.cursor()
-        #query = "insert into parts(pname, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
-        #cursor.execute(query, (pname, pcolor, pmaterial, pprice,))
+        #query = "insert into parts(pType, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
+        #cursor.execute(query, (pType, pcolor, pmaterial, pprice,))
         #pid = cursor.fetchone()[0]
         #self.conn.commit()
         row = {};
@@ -93,7 +107,7 @@ class HeavyEquipmentDAO:
         result.append(row)
         return rid
 
-    def delete(self, hid):
+    def delete(self, fid):
         #cursor = self.conn.cursor()
         #query = "delete from parts where pid = %s;"
         #cursor.execute(query, (pid,))
@@ -107,12 +121,12 @@ class HeavyEquipmentDAO:
         row[4] = 'deleteid'
 
         result.append(row)
-        return hid
+        return fid
 
-    def update(self, hid, hbrand, hname, hdescription):
+    def update(self, fid, ftype, fquantity, fdescription):
         #cursor = self.conn.cursor()
-        #query = "update parts set pname = %s, pcolor = %s, pmaterial = %s, pprice = %s where pid = %s;"
-        #cursor.execute(query, (pname, pcolor, pmaterial, pprice, pid,))
+        #query = "update parts set pType = %s, pcolor = %s, pmaterial = %s, pprice = %s where pid = %s;"
+        #cursor.execute(query, (pType, pcolor, pmaterial, pprice, pid,))
         #self.conn.commit()
         row = {};
         result = [];
@@ -123,16 +137,16 @@ class HeavyEquipmentDAO:
         row[5] = 'updatesid'
 
         result.append(row)
-        return hbrand
+        return ftype
 
-    def getResourceID(self,hid):
-        rid = hid+2;  #dummy code
-        #select rid from HeavyEquipment where hid = %s;
+    def getResourceID(self,fid):
+        rid = fid+2;  #dummy code
+        #select rid from Fuel where fid = %s;
         return rid
 
-    def getCountByHeavyEquipmentId(self):
+    def getCountByFuelId(self):
         #cursor = self.conn.cursor()
-        #query = "select pid, pname, sum(stock) from parts natural inner join supplies group by pid, pname order by pname;"
+        #query = "select pid, pType, sum(stock) from parts natural inner join supplies group by pid, pType order by pType;"
         #cursor.execute(query)
         #result = []
         #for row in cursor:
