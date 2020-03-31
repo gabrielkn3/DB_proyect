@@ -32,15 +32,15 @@ class RequestDAO:
 
         if len(request_list) ==0:
             self.first_time()
-            return request_list[0]
+            return request_list
         row = {};
         row[0] = 'Get'
         row[1] = 'All'
         row[2] = 'Requests'
         row[3] = 'Getting...'
         row[4] = 'Successful'
-
-        return row
+        request_list.append(row)
+        return request_list
 
     def getRequestByID(self, RequestID):
         # cursor = self.conn.cursor()
@@ -176,7 +176,7 @@ class RequestDAO:
 
         return row
 
-    def insert(self, RequestID, status, rid, lid, reqID, sid, amount, date):
+    def insert(self, status, rid, reqID, requantity, date):
         # cursor = self.conn.cursor()
         # query = "insert into requests(RequestID, status, rid, lid, reqID, sid, amount, date) values (%s, %s, %s, %s, %s, %s, %s, %s) returning RequestID;"
         # cursor.execute(query, (RequestID, status, rid, lid, reqID, sid, amount, date,))
@@ -205,7 +205,7 @@ class RequestDAO:
 
         return 123
 
-    def update(self, RequestID, status, rid, lid, reqID, sid, amount, date):
+    def update(self, RequestID, status, rid, reqID, amount, date):
         # cursor = self.conn.cursor()
         # query = "update requests set RequestID = %s, status = %s, rid = %s, lid = %s, reqID = %s, sid = %s, amount = %s, date = %s where RequestID = %s;"
         # cursor.execute(query, (RequestID, status, rid, lid, reqID, sid, amount, date,))

@@ -152,6 +152,7 @@ class ListingDAO:
         row[4] = "February 10"
         row[5] = "10.00"
         row[6] = 3
+        row[7] = 3
 
         result.append(row)
 
@@ -197,7 +198,7 @@ class ListingDAO:
 
         return row
 
-    def insert(self, lid, rid, rtype, postDate, uid, lprice, amount, rlocation):
+    def insert(self, rid, rtype, postDate, uid, lprice, amount, rlocation):
         # cursor = self.conn.cursor()
         # query = "insert into listings(lid, rid, rtype, postDate, uid, lprice, amount, rlocation) values (%s, %s, %s, %s, %s, %s, %s, %s) returning lid;"
         # cursor.execute(query, (lid, rid, rtype, postDate, uid, lprice, amount, rlocation,))
@@ -213,7 +214,7 @@ class ListingDAO:
         row[5] = "10.00"
         row[6] = 3
 
-        return lid
+        return rid
 
     def delete(self, lid):
         # cursor = self.conn.cursor()
