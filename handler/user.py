@@ -40,6 +40,34 @@ class userHandler:
                 return jsonify(User=result), 201
             else:
                 return jsonify(Error="Malformed post request")
+
+        elif form and len(form) == 8: #*********************************REQUESTER OR SUPPLIER*********************************
+            username = form['username']
+            password = form['password']
+            fname = form['fname']
+            lname = form['lname']
+            email = form['email']
+            phone = form['phone']
+            address = form['address']
+            location = form['location']
+
+            if username and password and fname and lname and email and phone and address and location:
+                dao = userDAO()
+                uid = dao.insert(username, password, fname, lname, email, phone, address)
+                result = {}
+                result['uid'] = uid
+                result['username'] = username
+                result['password'] = password
+                result['fname'] = fname
+                result['lname'] = lname
+                result['email'] = email
+                result['phone'] = phone
+                result['address'] = address
+                result['location'] = location
+                return result
+            else:
+                return jsonify(Error="Malformed post request")
+
         else:
             return jsonify(Error="Malformed post request")
 

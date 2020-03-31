@@ -76,13 +76,13 @@ class SupplierDAO:
         return result
 
 
-    # def insert(self, uid, slocation):
-    #     row={}
-    #     row[0] = ++s_id
-    #     row[1] = uid
-    #     row[2] = slocation
-    #     supplier_list.append(row)
-    #     return s_id
+    def insert(self, uid, slocation):
+        row={}
+        row[0] = ++s_id
+        row[1] = uid
+        row[2] = slocation
+        supplier_list.append(row)
+        return s_id
 
     def delete(self, sid):
         for i in range(0, len(supplier_list)):

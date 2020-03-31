@@ -119,15 +119,14 @@ def getListingsByName(rname):
 
 #************************************************************SUPPLIER*********************************************************************
 
-@app.route ('/ResourceApp/suppliers', methods=['GET'])
+@app.route ('/ResourceApp/suppliers', methods=['GET', 'POST'])
 
 #Get All Suppliers or REGISTER AS A SUPPLIER
 def getAllSuppliers():
     if request.method == 'POST':
-        # print("REQUEST: ", request.json)
-        # return SupplierHandler().insertSupplier(request.json)
-        pass
-    else :
+        print("REQUEST: ", request.form)
+        return SupplierHandler().insertSupplier(request.form)
+    else:
         if not request.args:
             return SupplierHandler().getAllSuppliers()
         else:
@@ -168,12 +167,11 @@ def getResourcesBySupplierId(sid):
 
 
 #Get All Requesters or REGISTER AS A REQUESTER
-@app.route ('/ResourceApp/requesters', methods=['GET'])
+@app.route ('/ResourceApp/requesters', methods=['GET', 'POST'])
 def getAllRequesters():
     if request.method == 'POST':
-        # print("REQUEST: ", request.json)
-        # return SupplierHandler().insertSupplier(request.json)
-        pass
+        print("REQUEST: ", request.form)
+        return SupplierHandler().insertSupplier(request.form)
     else:
         if not request.args:
             return RequesterHandler().getAllRequesters()

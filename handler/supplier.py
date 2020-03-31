@@ -2,7 +2,6 @@ from flask import jsonify
 from daos.supplier import SupplierDAO
 from handler.user import userHandler
 
-
 class SupplierHandler:
     def build_supplier_dict(self, row):
         result = {}
@@ -75,22 +74,18 @@ class SupplierHandler:
 
 
 
-    # def insertSupplier(self, form):
-    #     if form and len(form) == 2:
-    #         slocation = form['slocation']
-    #         uid = form["uid"]
-    #         if uid and slocation:
-    #             dao = SupplierDAO()
-    #             sid = dao.insert(uid, slocation)
-    #             result = {}
-    #             result["sid"] = sid
-    #             result["uid"] = uid
-    #             result["slocation"] = slocation
-    #             return jsonify(Supplier=result), 201
-    #         else:
-    #             return jsonify(Error="Malformed post(SUPPLIER) request")
-    #     else:
-    #         return jsonify(Error="Malformed post(SUPPLIER) request")
+    def insertSupplier(self, form):#slocation is the only additional attribute from supplier that user does not have
+        if len(form) == 8:
+                s_dao = SupplierDAO()
+                slocation = form['location']
+                supplier = userHandler().insertUser(form)
+                sid = s_dao.insert(supplier['uid'], slocation)
+                supplier['sid'] = sid
+                return jsonify(Supplier=supplier), 201
+
+        else:
+                return jsonify(Error="Malformed post(SUPPLIER) request")
+
 
 
 

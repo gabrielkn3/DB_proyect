@@ -76,13 +76,13 @@ class RequesterDAO:
                     result.append(row)
         return result
 
-    # def insert(self, uid, reqlocation):
-    #     row={}
-    #     row[0] = ++req_id
-    #     row[1] = uid
-    #     row[2] = reqlocation
-    #     supplier_list.append(row)
-    #     return req_id
+    def insert(self, uid, reqlocation):
+        row={}
+        row[0] = ++req_id
+        row[1] = uid
+        row[2] = reqlocation
+        req_list.append(row)
+        return req_id
 
     def update(self, reqid, reqlocation):
         result = []

@@ -105,19 +105,13 @@ class RequesterHandler:
             else:
                 return jsonify(Error="Error deleting (REQUESTER) request"), 400
 
-    # def insertRequester(self, form):
-    #     if form and len(form) == 2:
-    #         reqlocation = form['reqlocation']
-    #         uid = form["uid"]
-    #         if uid and reqlocation:
-    #             dao = RequesterDAO()
-    #             sid = dao.insert(uid, reqlocation)
-    #             result = {}
-    #             result["reqid"] = reqid
-    #             result["uid"] = uid
-    #             result["reqlocation"] = reqlocation
-    #             return jsonify(Requester=result), 201
-    #         else:
-    #             return jsonify(Error="Malformed post(REQUESTER) request")
-    #     else:
-    #         return jsonify(Error="Malformed post(REQUESTER) request")
+    def insertRequester(self, form):
+        if len(form) == 8:
+                r_dao = RequesterDAO()
+                reqlocation = form['location']
+                requester = userHandler().insertUser(form)
+                reqid = r_dao.insert(requester['uid'], reqlocation)
+                requester['reqid'] = reqid
+                return jsonify(Requester=requester), 201
+        else:
+            return jsonify(Error="Malformed post(REQUESTER) request")
