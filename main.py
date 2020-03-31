@@ -50,20 +50,21 @@ def getSuppliersByResourceId(rid):
 @app.route('/ResourceApp/suppliers', methods=['GET', 'POST'])
 def getAllSuppliers():
     if request.method == 'POST':
-        return SupplierHandler().insertSupplier(request.form)
+        print("REQUEST: ", request.json)
+        return SupplierHandler().insertSupplier(request.json)
     else :
         if not request.args:
             return SupplierHandler().getAllSuppliers()
         else:
             return SupplierHandler().searchSuppliers(request.args)
 
-@app.route('/ResourceApp/suppliers/<int:sid>',
+@app.route('/ResourceApp/suppliers/<int:sid>/',
            methods=['GET', 'PUT', 'DELETE'])
 def getSupplierById(sid):
     if request.method == 'GET':
         return SupplierHandler().getSupplierById(sid)
     elif request.method == 'PUT':
-        pass
+        return SupplierHandler().updateSupplier(sid, request.form)
     elif request.method == 'DELETE':
         pass
     else:
@@ -137,17 +138,17 @@ def getMedicationById(mid):
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/resources/Medication/Name/<string:mname>', methods=['GET'])
+@app.route('/ResourceApp/resources/medication/Name/<string:mname>', methods=['GET'])
 def getMedicationByName(mname):
     if request.method == 'GET':
         return MedicationHandler().getMedicationByName(mname)
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/resources/Medication/Brand/<string:mdosage>', methods=['GET'])
+@app.route('/ResourceApp/resources/medication/Dosage/<string:mdosage>', methods=['GET'])
 def getMedicationByDosage(mdosage):
     if request.method == 'GET':
-        return MedicationHandler().getMedicationByBrand(mdosage)
+        return MedicationHandler().getMedicationByDosage(mdosage)
     else:
         return jsonify(Error="Method not allowed."), 405
 
