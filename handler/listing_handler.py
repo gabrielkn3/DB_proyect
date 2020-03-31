@@ -6,23 +6,23 @@ class ListingHandler:
         result = {}
         result['lid'] = row[0]
         result['rid'] = row[1]
-        result['uid'] = row[2]
+        result['sid'] = row[2]
         result['rtype'] = row[3]
         result['postDate'] = row[4]
         result['lprice'] = row[5]
-        result['amount'] = row[6]
+        result['quantity'] = row[6]
         result['rlocation'] = row[7]
         return result
 
-    def build_listing_attributes(self, lid, rid, rtype, postDate, uid, lprice, amount, rlocation):
+    def build_listing_attributes(self, lid, rid, sid, rtype, postDate, lprice, quantity, rlocation):
         result = {}
         result['lid'] = lid
-        result['rid'] = rtype
-        result['uid'] = uid
+        result['rid'] = rid
+        result['uid'] = sid
         result['rtype'] = rtype
         result['postDate'] = postDate
         result['lprice'] = lprice
-        result['amount'] = amount
+        result['quantity'] = quantity
         result['rlocation'] = rlocation
         return result
 

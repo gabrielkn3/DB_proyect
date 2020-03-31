@@ -21,7 +21,7 @@ class SupplierHandler:
         return result
 
     def build_supplier_attributes(self, sid, slocation):
-        result = {};
+        result = {}
         result['sid'] = sid
         result['slocation'] = slocation
         return result
@@ -48,21 +48,21 @@ class SupplierHandler:
         return jsonify(Supplier=supplier)
 
 
-    # def searchSuppliers(self, args):
-    #     if len(args) > 1:
-    #         return jsonify(Error = "Malformed search(SUPPLIER) string."), 400
-    #     else:
-    #         slocation = args.get("slocation")
-    #         if address:
-    #             dao = SupplierDAO()
-    #             supplier_list = dao.getSuppliersByLocation(slocation)
-    #             result_list = []
-    #             for row in supplier_list:
-    #                 result = self.build_supplier_dict(row)
-    #                 result_list.append(row)
-    #             return jsonify(Suppliers=result_list)
-    #         else:
-    #             return jsonify(Error="Malformed search string."), 400
+    def searchSuppliers(self, args):
+        if len(args) > 1:
+            return jsonify(Error = "Malformed search(SUPPLIER) string."), 400
+        else:
+            slocation = args.get("slocation")
+            if slocation:
+                dao = SupplierDAO()
+                supplier_list = dao.getSuppliersByLocation(slocation)
+                result_list = []
+                for row in supplier_list:
+                    result = self.build_supplier_dict(row)
+                    result_list.append(row)
+                return jsonify(Suppliers=result_list)
+            else:
+                return jsonify(Error="Malformed search string."), 400
 
     def getResourcesBySupplierId(self, sid):
         dao=SupplierDAO()
@@ -115,9 +115,9 @@ class SupplierHandler:
         if not dao.getSupplierById(sid):
             return jsonify(Error="Supplier not found."), 404
         else:
-            status=dao.delete(sid)
+            status = dao.delete(sid)
             if status:
-                return jsonify(Result="Deleted Supplier with sid: "+status)
+                return jsonify(Result="Deleted Supplier with sid: "+str(status))
             else:
-                return jsonify(Error="Error deleting (SUPPLIER)request"), 400
+                return jsonify(Error="Error deleting (SUPPLIER) request"), 400
 

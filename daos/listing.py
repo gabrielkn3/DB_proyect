@@ -1,10 +1,10 @@
 class ListingDAO:
 
-    def __init__(self):
-
-        connection_url = "dbname=%s user=%s password=%s" % (pg_config['dbname'],
-                                                            pg_config['user'],
-                                                            pg_config['passwd'])
+    # def __init__(self):
+    #
+    #     connection_url = "dbname=%s user=%s password=%s" % (pg_config['dbname'],
+    #                                                         pg_config['user'],
+    #                                                         pg_config['passwd'])
         # self.conn = psycopg2._connect(connection_url)
 
     def getAllListings(self):
@@ -18,7 +18,7 @@ class ListingDAO:
         row[0] = 'listing id'
         row[1] = 'Get'
         row[2] = 'All'
-        row[3] = 'Listings'
+        row[3] = 'Chancleta'
         row[4] = 'Test'
 
         result.append(row)
@@ -105,8 +105,9 @@ class ListingDAO:
         row[0] = 'Get'
         row[1] = 'Listings'
         row[2] = 'By'
-        row[3] = 'Supplier ID'
-        row[4] = 'Successful'
+        row[3] = 'Chancleta'
+        row[4] = 'SID'
+        row[5] = 'Succesful'
 
         return row
 

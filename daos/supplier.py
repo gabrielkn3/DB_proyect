@@ -18,7 +18,7 @@ class SupplierDAO:
         row = {}
         row[0] = 1150
         row[1] = 12321
-        row[2] = "Latitud: 0 || Longitud: 0"
+        row[2] = "Lares"
         supplier_list.append(row)
 
     def getAllSuppliers(self):
@@ -28,7 +28,7 @@ class SupplierDAO:
         # result = []
         # for row in cursor:
         #     result.append(row)
-        if len(supplier_list)==0:
+        if len(supplier_list) == 0:
             self.first_time()
             return supplier_list
         return supplier_list
@@ -38,14 +38,17 @@ class SupplierDAO:
             # query = "select * from supplier where sid = %s;"
             # cursor.execute(query, (sid,))
             # result = cursor.fetchone()
-         result=[]
-         for i in range(0, len(supplier_list)):
+        if len(supplier_list) == 0:
+            self.first_time()
+            return supplier_list
+        result=[]
+        for i in range(0, len(supplier_list)):
             for row in supplier_list:
                 if row[0] == sid:
-                    result.append(row)
+                 result.append(row)
 
 
-         return result[0]
+        return result[0]
 
     def getSupplierByEmail(self, email):
         u = userDAO()
@@ -65,12 +68,12 @@ class SupplierDAO:
                 resources.append(row['rname'])
         return resources
 
-    def getSuppliersByLocation(self,slocation):
-        suppliers=self.getAllSuppliers()
+    def getSuppliersByLocation(self, slocation):
+        suppliers = self.getAllSuppliers()
         result = []
         for i in range(0, len(suppliers)):
             for row in suppliers:
-                if row["slocation"] == slocation:
+                if row[2] == slocation:
                     result.append[row]
         return result
 
@@ -86,7 +89,7 @@ class SupplierDAO:
     def delete(self, sid):
         for i in range(0, len(supplier_list)):
             for row in supplier_list:
-                if row['sid'] == sid:
+                if row[0] == sid:
                     supplier_list.remove(row)
                     return sid
         return -1 #failed

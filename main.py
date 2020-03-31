@@ -69,7 +69,8 @@ def getAllSuppliers():
         if not request.args:
             return SupplierHandler().getAllSuppliers()
         else:
-            return SupplierHandler().searchSuppliers(request.args)
+            #return SupplierHandler().searchSuppliers(request.args)
+            return jsonify(Error="Method not allowed"), 405
 
 
 @app.route('/ResourceApp/suppliers/<int:sid>/',
@@ -80,7 +81,7 @@ def getSupplierById(sid):
     elif request.method == 'PUT':
         return SupplierHandler().updateSupplier(sid, request.form)
     elif request.method == 'DELETE':
-        pass
+        return SupplierHandler().deleteSupplier(sid)
     else:
         return jsonify(Error = "Method not allowed"), 405
 
