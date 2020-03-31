@@ -71,14 +71,14 @@ class receiptHandler:
         receipts_list = []
         if (len(args) == 1) and rid:
             receipts_list = dao.getReceiptByRID(rid)
-        elif (len(args) == 1) and lprice:
+        elif (len(args) == 1) and quantity:
             receipts_list = dao.getReceiptByQuantity(quantity)
         elif (len(args) == 1) and status:
-            receipts_list = dao.getReceiptsByStatus(status)
+            receipts_list = dao.getReceiptByStatus(status)
         elif (len(args) == 2) and rid and quantity:
-            receipts_list = dao.getReceiptsByRIDAndQuantity(rid, quantity)
+            receipts_list = dao.getReceiptByRIDAndQuantity(rid, quantity)
         elif (len(args) == 2) and rid and status:
-            receipts_list = dao.getReceiptsByRIDAndPrice(rid, status)
+            receipts_list = dao.getReceiptByRIDAndStatus(rid, status)
         else:
             return jsonify(Error="Malformed query string"), 400
         result_list = []
