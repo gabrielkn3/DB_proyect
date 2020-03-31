@@ -287,9 +287,5 @@ def getDryFoodByFlavor(dfname):
 def getCountByResourceId():
     return ResourceHandler().getCountByResourceId()
 
-@app.route('/ResourceApp/resources/countbyresourceid')
-def getCountByResourceId():
-    return ResourceHandler().getCountByResourceId()
-
 if __name__ == '__main__':
     app.run()
