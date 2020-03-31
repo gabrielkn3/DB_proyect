@@ -327,9 +327,6 @@ def getIceByWeight(iweight):
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/resources/countbyresourceid')
-def getCountByResourceId():
-    return ResourceHandler().getCountByResourceId()
 
 
 ##***********************************************TOOL**********************************************************************
