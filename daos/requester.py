@@ -78,7 +78,7 @@ class RequesterDAO:
 
     def insert(self, uid, reqlocation):
         row={}
-        row[0] = ++req_id
+        row[0] = len(req_list)
         row[1] = uid
         row[2] = reqlocation
         req_list.append(row)

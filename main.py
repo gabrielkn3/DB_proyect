@@ -172,7 +172,7 @@ def getResourcesBySupplierId(sid):
 def getAllRequesters():
     if request.method == 'POST':
         print("REQUEST: ", request.form)
-        return SupplierHandler().insertSupplier(request.form)
+        return RequesterHandler().insertRequester(request.form)
     else:
         if not request.args:
             return RequesterHandler().getAllRequesters()

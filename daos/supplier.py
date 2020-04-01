@@ -77,7 +77,7 @@ class SupplierDAO:
 
     def insert(self, uid, slocation):
         row={}
-        row[0] = ++s_id
+        row[0] = len(supplier_list)
         row[1] = uid
         row[2] = slocation
         supplier_list.append(row)
