@@ -13,7 +13,7 @@ class paymentHandler:
         return result
 
     def insertPayment(self, form):
-        if form and len(form) == 6:
+        if form and len(form) == 5:
             reqid = form['reqid']
             sid = form['sid']
             price = form['price']

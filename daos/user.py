@@ -10,7 +10,7 @@ class userDAO:
 
     def first_time(self):
         row = {}
-        row[0] = eid
+        row[0] = len(elist)
         row[1] = "GentleJerry"
         row[2] = "Hydration"
         row[3] = "Gentle"
@@ -28,7 +28,7 @@ class userDAO:
         # self.conn.commit()
         # return uid
         row = {}
-        row[0] = ++eid
+        row[0] = len(elist)
         row[1] = username
         row[2] = password
         row[3] = fname
@@ -40,11 +40,15 @@ class userDAO:
         return row[0]
 
     def delete(self, uid):
-        cursor = self.conn.cursor()
-        query = "delete from user where uid = %s;"
-        cursor.execute(query, (uid,))
-        self.conn.commit()
-        return uid
+        # cursor = self.conn.cursor()
+        # query = "delete from user where uid = %s;"
+        # cursor.execute(query, (uid,))
+        # self.conn.commit()
+        # return uid
+        for row in elist:
+            if row[0] == uid:
+                elist.remove(row)
+                return uid
 
     def update(self, uid, username, password, fname, lname, email, phone, address):
         # cursor = self.conn.cursor()
@@ -52,6 +56,15 @@ class userDAO:
         # cursor.execute(query, (username, password, fname, lname, email, phone, address, uid,))
         # self.conn.commit()
         # return uid
+        # entry = {}
+        # entry[0] = uid
+        # entry[1] = username
+        # entry[2] = password
+        # entry[3] = fname
+        # entry[4] = lname
+        # entry[5] = email
+        # entry[6] = phone
+        # entry[7] = address
         for row in elist:
             if row[0] == uid:
                 row[1] = username
@@ -61,6 +74,7 @@ class userDAO:
                 row[5] = email
                 row[6] = phone
                 row[7] = address
+                elist.append(row)
                 return row
 
     def getAllUsers(self):

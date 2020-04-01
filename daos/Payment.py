@@ -12,7 +12,7 @@ class paymentDAO:
 
     def first_time(self):
         row = {}
-        row[0] = id1 #pID
+        row[0] = len(example_list) #pID
         row[1] = id2 #reqID
         row[2] = id3 #sID
         row[3] = 420.69 #price
@@ -28,7 +28,7 @@ class paymentDAO:
         # self.conn.commit()
         # return pid
         row = {}
-        row[0] = ++id1
+        row[0] = len(example_list)
         row[1] = reqid
         row[2] = sid
         row[3] = price
@@ -38,18 +38,31 @@ class paymentDAO:
         return row[0]
 
     def delete(self, pid):
-        cursor = self.conn.cursor()
-        query = "delete from payment where pid = %s"
-        cursor.execute(query, (pid,))
-        self.conn.commit()
-        return pid
+        # cursor = self.conn.cursor()
+        # query = "delete from payment where pid = %s"
+        # cursor.execute(query, (pid,))
+        # self.conn.commit()
+        # return pid
+        for row in example_list:
+            if row[0] == pid:
+                example_list.remove(row)
+                return pid
 
     def update(self, pid, reqid, sid, price, paymentType, acDetails):
-        cursor = self.conn.cursor()
-        query = "update payment set reqid = %, sid = %s, price = %s, paymentType = %s, acDetail = %s where = %s;"
-        cursor.execute(query, (reqid, sid, price, paymentType, acDetails, pid,))
-        self.conn.commit()
-        return pid
+        # cursor = self.conn.cursor()
+        # query = "update payment set reqid = %, sid = %s, price = %s, paymentType = %s, acDetail = %s where = %s;"
+        # cursor.execute(query, (reqid, sid, price, paymentType, acDetails, pid,))
+        # self.conn.commit()
+        # return pid
+        for row in example_list:
+            if row[0] == pid:
+                row[1] = reqid
+                row[2] = sid
+                row[3] = price
+                row[4] = paymentType
+                row[5] = acDetails
+                example_list.append(row)
+                return row
 
     def getAllPayments(self):
         # cursor = self.conn.cursor()

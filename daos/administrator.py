@@ -11,22 +11,32 @@ class adminDAO:
     def first_time(self):
         row = {}
         row[0] = eid1
-        row[1] = eid2
+        row[1] = len(elist)
         elist.append(row)
 
     def insert(self, uid):
-        cursor = self.conn.cursor()
-        query = "insert into administrator(uid) values(%s) returning aid;"
-        cursor.execute(query, (uid,))
-        aid = cursor.conn.commit()
-        return aid
+        # cursor = self.conn.cursor()
+        # query = "insert into administrator(uid) values(%s) returning aid;"
+        # cursor.execute(query, (uid,))
+        # aid = cursor.conn.commit()
+        # return aid
+        row = {}
+        row[0] = uid
+        row[1] = len(elist)
+        elist.append(row)
+        return row[1]
+
 
     def delete(self, aid):
-        cursor = self.conn.cursor()
-        query = "delete from administrator where aid = %s;"
-        cursor.execute(query, (aid,))
-        self.conn.commit()
-        return aid
+        # cursor = self.conn.cursor()
+        # query = "delete from administrator where aid = %s;"
+        # cursor.execute(query, (aid,))
+        # self.conn.commit()
+        # return aid
+        for row in elist:
+            if row[1] == aid:
+                elist.remove(row)
+                return aid
 
     #update not necessary
 

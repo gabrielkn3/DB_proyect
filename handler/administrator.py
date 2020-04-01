@@ -9,7 +9,7 @@ class adminHandler:
         return result
 
     def insertAdmin(self, form):
-        if form and len(form) == 3:
+        if form and len(form) == 1:
             aid = form['aid']
             uid = form['uid']
 
