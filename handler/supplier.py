@@ -148,50 +148,50 @@ class SupplierHandler:
     def getAllCompanies(self):
         dao = CompanyDAO()
         c_list = dao.getAllCompanies()
-        result_list = []
-        for row in c_list:
-            result = self.build_company_dict(row)
-            result_list.append(result)
-        return jsonify(Companies=result_list)
+        # result_list = []
+        # for row in c_list:
+        #     result = self.build_company_dict(row)
+        #     result_list.append(result)
+        return jsonify(Companies=c_list)
 
     def getCompanyById(self, cid):
 
         dao = CompanyDAO()
 
         row = dao.getCompanyById(cid)
-        if not row:
-            return jsonify(Error="Company Not Found"), 404
-        else:
-            company = self.build_company_dict(row)
-        return jsonify(Company=company)
+        # if not row:
+        #     return jsonify(Error="Company Not Found"), 404
+        # else:
+        #     company = self.build_company_dict(row)
+        return jsonify(Company=row)
 
     def getCompanyBySid(self, sid):
         dao = SupplierDAO()
 
         row = dao.getSupplierById(sid)
-        if not row:
-            return jsonify(Error="Supplier Not Found"), 404
-        else:
-            company = self.build_company_dict(row)
-        return jsonify(Company=company)
+        # if not row:
+        #     return jsonify(Error="Supplier Not Found"), 404
+        # else:
+        #     company = self.build_company_dict(row)
+        return jsonify(Company=row)
 
     def getCompanyByName(self, cname):
         dao = CompanyDAO()
         row = dao.getCompanyByName(cname)
-        if not row:
-            return jsonify(Error="Supplier Not Found"), 404
-        else:
-            company = self.build_company_dict(row)
-        return jsonify(Company=company)
+        # if not row:
+        #     return jsonify(Error="Supplier Not Found"), 404
+        # else:
+        #     company = self.build_company_dict(row)
+        return jsonify(Company=row)
 
     def getCompanyByCompanyType(self, btype):
         dao = CompanyDAO()
         row = dao.getCompanyByCompanyType(btype)
-        if not row:
-            return jsonify(Error="Company Not Found"), 404
-        else:
-            company = self.build_company_dict(row)
-        return jsonify(Company=company)
+        # if not row:
+        #     return jsonify(Error="Company Not Found"), 404
+        # else:
+        #     company = self.build_company_dict(row)
+        return jsonify(Company=row)
 
     def deleteCompany(self, cid):
         dao = CompanyDAO()
