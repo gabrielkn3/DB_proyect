@@ -21,7 +21,6 @@ from handler.user import userHandler
 from handler.administrator import adminHandler
 from handler.requester_handler import RequesterHandler
 from handler.Payment import paymentHandler
-from handler.Company import supplierHandler
 
 # Import Cross-Origin Resource Sharing to enable
 # services on other ports on this machine or on other
