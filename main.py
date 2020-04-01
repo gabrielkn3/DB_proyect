@@ -887,44 +887,44 @@ def getPaymentByPaymentType(type):
 @app.route('/ResourceApp/company', methods=['GET', 'POST'])
 def getAllCompanies():
     if request.method == 'POST':
-        return supplierHandler().insertSupplier(request.form)
+        return SupplierHandler().insertSupplier(request.form)
     elif request.method == 'GET':
-        return supplierHandler().getAllCompanies()
+        return SupplierHandler().getAllCompanies()
     else:
         return jsonify(Error="Method not allowed."), 405
 
 
-@app.route('/ResourceApp/company/companyId/<int:cid>', methods=['GET', 'DELETE', 'PUT'])
+@app.route('/ResourceApp/company/companyId/<int:cid>', methods=['GET', 'DELETE'])
 def getCompanyByCompanyId(cid):
     if request.method == 'GET':
-        return supplierHandler().getCompanyByCompanyId(cid)
+        return SupplierHandler().getCompanyById(cid)
     # elif request.method == 'PUT':
     #     return supplierHandler().updateCompany(cid, request.form)
     elif request.method == 'DELETE':
-        return supplierHandler().deleteCompany(cid)
+        return SupplierHandler().deleteCompany(cid)
     else:
         return jsonify(Error="Method not allowed."), 405
 
 @app.route('/ResourceApp/company/supplierId/<int:sid>', methods=['GET'])
 def getCompnayByCompanySid(sid):
     if request.method == 'GET':
-        return supplierHandler().getCompanyBySid(sid)
+        return SupplierHandler().getCompanyBySid(sid)
     elif request.method == 'DELETE':
-        return supplierHandler().deleteCompany(sid)
+        return SupplierHandler().deleteCompany(sid)
     else:
         return jsonify(Error="Method not allowed."), 405
 
 @app.route('/ResourceApp/company/companyName/<string:cname>', methods=['GET'])
 def getCompanyByCompanyName(cname):
     if request.method == 'GET':
-        return supplierHandler().getCompanyBySid(cname)
+        return SupplierHandler().getCompanyByName(cname)
     else:
         return jsonify(Error="Method not allowed."), 405
 
 @app.route('/ResourceApp/company/companyType/<string:btype>', methods=['GET'])
 def getCompanyByCompanyName(btype):
     if request.method == 'GET':
-        return supplierHandler().getCompanyBySid(btype)
+        return SupplierHandler().getCompanyByCompanyType(btype)
     else:
         return jsonify(Error="Method not allowed."), 405
 
