@@ -58,7 +58,7 @@ class paymentHandler:
                 paymentType = form['paymentType']
                 acDetail = form['acDetail']
                 if reqid and sid and price and paymentType and acDetail:
-                    dao.update(reqid, sid, price, paymentType, acDetail, pid)
+                    dao.update(pid, reqid, sid, price, paymentType, acDetail)
                     result = {}
                     result['pid'] = pid
                     result['reqid'] = reqid

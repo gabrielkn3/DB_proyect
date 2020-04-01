@@ -74,7 +74,6 @@ class userDAO:
                 row[5] = email
                 row[6] = phone
                 row[7] = address
-                elist.append(row)
                 return row
 
     def getAllUsers(self):

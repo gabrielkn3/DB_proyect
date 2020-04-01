@@ -61,7 +61,6 @@ class paymentDAO:
                 row[3] = price
                 row[4] = paymentType
                 row[5] = acDetails
-                example_list.append(row)
                 return row
 
     def getAllPayments(self):

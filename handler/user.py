@@ -95,7 +95,7 @@ class userHandler:
                 phone = form['phone']
                 address = form['address']
                 if username and password and fname and lname and email and phone and address:
-                    dao.update(username, password, fname, lname, email, phone, address, uid)
+                    dao.update(uid, username, password, fname, lname, email, phone, address)
                     result = {}
                     result['uid'] = uid
                     result['username'] = username
