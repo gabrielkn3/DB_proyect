@@ -43,10 +43,7 @@ def greeting():
 #GetAllResources
 @app.route('/ResourceApp/resources', methods=['GET'])
 def getAllResources():
-        if not request.args:
-            return ResourceHandler().getAllResources()
-        else:
-            return ResourceHandler().searchResources(request.args)
+    return ResourceHandler().getAllResources()
 
 #Get,Update, or Delete Resource By ID
 @app.route('/ResourceApp/resources/<int:rid>', methods=['GET'])
