@@ -21,6 +21,7 @@ from handler.user import userHandler
 from handler.administrator import adminHandler
 from handler.requester_handler import RequesterHandler
 from handler.Payment import paymentHandler
+from handler.Company import supplierHandler
 
 # Import Cross-Origin Resource Sharing to enable
 # services on other ports on this machine or on other
@@ -841,7 +842,7 @@ def getAllPayments():
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/payment/paymentId/<int:pid>', methods=['GET', 'POST', 'DELETE'])
+@app.route('/ResourceApp/payment/paymentId/<int:pid>', methods=['GET', 'DELETE', 'PUT'])
 def getPaymentByPaymentId(pid):
     if request.method == 'GET':
         return paymentHandler().getPaymentByPaymentId(pid)
@@ -879,6 +880,57 @@ def getPaymentByPaymentType(type):
         return paymentHandler().getPaymentByType(type)
     else:
         return jsonify(Error="Method not allowed."), 405
+
+
+
+
+#************************************************************ Company ******************************************************************************
+@app.route('/ResourceApp/company', methods=['GET', 'POST'])
+def getAllCompanies():
+    if request.method == 'POST':
+        return supplierHandler().insertSupplier(request.form)
+    elif request.method == 'GET':
+        return supplierHandler().getAllCompanies()
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+
+@app.route('/ResourceApp/company/companyId/<int:cid>', methods=['GET', 'DELETE', 'PUT'])
+def getCompanyByCompanyId(cid):
+    if request.method == 'GET':
+        return supplierHandler().getCompanyByCompanyId(cid)
+    # elif request.method == 'PUT':
+    #     return supplierHandler().updateCompany(cid, request.form)
+    elif request.method == 'DELETE':
+        return supplierHandler().deleteCompany(cid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/company/supplierId/<int:sid>', methods=['GET'])
+def getCompnayByCompanySid(sid):
+    if request.method == 'GET':
+        return supplierHandler().getCompanyBySid(sid)
+    elif request.method == 'DELETE':
+        return supplierHandler().deleteCompany(sid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/company/companyName/<string:cname>', methods=['GET'])
+def getCompanyByCompanyName(cname):
+    if request.method == 'GET':
+        return supplierHandler().getCompanyBySid(cname)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/company/companyType/<string:btype>', methods=['GET'])
+def getCompanyByCompanyName(btype):
+    if request.method == 'GET':
+        return supplierHandler().getCompanyBySid(btype)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+
+
 
 if __name__ == '__main__':
     app.run()
