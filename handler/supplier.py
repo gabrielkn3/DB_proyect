@@ -11,6 +11,13 @@ class SupplierHandler:
         result['slocation'] = row[2]
         return result
 
+    def build_company_dict(selfself,row):
+        result = {}
+        result['sid'] = row[0]
+        result['Comoany Name'] = row[1]
+        result['Business Type'] = row[2]
+        result['Description'] = row[3]
+
     def build_resource_from_listing(self, row):
         result = {}
         result['rtype'] = row[3]
