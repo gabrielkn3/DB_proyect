@@ -1,5 +1,6 @@
 from flask import jsonify
 from daos.supplier import SupplierDAO
+from daos.company import CompanyDAO
 from handler.user import userHandler
 
 class SupplierHandler:
@@ -83,8 +84,27 @@ class SupplierHandler:
                 supplier['sid'] = sid
                 return jsonify(Supplier=supplier), 201
 
+        elif len(form) > 8:#if supplier wants to be a company
+            comp = CompanyDAO()
+            s_dao = SupplierDAO()
+            slocation = form['location']
+            compname = form['cname']
+            btype = form['btype']
+            description= form['description']
+            supplier = userHandler().insertUser(form)
+            sid = s_dao.insert(supplier['uid'], slocation)
+            cid = comp.insert(sid, compname, btype, description)
+            supplier['sid'] = sid
+            company = supplier
+            company['cid'] = cid
+            return jsonify(Company=company), 201
+
+
+
         else:
                 return jsonify(Error="Malformed post(SUPPLIER) request")
+
+
 
 
 
@@ -118,3 +138,67 @@ class SupplierHandler:
             else:
                 return jsonify(Error="Error deleting (SUPPLIER) request"), 400
 
+    def getAllCompanies(self):
+        dao = CompanyDAO()
+        c_list = dao.getAllCompanies()
+        result_list = []
+        for row in c_list:
+            result = self.build_company_dict(row)
+            result_list.append(result)
+        return jsonify(Companies=result_list)
+
+    def getCompanyById(self, cid):
+
+        dao = CompanyDAO()
+
+        row = dao.getCompanyById(cid)
+        if not row:
+            return jsonify(Error="Company Not Found"), 404
+        else:
+            company = self.build_company_dict(row)
+        return jsonify(Company=company)
+
+    def getCompanyBySid(self, sid):
+        dao = SupplierDAO()
+
+        row = dao.getSupplierById(sid)
+        if not row:
+            return jsonify(Error="Supplier Not Found"), 404
+        else:
+            company = self.build_company_dict(row)
+        return jsonify(Company=company)
+
+    def getCompanyByName(self, cname):
+        dao = CompanyDAO()
+        row = dao.getCompanyByName(cname)
+        if not row:
+            return jsonify(Error="Supplier Not Found"), 404
+        else:
+            company = self.build_company_dict(row)
+        return jsonify(Company=company)
+
+    def getCompanyByCompanyType(self, btype):
+        dao = CompanyDAO()
+        row = dao.getCompanyByCompanyType(btype)
+        if not row:
+            return jsonify(Error="Company Not Found"), 404
+        else:
+            company = self.build_company_dict(row)
+        return jsonify(Company=company)
+
+    def deleteCompany(self, cid):
+        dao = CompanyDAO()
+
+        row = dao.getCompanyById(cid)
+        if not row:
+            return jsonify(Error="Company Not Found"), 404
+        else:
+            status = dao.delete(cid)
+            if status:
+                return jsonify(Result="Deleted Company with sid: "+str(status))
+            else:
+                return jsonify(Error="Error deleting (COMPANY) request"), 400
+
+
+
+            #NO UPDATE SUPPORTED AS OF YET
