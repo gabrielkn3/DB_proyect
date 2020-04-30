@@ -919,7 +919,7 @@ def getCompanyByCompanyName(cname):
         return jsonify(Error="Method not allowed."), 405
 
 @app.route('/ResourceApp/company/companyType/<string:btype>', methods=['GET'])
-def getCompanyByCompanyName(btype):
+def getCompanyByCompanyType(btype):
     if request.method == 'GET':
         return SupplierHandler().getCompanyByCompanyType(btype)
     else:
