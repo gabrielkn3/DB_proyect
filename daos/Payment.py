@@ -138,6 +138,6 @@ class paymentDAO:
         # return result
         row_list = []
         for row in example_list:
-            if row[3] == paymentType:
+            if row[4] == paymentType:
                 row_list.append(row)
         return row_list
