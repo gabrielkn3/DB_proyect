@@ -17,11 +17,11 @@ class stocksHandler:
 
             if sid and rid and quantity:
                 dao = stocksDAO()
-                dao.insert(sid, rid, quantity)
+                stock = dao.insert(sid, rid, quantity)
                 result = {}
-                result['sid'] = sid
-                result['rid'] = rid
-                result['quantity'] = quantity
+                result['sid'] = int(stock[0])
+                result['rid'] = int(stock[1])
+                result['quantity'] = int(stock[2])
                 return jsonify(Stocks=result), 201
             else:
                 return jsonify(Error="Malformed post request."), 400

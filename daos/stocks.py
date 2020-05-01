@@ -27,11 +27,11 @@ class stocksDAO:
         # self.conn.commit()
         # return pkey
         row = {}
-        row[0] = sid
-        row[1] = rid
-        row[2] = quantity
+        row[0] = int(sid)
+        row[1] = int(rid)
+        row[2] = int(quantity)
         example_list.append(row)
-        return {sid, rid}
+        return row
 
     def delete(self, sid, rid):
         # cursor = self.conn.cursor()
