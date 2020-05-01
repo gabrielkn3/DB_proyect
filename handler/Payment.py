@@ -42,7 +42,7 @@ class paymentHandler:
             return jsonify(Error="Payment not found."), 404
         else:
             dao.delete(pid)
-            return jsonify(DeleteStatus="Payment deleted succesfully."), 200
+            return jsonify(DeleteStatus="Payment deleted successfully."), 200
 
     def updatePayment(self, pid, form):
         dao = paymentDAO()

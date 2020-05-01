@@ -50,7 +50,7 @@ class paymentDAO:
 
     def update(self, pid, reqid, sid, price, paymentType, acDetails):
         # cursor = self.conn.cursor()
-        # query = "update payment set reqid = %, sid = %s, price = %s, paymentType = %s, acDetail = %s where = %s;"
+        # query = "update payment set reqid = %s, sid = %s, price = %s, paymentType = %s, acDetail = %s where = %s;"
         # cursor.execute(query, (reqid, sid, price, paymentType, acDetails, pid,))
         # self.conn.commit()
         # return pid
