@@ -69,8 +69,12 @@ class stocksHandler:
 
     def getStocksByStockId(self, sid, rid):
         dao = stocksDAO()
-        return jsonify(self, dao.getStocksByStockId(sid, rid))
+        return jsonify(Stocks=dao.getStocksByStockId(sid, rid))
 
     def getStocksByQuantity(self, quantity):
         dao = stocksDAO()
         return jsonify(Stocks=dao.getStocksByQuantity(quantity))
+
+    def getStocksByResourceIdAndQuantity(self, rid, quantity):
+        dao = stocksDAO()
+        return jsonify(Stocks=dao.getStocksByResourceIdAndQuantity(rid, quantity))

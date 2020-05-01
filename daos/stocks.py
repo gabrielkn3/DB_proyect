@@ -16,7 +16,7 @@ class stocksDAO:
         row = {}
         row[0] = id1 #sid
         row[1] = id2 #rid
-        row[3] = number #quantity
+        row[2] = number #quantity
         example_list.append(row)
 
     def insert(self, sid, rid, quantity):
@@ -29,7 +29,7 @@ class stocksDAO:
         row = {}
         row[0] = sid
         row[1] = rid
-        row[3] = quantity
+        row[2] = quantity
         example_list.append(row)
         return {sid, rid}
 
@@ -83,7 +83,7 @@ class stocksDAO:
 
     def getStocksByResourceId(self, rid):
         # cursor = self.conn.cursor()
-        # query = "select * from stocks where rid = %s"
+        # query = "select * from stocks where rid = %s;"
         # cursor.execute(query, (rid,))
         # result = []
         # for row in cursor:
@@ -97,7 +97,7 @@ class stocksDAO:
 
     def getStocksByQuantity(self, quantity):
         # cursor = self.conn.cursor()
-        # query = "select * from stocks where quantity = %s"
+        # query = "select * from stocks where quantity = %s;"
         # cursor.execute(query, (quantity,))
         # result = []
         # for row in cursor:
@@ -111,7 +111,7 @@ class stocksDAO:
 
     def getStocksByStockId(self, sid, rid):
         # cursor = self.conn.cursor()
-        # query = "select * from stocks where sid = %s and rid = %s"
+        # query = "select * from stocks where sid = %s and rid = %s;"
         # cursor.execute(query, (sid, rid,))
         # result = []
         # for row in cursor:
@@ -121,7 +121,21 @@ class stocksDAO:
         for row in example_list:
             if row[0] == sid and row[1] == rid:
                 result.append(row)
-                return result
+                # return result
+        return result
+
+    def getStocksByResourceIdAndQuantity(self, rid, quantity):
+        # cursor = self.conn.cursor()
+        # query = "selct * from stocks where rid = %s and quantity = %s;"
+        # cursor.exectue(query, (rid, quantity,))
+        # result = []
+        # for row in cursor:
+        #     result.append(row)
+        # return result
+        result = []
+        for row in example_list:
+            if row[1] == rid and row[2] == quantity:
+                result.append(row)
         return result
 
 

@@ -928,7 +928,7 @@ def getCompanyByCompanyType(btype):
 
 
 #************************************************************ Stocks ******************************************************************************
-@app.route('/ResourceApp/Stocks/', methods=['GET', 'POST'])
+@app.route('/ResourceApp/Stocks', methods=['GET', 'POST'])
 def getAllStocks():
     if request.method == 'POST':
         return stocksHandler().insertStocks(request.form)
@@ -937,33 +937,42 @@ def getAllStocks():
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/Stocks/<int:sid>/<int:rid>/', methods=['GET', 'DELETE'])
+@app.route('/ResourceApp/Stocks/Supplier/<int:sid>/Resource/<int:rid>', methods=['GET', 'DELETE', 'PUT'])
 def getStocksByStockId(sid, rid):
     if request.method == 'GET':
         return stocksHandler().getStocksByStockId(sid, rid)
     elif request.method == 'DELETE':
         return stocksHandler().deleteStocks(sid, rid)
+    elif request.method == 'PUT':
+        return stocksHandler().updateStocks(sid, rid, request.form)
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/Stocks/<int:sid>/', methods=['GET'])
+@app.route('/ResourceApp/Stocks/Supplier/<int:sid>', methods=['GET'])
 def getStocksBySid(sid):
     if request.method == 'GET':
         return stocksHandler().getStocksBySupplierId(sid)
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/Stocks/<int:rid>/', methods=['GET'])
+@app.route('/ResourceApp/Stocks/Resource/<int:rid>', methods=['GET'])
 def getStocksByRid(rid):
     if request.method == 'GET':
-        return stocksHandler().getStocksByResrourceId(rid)
+        return stocksHandler().getStocksByResourceId(rid)
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/Stocks/<int:quantity>/', methods=['GET'])
+@app.route('/ResourceApp/Stocks/Quantity/<int:quantity>', methods=['GET'])
 def getStocksByQuantity(quantity):
     if request.method == 'GET':
         return stocksHandler().getStocksByQuantity(quantity)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/Stocks/Resource/<int:rid>/Quantity/<int:quantity>', methods=['GET'])
+def getStocksByResourceIdAndQuantity(rid, quantity):
+    if request.method == 'GET':
+        return stocksHandler().getStocksByResourceIdAndQuantity(rid, quantity)
     else:
         return jsonify(Error="Method not allowed."), 405
 
