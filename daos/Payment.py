@@ -15,9 +15,9 @@ class paymentDAO:
         row[0] = len(example_list) #pID
         row[1] = id2 #reqID
         row[2] = id3 #sID
-        row[3] = 420.69 #price
-        row[4] = "culo" #payment type
-        row[5] = "The single best piece of ass I've had" #account details
+        row[3] = 420 #price
+        row[4] = "credit" #payment type
+        row[5] = "Used a Bank of America card" #account details
         example_list.append(row)
 
     def insert(self, reqid, sid, price, paymentType, acDetails):
