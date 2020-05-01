@@ -12,7 +12,12 @@ class userHandler:
         result['lname'] = row[4]
         result['email'] = row[5]
         result['phone'] = row[6]
-        result['address'] = row[7]
+        result['state'] = row[7]
+        result['city'] = row[8]
+        result['neighborhood'] = row[9]
+        result['street'] = row[10]
+        result['housenumber'] = row[11]
+        result['zipcode'] = row[12]
         return result
 
     def insertUser(self, form):
@@ -23,11 +28,18 @@ class userHandler:
             lname = form['lname']
             email = form['email']
             phone = form['phone']
-            address = form['address']
+            state = form['state']
+            city = form['city']
+            neighborhood = form['neighborhood']
+            street = form['street']
+            housenumber = form['housenumber']
+            zipcode = form['zipcode']
 
-            if username and password and fname and lname and email and phone and address:
+            if username and password and fname and lname and email and phone and\
+                    state and city and neighborhood and street and housenumber and zipcode:
                 dao = userDAO()
-                uid = dao.insert(username, password, fname, lname, email, phone, address)
+                uid = dao.insert(username, password, fname, lname, email, phone,
+                                 state, city, neighborhood, street, housenumber, zipcode)
                 result = {}
                 result['uid'] = uid
                 result['username'] = username
@@ -35,8 +47,13 @@ class userHandler:
                 result['fname'] = fname
                 result['lname'] = lname
                 result['email'] = email
-                result['phone'] = phone
-                result['address'] = address
+                result['phone'] = int(phone)
+                result['state'] = state
+                result['city'] = city
+                result['neighborhood'] = neighborhood
+                result['street'] = street
+                result['housenumber'] = housenumber
+                result['zipcode'] = zipcode
                 return jsonify(User=result), 201
             else:
                 return jsonify(Error="Malformed post request")
@@ -48,12 +65,19 @@ class userHandler:
             lname = form['lname']
             email = form['email']
             phone = form['phone']
-            address = form['address']
+            state = form['state']
+            city = form['city']
+            neighborhood = form['neighborhood']
+            street = form['street']
+            housenumber = form['housenumber']
+            zipcode = form['zipcode']
             location = form['location']
 
-            if username and password and fname and lname and email and phone and address and location:
+            if username and password and fname and lname and email and phone and \
+                    state and city and neighborhood and street and housenumber and zipcode and location:
                 dao = userDAO()
-                uid = dao.insert(username, password, fname, lname, email, phone, address)
+                uid = dao.insert(username, password, fname, lname, email, phone,
+                                 state, city, neighborhood, street, housenumber, zipcode)
                 result = {}
                 result['uid'] = uid
                 result['username'] = username
@@ -61,8 +85,13 @@ class userHandler:
                 result['fname'] = fname
                 result['lname'] = lname
                 result['email'] = email
-                result['phone'] = phone
-                result['address'] = address
+                result['phone'] = int(phone)
+                result['state'] = state
+                result['city'] = city
+                result['neighborhood'] = neighborhood
+                result['street'] = street
+                result['housenumber'] = housenumber
+                result['zipcode'] = zipcode
                 result['location'] = location
                 return result
             else:
@@ -93,9 +122,16 @@ class userHandler:
                 lname = form['lname']
                 email = form['email']
                 phone = form['phone']
-                address = form['address']
-                if username and password and fname and lname and email and phone and address:
-                    dao.update(uid, username, password, fname, lname, email, phone, address)
+                state = form['state']
+                city = form['city']
+                neighborhood = form['neighborhood']
+                street = form['street']
+                housenumber = form['housenumber']
+                zipcode = form['zipcode']
+                if username and password and fname and lname and email and phone and \
+                        state and city and neighborhood and street and housenumber and zipcode:
+                    dao.update(uid, username, password, fname, lname, email, phone,
+                               state, city, neighborhood, street, housenumber, zipcode)
                     result = {}
                     result['uid'] = uid
                     result['username'] = username
@@ -104,7 +140,12 @@ class userHandler:
                     result['lname'] = lname
                     result['email'] = email
                     result['phone'] = phone
-                    result['address'] = address
+                    result['state'] = state
+                    result['city'] = city
+                    result['neighborhood'] = neighborhood
+                    result['street'] = street
+                    result['housenumber'] = housenumber
+                    result['zipcode'] = zipcode
                     return jsonify(User=result), 200
                 else:
                     return  jsonify(Error="Unexpected attributes in update request."), 400
@@ -185,9 +226,9 @@ class userHandler:
         #     return jsonify(User=result)
         return jsonify(Result=dao.getUserByPhoneNumber(phone))
 
-    def getUserByAddress(self, address):
+    def getUserByState(self, state):
         dao = userDAO()
-        # user_list = dao.getUserByAddress(address)
+        # user_list = dao.getUserByState(state)
         # result_list = []
         # if not user_list:
         #     return jsonify(Error="Users not found"), 404
@@ -196,5 +237,57 @@ class userHandler:
         #         result = self.build_user_dict(row)
         #         result_list.append(result)
         #     return jsonify(Users=result_list)
-        return jsonify(Result=dao.getUserByAddress(address))
+        return jsonify(Result=dao.getUserByState(state))
+
+    def getUserByCity(self, city):
+        dao = userDAO()
+        # user_list = dao.getUserByCity(city)
+        # result_list = []
+        # if not user_list:
+        #     return jsonify(Error="Users not found"), 404
+        # else:
+        #     for row in user_list:
+        #         result = self.build_user_dict(row)
+        #         result_list.append(result)
+        #     return jsonify(Users=result_list)
+        return jsonify(Result=dao.getUserByCity(city))
+
+    def getUserByNeighborhood(self, neighborhood):
+        dao = userDAO()
+        # user_list = dao.getUserByneighborhood(neighborhood)
+        # result_list = []
+        # if not user_list:
+        #     return jsonify(Error="Users not found"), 404
+        # else:
+        #     for row in user_list:
+        #         result = self.build_user_dict(row)
+        #         result_list.append(result)
+        #     return jsonify(Users=result_list)
+        return jsonify(Result=dao.getUserByNeighborhood(neighborhood))
+
+    def getUserByZipcode(self, zipcode):
+        dao = userDAO()
+        # user_list = dao.getUserByZipcode(zipcode)
+        # result_list = []
+        # if not user_list:
+        #     return jsonify(Error="Users not found"), 404
+        # else:
+        #     for row in user_list:
+        #         result = self.build_user_dict(row)
+        #         result_list.append(result)
+        #     return jsonify(Users=result_list)
+        return jsonify(Result=dao.getUserByZipcode(zipcode))
+
+    def getUserByStateAndCity(self, state, city):
+        dao = userDAO()
+        # user_list = dao.getUserByStateAndCity(state, city)
+        # result_list = []
+        # if not user_list:
+        #     return jsonify(Error="Users not found"), 404
+        # else:
+        #     for row in user_list:
+        #         result = self.build_user_dict(row)
+        #         result_list.append(result)
+        #     return jsonify(Users=result_list)
+        return jsonify(Result=dao.getUserByStateAndCity(state, city))
 

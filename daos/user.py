@@ -15,15 +15,23 @@ class userDAO:
         row[2] = "Hydration"
         row[3] = "Gentle"
         row[4] = "Jerry"
-        row[5] = "gentle.jerry@godisdead.gov"
+        row[5] = "gentle.jerry@gmail.gov"
         row[6] = 7874206969
-        row[7] = "InsideOurHearts"
+        row[7] = "OurHearts"
+        row[8] = "Gentelius"
+        row[9] = "Hydrationville"
+        row[10] = "Eich Tuo Street"
+        row[11] = 83
+        row[12] = "10301"
+
         elist.append(row)
 
-    def insert(self, username, password, fname, lname, email, phone, address):
+    def insert(self, username, password, fname, lname, email, phone,
+               state, city, neighborhood, street, housenumber, zipcode):
         # cursor = self.conn.cursor()
-        # query = "insert into user(username, password, fname, lname, email, phone, address) values(%s, %s, %s, %s, %s, %s, %s) returning uid;"
-        # cursor.execute(query, (username, password, fname, lname, email, phone, address,))
+        # query = "insert into user(username, password, fname, lname, email, phone, state, city, neighborhood, street, housenumber, zipcode) " \
+        #         "values(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning uid;"
+        # cursor.execute(query, (username, password, fname, lname, email, phone, state, city, neighborhood, street, housenumber, zipcode,))
         # uid = cursor.fetchone()
         # self.conn.commit()
         # return uid
@@ -34,8 +42,13 @@ class userDAO:
         row[3] = fname
         row[4] = lname
         row[5] = email
-        row[6] = phone
-        row[7] = address
+        row[6] = int(phone)
+        row[7] = state
+        row[8] = city
+        row[9] = neighborhood
+        row[10] = street
+        row[11] = housenumber
+        row[12] = "" + zipcode
         elist.append(row)
         return row[0]
 
@@ -50,10 +63,12 @@ class userDAO:
                 elist.remove(row)
                 return uid
 
-    def update(self, uid, username, password, fname, lname, email, phone, address):
+    def update(self, uid, username, password, fname, lname, email, phone,
+               state, city, neighborhood, street, housenumber, zipcode):
         # cursor = self.conn.cursor()
-        # query = "update user set username = %s, password = %s, fname = %s, lname = %s, email = %s, phone = %s, address = %s where uid = %s;"
-        # cursor.execute(query, (username, password, fname, lname, email, phone, address, uid,))
+        # query = "update user set username = %s, password = %s, fname = %s, lname = %s, email = %s, phone = %s, " \
+        #         "state = %s, city = %s, neighborhood = %s, street = %s, housenumber = %s, zipcode = %s where uid = %s;"
+        # cursor.execute(query, (username, password, fname, lname, email, phone, state, city, neighborhood, street, housenumber, zipcode, uid,))
         # self.conn.commit()
         # return uid
         # entry = {}
@@ -64,7 +79,12 @@ class userDAO:
         # entry[4] = lname
         # entry[5] = email
         # entry[6] = phone
-        # entry[7] = address
+        # entry[7] = state
+        # entry[8] = city
+        # entry[9] = neighborhood
+        # entry[10] = street
+        # entry[11] = housenumber
+        # entry[12] = zipcode
         for row in elist:
             if row[0] == uid:
                 row[1] = username
@@ -73,7 +93,12 @@ class userDAO:
                 row[4] = lname
                 row[5] = email
                 row[6] = phone
-                row[7] = address
+                row[7] = state
+                row[8] = city
+                row[9] = neighborhood
+                row[10] = street
+                row[11] = housenumber
+                row[12] = "" + zipcode
                 return row
 
     def getAllUsers(self):
@@ -161,15 +186,75 @@ class userDAO:
                 return row
         return empty_list
 
-    def getUserByAddress(self, address):
+    def getUserByState(self, state):
         # cursor = self.conn.cursor()
-        # query = "select * from user where address = %s;"
-        # cursor.execute(query, (address,))
+        # query = "select * from user where state = %s;"
+        # cursor.execute(query, (state,))
         # result = []
         # for row in cursor:
         #     result.append(row)
         # return result
         for row in elist:
-            if row[7] == address:
+            if row[7] == state:
                 return row
         return empty_list
+
+    def getUserByCity(self, city):
+        # cursor = self.conn.cursor()
+        # query = "select * from user where city = %s;"
+        # cursor.execute(query, (city,))
+        # result = []
+        # for row in cursor:
+        #     result.append(row)
+        # return result
+        for row in elist:
+            if row[8] == city:
+                return row
+        return empty_list
+
+    def getUserByNeighborhood(self, neighborhood):
+        # cursor = self.conn.cursor()
+        # query = "select * from user where neighborhood = %s;"
+        # cursor.execute(query, (neighborhood,))
+        # result = []
+        # for row in cursor:
+        #     result.append(row)
+        # return result
+        for row in elist:
+            if row[9] == neighborhood:
+                return row
+        return empty_list
+
+    def getUserByZipcode(self, zipcode):
+        # cursor = self.conn.cursor()
+        # query = "select * from user where zipcode = %s;"
+        # cursor.execute(query, (zipcode,))
+        # result = []
+        # for row in cursor:
+        #     result.append(row)
+        # return result
+        for row in elist:
+            if row[12] == zipcode:
+                return row
+        return empty_list
+
+    def getUserByStateAndCity(self, state, city):
+        # cursor = self.conn.cursor()
+        # query = "select * from user where state = %s and city = %s;"
+        # cursor.execute(query, (state, city,))
+        # result = []
+        # for row in cursor:
+        #     result.append(row)
+        # return result
+        for row in elist:
+            if row[7] == state and row[8] == city:
+                return row
+        return empty_list
+
+
+    # row[7] = state
+    # row[8] = city
+    # row[9] = neighborhood
+    # row[10] = street
+    # row[11] = housenumber
+    # row[12] = zipcode
