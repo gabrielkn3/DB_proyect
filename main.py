@@ -21,6 +21,7 @@ from handler.user import userHandler
 from handler.administrator import adminHandler
 from handler.requester_handler import RequesterHandler
 from handler.Payment import paymentHandler
+from handler.stocksHandler import stocksHandler
 
 # Import Cross-Origin Resource Sharing to enable
 # services on other ports on this machine or on other
@@ -924,6 +925,48 @@ def getCompanyByCompanyType(btype):
         return SupplierHandler().getCompanyByCompanyType(btype)
     else:
         return jsonify(Error="Method not allowed."), 405
+
+
+#************************************************************ Stocks ******************************************************************************
+@app.route('/ResourceApp/Stocks/', methods=['GET', 'POST'])
+def getAllStocks():
+    if request.method == 'POST':
+        return stocksHandler().insertStocks(request.form)
+    elif request.method == 'GET':
+        return stocksHandler().getAllStocks()
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/Stocks/<int:sid>/<int:rid>/', methods=['GET', 'DELETE'])
+def getStocksByStockId(sid, rid):
+    if request.method == 'GET':
+        return stocksHandler().getStocksByStockId(sid, rid)
+    elif request.method == 'DELETE':
+        return stocksHandler().deleteStocks(sid, rid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/Stocks/<int:sid>/', methods=['GET'])
+def getStocksBySid(sid):
+    if request.method == 'GET':
+        return stocksHandler().getStocksBySupplierId(sid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/Stocks/<int:rid>/', methods=['GET'])
+def getStocksByRid(rid):
+    if request.method == 'GET':
+        return stocksHandler().getStocksByResrourceId(rid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/Stocks/<int:quantity>/', methods=['GET'])
+def getStocksByQuantity(quantity):
+    if request.method == 'GET':
+        return stocksHandler().getStocksByQuantity(quantity)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
 
 
 
