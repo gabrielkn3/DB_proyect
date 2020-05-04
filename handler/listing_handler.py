@@ -140,7 +140,7 @@ class ListingHandler:
         if rid and rtype and postDate and sid and lprice and lquantity and rlocation:
             dao = ListingDAO()
             lid = dao.insert(rid, rtype, postDate, sid, lprice, lquantity, rlocation)
-            result = self.build_listing_attributes(lid, rid, rtype, postDate, sid, lprice, lquantity, rlocation)
+            result = self.build_listing_attributes(lid, rid, sid, rtype, postDate, lprice, lquantity, rlocation)
             return jsonify(Listing=result), 201
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400

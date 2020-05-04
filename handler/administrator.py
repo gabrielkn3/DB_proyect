@@ -10,10 +10,10 @@ class adminHandler:
 
     def insertAdmin(self, form):
         if form and len(form) == 1:
-            aid = form['aid']
+            ##aid = form['aid']
             uid = form['uid']
 
-            if aid and uid:
+            if uid:
                 dao = adminDAO()
                 aid = dao.insert(uid)
                 result = {}

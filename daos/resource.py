@@ -1,61 +1,38 @@
-#import psycopg2
+import psycopg2
+import config.dbconfig
 class ResourceDAO:
     def __init__(self):
 
-       connection_url = "dbname=%s user=%s password=%s" % ('dbname',
-                                                    'user',
-                                                          'passwd')
-       #self.conn = psycopg2._connect(connection_url)
+       connection_url = "dbname=%s user=%s host = 'localhost' password=%s" % (
+           config.dbconfig.database_config['dbname'], config.dbconfig.database_config['user'], config.dbconfig.database_config['passwd'])
+       self.conn = psycopg2._connect(connection_url)
 
     def getAllResources(self):
-        #cursor = self.conn.cursor()
-        #query = "select pid, pname, pmaterial, pcolor, pprice from parts;"
-        #cursor.execute(query)
-        row={};
+        cursor = self.conn.cursor()
+        query = "select * from resource;"
+        cursor.execute(query)
         result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'Get'
-        row[2] = 'All'
-        row[3] = 'Resources'
-        row[4] = 'Test'
-
-
-        result.append(row)
-        #for row in cursor:
-        #    result.append(row)
+        for row in cursor:
+            result.append(row)
         return result
 
     def getResourceById(self, rid):
-       # cursor = self.conn.cursor()
-        #query = "select pid, pname, pmaterial, pcolor, pprice from parts where pid = %s;"
-        #cursor.execute(query, (pid,))
-        #result = cursor.fetchone()
-       row = {};
-       row[0] = '21'
-       row[1] = 'get'
-       row[2] = 'resources'
-       row[3] = 'by'
-       row[4] = 'iD Values'
+        cursor = self.conn.cursor()
+        query = "select rid, rname, rtype, rlocation from resource where rid = %s;"
+        cursor.execute(query, (rid,))
+        result = cursor.fetchone()
 
 
-       return row
+        return result
 
     def getResourceByType(self, rtype):
-        #cursor = self.conn.cursor()
-        #query = "select * from parts where pcolor = %s;"
-        #cursor.execute(query, (color,))
-        #result = []
-        #for row in cursor:
-        #    result.append(row)
-        row = {};
+        cursor = self.conn.cursor()
+        query = "select * from resource where rtype = %s;"
+        cursor.execute(query, (rtype,))
         result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'Get'
-        row[2] = 'Resource'
-        row[3] = 'By'
-        row[4] = 'Type'
+        for row in cursor:
+            result.append(row)
 
-        result.append(row)
         return result
 
     def getResourceByName(self, rname):

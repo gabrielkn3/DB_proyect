@@ -104,7 +104,7 @@ class RequestHandler:
             return jsonify(Error="Malformed post request"), 400
         else:
             status = form['status']
-            rid = form['status']
+            rid = form['rid']
             reqID = form['reqID']
             requantity = form['requantity']
             date = form['date']
@@ -119,7 +119,7 @@ class RequestHandler:
 
     def insertRequestJson(self, json):
         status = json['status']
-        rid = json['status']
+        rid = json['rid']
         reqID = json['reqID']
         requantity = json['requantity']
         date = json['date']

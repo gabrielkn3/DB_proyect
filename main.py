@@ -46,6 +46,10 @@ def greeting():
 def getAllResources():
     return ResourceHandler().getAllResources()
 
+@app.route('/ResourceApp/resources/<string:rtype>', methods=['GET'])
+def getResourceByType(rtype):
+    return ResourceHandler().getResourcesByType(rtype)
+
 #Get,Update, or Delete Resource By ID
 @app.route('/ResourceApp/resources/<int:rid>', methods=['GET'])
 def getResourceById(rid):

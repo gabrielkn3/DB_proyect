@@ -7,10 +7,9 @@ class ResourceHandler:
     def build_resources_dict(self, row):
         result = {};
         result['rid'] = row[0]
-        result['rnamme'] = row[1]
+        result['rname'] = row[1]
         result['rtype'] = row[2]
         result['rlocation'] = row[3]
-        result['sid'] = row[4]
         return result
 
     def build_supplier_dict(self, row):
@@ -33,7 +32,6 @@ class ResourceHandler:
         result['rname'] = rname
         result['rtype'] = rtype
         result['rlocation'] = rlocation
-        result['sid'] = sid
         return result
 
     def getAllResources(self):
@@ -56,21 +54,29 @@ class ResourceHandler:
 
     def getResourcesByName(self, rname):
         dao = ResourceDAO()
-        row = dao.getResourceByName(rname)
-        if not row:
-            return jsonify(Error = "Resource Not Found"), 404
+        resource_list = []
+        resource_list = dao.getResourceByName(rname)
+        if not resource_list:
+            return jsonify(Error = "No Resources Found."), 404
         else:
-            resource = self.build_resources_dict(row)
-            return jsonify(Resource = resource)
+            result_list = []
+            for row in resource_list:
+                result = self.build_resources_dict(row)
+                result_list.append(result)
+        return jsonify(result_list)
 
     def getResourcesByType(self, rtype):    #Filter by resource category
         dao = ResourceDAO()
-        row = dao.getResourceByType(rtype)
-        if not row:
-            return jsonify(Error = "No Resources Found in the Specified Category"), 404
+        resource_list = []
+        resource_list = dao.getResourceByType(rtype)
+        if not resource_list:
+            return jsonify(Error="No Resources found in that category."), 404
         else:
-            resource = self.build_resources_dict(row)
-            return jsonify(Resource = resource)
+            result_list = []
+            for row in resource_list:
+                result = self.build_resources_dict(row)
+                result_list.append(result)
+        return jsonify(result_list)
 
     # def searchResources(self, args):
     #     rname = args.get("rname")
