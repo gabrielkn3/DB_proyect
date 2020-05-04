@@ -36,99 +36,83 @@ class ResourceDAO:
         return result
 
     def getResourceByName(self, rname):
-        #cursor = self.conn.cursor()
-        #query = "select * from parts where pmaterial = %s;"
-        #cursor.execute(query, (material,))
-        #result = []
-        #for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'Get'
-        row[2] = 'resource'
-        row[3] = 'by'
-        row[4] = 'Name'
+        cursor = self.conn.cursor()
+        query = "select * from resource where rname = %s;"
+        cursor.execute(query, (rname,))
+        result = []
+        for row in cursor:
+            result.append(row)
 
-        result.append(row)
         return result
 
     def getResourceByTypeAndName(self, rtype, rname):
-        #cursor = self.conn.cursor()
-        #query = "select * from parts where pmaterial = %s and pcolor = %s;"
-        #cursor.execute(query, (material,color))
-        #result = []
-        #for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'Get'
-        row[2] = 'Resource'
-        row[3] = 'By'
-        row[4] = 'TypeAndName'
+        cursor = self.conn.cursor()
+        query = "select * from resource where rtype = %s and rname = %s;"
+        cursor.execute(query, (rtype, rname))
+        result = []
+        for row in cursor:
+           result.append(row)
 
-        result.append(row)
         return result
 
     def getSuppliersByResourceId(self, rid):
-        row = {};
-        result = [];
-        row[0] = 'dummysid'
-        row[1] = 'Get'
-        row[2] = 'Suppliers By REsource ID'
+        cursor = self.conn.cursor()
+        query = "select sid,slocation,rname from supplier natural inner join stocks natural inner join resource where rid = %s;"
+        cursor.execute(query, (rid,))
+        result = []
+        for row in cursor:
+            result.append(row)
 
-        result.append(row)
         return result
 
     def getRequestersByResourceId(self, rid):
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'get'
-        row[2] = 'requesters by resource id'
+        cursor = self.conn.cursor()
+        query = "select reqid,reqlocation from requester natural inner join request where rid = %s;"
+        cursor.execute(query, (rid,))
+        result = []
+        for row in cursor:
+            result.append(row)
 
-        result.append(row)
         return result
 
     def getSuppliersByResourceType(self, rtype):
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'get'
-        row[2] = 'SupplierByResourceType'
+        cursor = self.conn.cursor()
+        query = "select sid, slocation from supplier natural inner join listing natural inner join resource where rtype = %s;"
+        cursor.execute(query, (rtype,))
+        result = []
+        for row in cursor:
+            result.append(row)
 
-        result.append(row)
         return result
 
     def getRequestersByResourceType(self, rtype):
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'get'
-        row[2] = 'RequesterByResourceType'
+        cursor = self.conn.cursor()
+        query = "select reqid,reqlocation from requester natural inner join request natural inner join resource where rtype = %s;"
+        cursor.execute(query, (rtype,))
+        result = []
+        for row in cursor:
+            result.append(row)
 
-        result.append(row)
         return result
 
     def getSuppliersByResourceName(self, rname):
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'Get'
-        row[2] = 'Suppliers By Resource Name'
+        cursor = self.conn.cursor()
+        query = "select sid, slocation from supplier natural inner join listing natural inner join resource where rname = %s;"
+        cursor.execute(query, (rname,))
+        result = []
+        for row in cursor:
+            result.append(row)
 
-        result.append(row)
         return result
 
     def getRequestersByResourceName(self, rname):
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'Get'
-        row[2] = 'RequesterByResourceName'
+        cursor = self.conn.cursor()
+        query = "select reqid,reqlocation from requester natural inner join request natural inner join resource where rname = %s;"
+        cursor.execute(query, (rname,))
+        result = []
+        for row in cursor:
+            result.append(row)
 
-        result.append(row)
         return result
 
     def insert(self, rname, rtype, rlocation, sid):
@@ -143,7 +127,6 @@ class ResourceDAO:
         row[1] = 'inserttype'
         row[2] = 'insertname'
         row[3] = 'insertlocation'
-        row[4] = 'Insertdescription'
 
         result.append(row)
         return sid
@@ -159,7 +142,6 @@ class ResourceDAO:
         row[1] = 'deletetype'
         row[2] = 'deletename'
         row[3] = 'deletelocation'
-        row[4] = 'deleteid'
 
         result.append(row)
         return rid
@@ -175,8 +157,7 @@ class ResourceDAO:
         row[0] = 'updaterid'
         row[1] = 'updatename'
         row[2] = 'updatetype'
-        row[4] = 'updatelocation'
-        row[5] = 'updatesid'
+        row[3] = 'updatelocation'
 
         result.append(row)
         return rid
@@ -194,7 +175,6 @@ class ResourceDAO:
         row[1] = 'a number 9 large'
         row[2] = 'a number 6 with extra dip'
         row[3] = 'a number 7'
-        row[4] = 'two number 45s, one with cheese and a large soda'
 
         result.append(row)
         return row

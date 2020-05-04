@@ -1,79 +1,46 @@
-#import psycopg2
+import psycopg2
+import config.dbconfig
 class MedicalDeviceDAO:
     def __init__(self):
-
-       connection_url = "dbname=%s user=%s password=%s" % ('dbname',
-                                                    'user',
-                                                          'passwd')
-       #self.conn = psycopg2._connect(connection_url)
+        connection_url = "dbname=%s user=%s host = 'localhost' password=%s" % (
+            config.dbconfig.database_config['dbname'], config.dbconfig.database_config['user'],
+            config.dbconfig.database_config['passwd'])
+        self.conn = psycopg2._connect(connection_url)
 
     def getAllMedicalDevices(self):
-        #cursor = self.conn.cursor()
-        #query = "select pid, pname, pmaterial, pcolor, pprice from parts;"
-        #cursor.execute(query)
-        row={};
-        result = [];
-        row[0] = 'dummymdid'
-        row[1] = 'Get'
-        row[2] = 'All'
-        row[3] = 'MedicalDevices'
-        row[4] = 'Test'
-
-
-        result.append(row)
-        #for row in cursor:
-        #    result.append(row)
+        cursor = self.conn.cursor()
+        query = "select * from MedicalDevices;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
     def getMedicalDevicesById(self, mdid):
-       # cursor = self.conn.cursor()
-        #query = "select pid, pname, pmaterial, pcolor, pprice from parts where pid = %s;"
-        #cursor.execute(query, (pid,))
-        #result = cursor.fetchone()
-       row = {};
-       row[0] = '21'
-       row[1] = 'get'
-       row[2] = 'MedicalDevices'
-       row[3] = 'by'
-       row[4] = 'iD Values'
+        cursor = self.conn.cursor()
+        query = "select * from Medical Devices where mdid = %s;"
+        cursor.execute(query, (mdid,))
+        result = cursor.fetchone()
 
 
-       return row
+        return result
 
     def getMedicalDevicesByName(self, mdname):
-        #cursor = self.conn.cursor()
-        #query = "select * from parts where pmaterial = %s;"
-        #cursor.execute(query, (material,))
-        #result = []
-        #for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'Get'
-        row[2] = 'MedicalDevices'
-        row[3] = 'by'
-        row[4] = 'Name'
-
-        result.append(row)
+        cursor = self.conn.cursor()
+        query = "select * from MedicalDevices where mdname = %s;"
+        cursor.execute(query, (mdname,))
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
     def getMedicalDevicesByBrand(self, mdbrand):
-        # cursor = self.conn.cursor()
-        # query = "select * from parts where pcolor = %s;"
-        # cursor.execute(query, (color,))
-        # result = []
-        # for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'Get'
-        row[2] = 'MedicalDevices'
-        row[3] = 'By'
-        row[4] = 'Type'
-
-        result.append(row)
+        cursor = self.conn.cursor()
+        query = "select * from MedicalDevices where mdbrand = %s;"
+        cursor.execute(query, (mdbrand,))
+        result = []
+        for row in cursor:
+            result.append(row)
         return result
 
     def insert(self, rid, mdbrand, mdname, mdescription):
@@ -126,7 +93,7 @@ class MedicalDeviceDAO:
         return mdbrand
 
     def getResourceID(self,mdid):
-        rid = mdid+2;  #dummy code
+        rid = mdid;  #dummy code
         #select rid from MedicalDevices where mdid = %s;
         return rid
 
