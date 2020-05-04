@@ -9,10 +9,10 @@ class MedicalDeviceHandler:
     def build_MedicalDevices_dict(self, row):
         result = {};
         result['mdid'] = row[0]
-        result['rid'] = row[1]
-        result['mdbrand'] = row[2]
-        result['mdname'] = row[3]
-        result['mddescription'] = row[4]
+        result['mdbrand'] = row[1]
+        result['mdname'] = row[2]
+        result['mddescription'] = row[3]
+        result['rid'] = row[4]
         return result
 
     def build_supplier_dict(self, row):
@@ -41,10 +41,10 @@ class MedicalDeviceHandler:
     def build_MedicalDevices_attributes(self, mdid, rid, mdbrand, mdname, mddescription):
         result = {};
         result['mdid'] = mdid
-        result['rid'] = rid
         result['mdbrand'] = mdbrand
         result['mdname'] = mdname
         result['mddescription'] = mddescription
+        result['rid'] = rid
         return result
 
     def getAllMedicalDevices(self):
