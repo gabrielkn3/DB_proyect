@@ -11,13 +11,18 @@ class userHandler:
         result['fname'] = row[3]
         result['lname'] = row[4]
         result['email'] = row[5]
-        result['phone'] = row[6]
-        result['state'] = row[7]
-        result['city'] = row[8]
-        result['neighborhood'] = row[9]
-        result['street'] = row[10]
-        result['housenumber'] = row[11]
-        result['zipcode'] = row[12]
+        result['state'] = row[6]
+        result['city'] = row[7]
+        result['neighborhood'] = row[8]
+        result['street'] = row[9]
+        result['housenumber'] = row[10]
+        result['zipcode'] = row[11]
+        return result
+
+    def build_phones_dict(self, row):
+        result = {}
+        result['uid'] = row[0]
+        result['phone'] = row[1]
         return result
 
     def insertUser(self, form):
@@ -213,13 +218,14 @@ class userHandler:
             result = self.build_user_dict(user)
             return jsonify(User=result)
 
-    def getUserByPhoneNumber(self, phone):
+    # def getUserByPhoneNumber(self, phone):
+    def getUserPhoneNumbers(self, uid):
         dao = userDAO()
-        user = dao.getUserById(phone)
-        if not user:
+        phones = dao.getUserPhoneNumber(uid)
+        if not phones:
             return jsonify(Error="User not found"), 404
         else:
-            result = self.build_user_dict(user)
+            result = self.build_phones_dict(phones)
             return jsonify(User=result)
 
     def getUserByState(self, state):

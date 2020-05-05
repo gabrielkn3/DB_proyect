@@ -811,10 +811,10 @@ def getUserByEmail(email):
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/user/phone/<int:phone>', methods=['GET'])
-def getUserByPhone(phone):
+@app.route('/ResourceApp/user/phone/<int:uid>', methods=['GET'])
+def getUserByPhone(uid):
     if request.method == 'GET':
-        return userHandler().getUserByPhoneNumber(phone)
+        return userHandler().getUserPhoneNumbers(uid)
     else:
         return jsonify(Error="Method not allowed."), 405
 
