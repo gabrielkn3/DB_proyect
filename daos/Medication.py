@@ -1,15 +1,15 @@
-#import psycopg2
+import psycopg2
+import config.dbconfig
 class MedicationDAO:
     def __init__(self):
-
-       connection_url = "dbname=%s user=%s password=%s" % ('dbname',
-                                                    'user',
-                                                          'passwd')
-       #self.conn = psycopg2._connect(connection_url)
+        connection_url = "dbname=%s user=%s host = 'localhost' password=%s" % (
+            config.dbconfig.database_config['dbname'], config.dbconfig.database_config['user'],
+            config.dbconfig.database_config['passwd'])
+        self.conn = psycopg2._connect(connection_url)
 
     def getAllMedication(self):
         cursor = self.conn.cursor()
-        query = "select mid,rid,rname,mdosage,mdescription,rlocation from medication natural inner join resource;"
+        query = "select mid,rid,rname,mdosage,mdescription,rlocation from medications natural inner join resource;"
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -18,7 +18,7 @@ class MedicationDAO:
 
     def getMedicationById(self, mid):
         cursor = self.conn.cursor()
-        query = "select mid,rid,rname,mdosage, mdescription,rlocation from medication natural inner join resource where mid = %s;"
+        query = "select mid,rid,rname,mdosage, mdescription,rlocation from medications natural inner join resource where mid = %s;"
         cursor.execute(query, (mid,))
         result = cursor.fetchone()
         return result
@@ -36,7 +36,7 @@ class MedicationDAO:
 
     def getMedicationByDosage(self, mdosage):
         cursor = self.conn.cursor()
-        query = "select mid,rid,rname,mdosage, mdescription,rlocation from medication natural inner join resource where mdosage = %s;"
+        query = "select mid,rid,rname,mdosage,mdescription,rlocation from medications natural inner join resource where mdosage = %s;"
         cursor.execute(query, (mdosage,))
         result = []
         for row in cursor:
@@ -46,7 +46,7 @@ class MedicationDAO:
 
     def getMedicationByName(self, rname):
         cursor = self.conn.cursor()
-        query = "select * from mid,rid,rname,mdosage, mdescription,rlocation from medication natural inner join resource where rname = %s;"
+        query = "select mid,rid,rname,mdosage, mdescription,rlocation from medications natural inner join resource where rname = %s;"
         cursor.execute(query, (rname,))
         result = []
         for row in cursor:
@@ -105,7 +105,7 @@ class MedicationDAO:
 
     def getResourceID(self,mid):
         cursor = self.conn.cursor()
-        query = "select rid from medication natural inner join resource where mid = %s;"
+        query = "select rid from medications natural inner join resource where mid = %s;"
         cursor.execute(query, (mid,))
         result = cursor.fetchone()
 
