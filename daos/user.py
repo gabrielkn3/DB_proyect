@@ -180,11 +180,15 @@ class userDAO:
         #         return row
         # return empty_list
 
-    def getUserByPhoneNumber(self, phone):
+    # def getUserByPhoneNumber(self, phone):
+    def getUserPhoneNumber(self, uid):
         cursor = self.conn.cursor()
-        query = "select * from useraccounts where phone = %s;"
-        cursor.execute(query, (phone,))
-        result = cursor.fetchone()
+        query = "select * from phonenumber where uid = %s;"
+        cursor.execute(query, (uid,))
+        cursor.fetchone()
+        result = []
+        for row in cursor:
+            result.append(row)
         return result
         # for row in elist:
         #     if row[6] == phone:
