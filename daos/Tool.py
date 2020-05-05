@@ -33,14 +33,13 @@ class ToolDAO:
         return result
 
     def getToolByBrand(self, tbrand):
-        def getToolByName(self, tbrand):
-            cursor = self.conn.cursor()
-            query = "select tid,rid,rname, tbrand, tdescription, rlocation from resource natural inner join tools where tbrand = %s;"
-            cursor.execute(query, (tbrand,))
-            result = []
-            for row in cursor:
-                result.append(row)
-            return result
+        cursor = self.conn.cursor()
+        query = "select tid,rid,rname, tbrand, tdescription, rlocation from resource natural inner join tools where tbrand = %s;"
+        cursor.execute(query, (tbrand,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
 
     def insert(self, rid, tbrand, tname, tdescription):
