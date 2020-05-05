@@ -18,10 +18,17 @@ class MedicalDeviceDAO:
 
     def getMedicalDevicesById(self, mdid):
         cursor = self.conn.cursor()
-        query = "select mdid, rid, rname, mdbrand, mddescription, rlocation from MedicalDevices natural inner join resource where rid = %s;"
+        query = "select mdid, rid, rname, mdbrand, mddescription, rlocation from MedicalDevices natural inner join resource where mdid = %s;"
         cursor.execute(query, (mdid,))
         result = cursor.fetchone()
 
+        return result
+
+    def getMedicalDevicesByRId(self, rid):
+        cursor = self.conn.cursor()
+        query = "select mdid, rid, rname, mdbrand, mddescription, rlocation from MedicalDevices natural inner join resource where rid = %s;"
+        cursor.execute(query, (rid,))
+        result = cursor.fetchone()
 
         return result
 
@@ -62,7 +69,7 @@ class MedicalDeviceDAO:
 
     def getResourceID(self,mdid):
         cursor = self.conn.cursor()
-        query = "select rid from MedicalDevices natural inner join resource where mdid = %s returning rid;"
+        query = "select rid from MedicalDevices natural inner join resource where mdid = %s;"
         cursor.execute(query, (mdid,))
         result = cursor.fetchone()
         return result
