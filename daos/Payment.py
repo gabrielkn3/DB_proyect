@@ -1,4 +1,5 @@
 import psycopg2
+import config.dbconfig
 class paymentDAO:
     global example_list, empty_list, id1, id2, id3
     example_list = []
@@ -6,9 +7,12 @@ class paymentDAO:
     id1 = 0
     id2 = 0
     id3 = 0
-    # def __init__(self):
-    #     connection_url = "dbname=%s user=%s password=%s" % ('dbname', 'user', 'passwd')
-    #     self.conn = psycopg2.connect(connection_url)
+    def __init__(self):
+        connection_url = "dbname=%s user=%s host = 'localhost' password=%s" % (
+            config.dbconfig.database_config['dbname'],
+            config.dbconfig.database_config['user'],
+            config.dbconfig.database_config['passwd'])
+        self.conn = psycopg2.connect(connection_url)
 
     def first_time(self):
         row = {}
@@ -64,80 +68,80 @@ class paymentDAO:
                 return row
 
     def getAllPayments(self):
-        # cursor = self.conn.cursor()
-        # query = "select * from payment;"
-        # cursor.execute(query)
-        # result = []
-        # for row in cursor:
-        #     result.append(row)
-        # return result
-        if len(example_list) == 0:
-            self.first_time()
-        return example_list
+        cursor = self.conn.cursor()
+        query = "select * from payment;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+        # if len(example_list) == 0:
+        #     self.first_time()
+        # return example_list
 
     def getPaymentByPaymentId(self, pid):
-        # cursor = self.conn.cursor()
-        # query = "select * from payment where pid = %s;"
-        # cursor.execute(query, (pid,))
-        # result = cursor.fetchone()
-        # return result
-        for row in example_list:
-            if row[0] == pid:
-                return row
-        return empty_list
+        cursor = self.conn.cursor()
+        query = "select * from payment where pid = %s;"
+        cursor.execute(query, (pid,))
+        result = cursor.fetchone()
+        return result
+        # for row in example_list:
+        #     if row[0] == pid:
+        #         return row
+        # return empty_list
 
     def getPaymentsByRequestorId(self, reqid):
-        # cursor = self.conn.cursor()
-        # query = "select * from payment where reqid = %s;"
-        # cursor.execute(query, (reqid,))
-        # result = []
-        # for row in cursor:
-        #     result.append(row)
-        # return result
-        row_list = []
-        for row in example_list:
-            if row[1] == reqid:
-                row_list.append(row)
-        return row_list
+        cursor = self.conn.cursor()
+        query = "select * from payment where reqid = %s;"
+        cursor.execute(query, (reqid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+        # row_list = []
+        # for row in example_list:
+        #     if row[1] == reqid:
+        #         row_list.append(row)
+        # return row_list
 
     def getPaymentsBySupplierId(self, sid):
-        # cursor = self.conn.cursor()
-        # query = "select * from payment where sid = %s;"
-        # cursor.execute(query, (sid,))
-        # result = []
-        # for row in cursor:
-        #     result.append(row)
-        # return result
-        row_list = []
-        for row in example_list:
-            if row[2] == sid:
-                row_list.append(row)
-        return row_list
+        cursor = self.conn.cursor()
+        query = "select * from payment where sid = %s;"
+        cursor.execute(query, (sid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+        # row_list = []
+        # for row in example_list:
+        #     if row[2] == sid:
+        #         row_list.append(row)
+        # return row_list
 
     def getPaymentsByPrice(self, price):
-        # cursor = self.conn.cursor()
-        # query = "select * from payment where price = %s;"
-        # cursor.execute(query, (price,))
-        # result = []
-        # for row in cursor:
-        #     result.append(row)
-        # return result
-        row_list = []
-        for row in example_list:
-            if row[3] == price:
-                row_list.append(row)
-        return row_list
+        cursor = self.conn.cursor()
+        query = "select * from payment where price = %s;"
+        cursor.execute(query, (price,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+        # row_list = []
+        # for row in example_list:
+        #     if row[3] == price:
+        #         row_list.append(row)
+        # return row_list
 
     def getPaymentsByType(self, paymentType):
-        # cursor = self.conn.cursor()
-        # query = "select * from payment where paymentType = %s;"
-        # cursor.execute(query, (paymentType,))
-        # result = []
-        # for row in cursor:
-        #     result.append(row)
-        # return result
-        row_list = []
-        for row in example_list:
-            if row[4] == paymentType:
-                row_list.append(row)
-        return row_list
+        cursor = self.conn.cursor()
+        query = "select * from payment where paymentType = %s;"
+        cursor.execute(query, (paymentType,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+        # row_list = []
+        # for row in example_list:
+        #     if row[4] == paymentType:
+        #         row_list.append(row)
+        # return row_list

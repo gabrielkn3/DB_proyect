@@ -52,7 +52,7 @@ class RequestDAO:
     # pending / paid
     def getRequestByStatus(self, status):
         cursor = self.conn.cursor()
-        query = "select * from request where status = %s;"
+        query = "select * from request where requeststatus = %s;"
         cursor.execute(query, (status,))
         result = []
         for row in cursor:
@@ -61,7 +61,7 @@ class RequestDAO:
 
     def getRequestsByQuantity(self, quantity):
         cursor = self.conn.cursor()
-        query = "select * from request where quantity = %s;"
+        query = "select * from request where requestquantity = %s;"
         cursor.execute(query, (quantity,))
         result = []
         for row in cursor:
@@ -72,7 +72,7 @@ class RequestDAO:
     def getRequestByRIDAndStatus(self, status, rid):
 
         cursor = self.conn.cursor()
-        query = "select * from request where status = %s and rid = %s;"
+        query = "select * from request where requeststatus = %s and rid = %s;"
         cursor.execute(query, (status,rid,))
         result = []
         for row in cursor:
@@ -83,8 +83,18 @@ class RequestDAO:
     def getRequestByRIDAndQuantity(self, status, quantity):
 
         cursor = self.conn.cursor()
-        query = "select * from request where status = %s and quantity = %s;"
+        query = "select * from request where requeststatus = %s and requestquantity = %s;"
         cursor.execute(query, (status,quantity,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getRequestByDate(self, date):
+
+        cursor = self.conn.cursor()
+        query = "select * from request where requestdate = %s"
+        cursor.execute(query, (date,))
         result = []
         for row in cursor:
             result.append(row)
