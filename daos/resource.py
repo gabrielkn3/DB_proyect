@@ -18,7 +18,7 @@ class ResourceDAO:
 
     def getResourceById(self, rid):
         cursor = self.conn.cursor()
-        query = "select rid, rname, rtype, rlocation from resource where rid = %s;"
+        query = "select * from resource where rid = %s;"
         cursor.execute(query, (rid,))
         result = cursor.fetchone()
 

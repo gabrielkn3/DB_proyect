@@ -9,7 +9,7 @@ class MedicalDeviceDAO:
 
     def getAllMedicalDevices(self):
         cursor = self.conn.cursor()
-        query = "select * from MedicalDevices;"
+        query = "select mdid, rid, rname, mdbrand, mddescription, rlocation from MedicalDevices natural inner join resource;"
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -18,16 +18,23 @@ class MedicalDeviceDAO:
 
     def getMedicalDevicesById(self, mdid):
         cursor = self.conn.cursor()
-        query = "select * from Medical Devices where mdid = %s;"
+        query = "select mdid, rid, rname, mdbrand, mddescription, rlocation from MedicalDevices natural inner join resource where mdid = %s;"
         cursor.execute(query, (mdid,))
         result = cursor.fetchone()
 
+        return result
+
+    def getMedicalDevicesByRId(self, rid):
+        cursor = self.conn.cursor()
+        query = "select mdid, rid, rname, mdbrand, mddescription, rlocation from MedicalDevices natural inner join resource where rid = %s;"
+        cursor.execute(query, (rid,))
+        result = cursor.fetchone()
 
         return result
 
     def getMedicalDevicesByName(self, mdname):
         cursor = self.conn.cursor()
-        query = "select * from MedicalDevices where mdname = %s;"
+        query = "select mdid, rid, rname, mdbrand, mddescription, rlocation from MedicalDevices natural inner join resource where rname = %s;"
         cursor.execute(query, (mdname,))
         result = []
         for row in cursor:
@@ -36,7 +43,7 @@ class MedicalDeviceDAO:
 
     def getMedicalDevicesByBrand(self, mdbrand):
         cursor = self.conn.cursor()
-        query = "select * from MedicalDevices where mdbrand = %s;"
+        query = "select mdid, rid, rname, mdbrand, mddescription, rlocation from MedicalDevices natural inner join resource where mdbrand = %s;"
         cursor.execute(query, (mdbrand,))
         result = []
         for row in cursor:
@@ -59,6 +66,13 @@ class MedicalDeviceDAO:
 
         result.append(row)
         return rid
+
+    def getResourceID(self,mdid):
+        cursor = self.conn.cursor()
+        query = "select rid from MedicalDevices natural inner join resource where mdid = %s;"
+        cursor.execute(query, (mdid,))
+        result = cursor.fetchone()
+        return result
 
     def delete(self, mdid):
         #cursor = self.conn.cursor()
@@ -92,10 +106,6 @@ class MedicalDeviceDAO:
         result.append(row)
         return mdbrand
 
-    def getResourceID(self,mdid):
-        rid = mdid;  #dummy code
-        #select rid from MedicalDevices where mdid = %s;
-        return rid
 
     def getCountByMedicalDevicesId(self):
         #cursor = self.conn.cursor()

@@ -1,79 +1,57 @@
-#import psycopg2
+import psycopg2
+import config.dbconfig
 class MedicationDAO:
     def __init__(self):
-
-       connection_url = "dbname=%s user=%s password=%s" % ('dbname',
-                                                    'user',
-                                                          'passwd')
-       #self.conn = psycopg2._connect(connection_url)
+        connection_url = "dbname=%s user=%s host = 'localhost' password=%s" % (
+            config.dbconfig.database_config['dbname'], config.dbconfig.database_config['user'],
+            config.dbconfig.database_config['passwd'])
+        self.conn = psycopg2._connect(connection_url)
 
     def getAllMedication(self):
-        #cursor = self.conn.cursor()
-        #query = "select pid, pname, pmaterial, pcolor, pprice from parts;"
-        #cursor.execute(query)
-        row={};
-        result = [];
-        row[0] = 'dummymid'
-        row[1] = 'Get'
-        row[2] = 'All'
-        row[3] = 'Medication'
-        row[4] = 'Test'
-
-
-        result.append(row)
-        #for row in cursor:
-        #    result.append(row)
+        cursor = self.conn.cursor()
+        query = "select mid,rid,rname,mdosage,mdescription,rlocation from medications natural inner join resource;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
     def getMedicationById(self, mid):
-       # cursor = self.conn.cursor()
-        #query = "select pid, pname, pmaterial, pcolor, pprice from parts where pid = %s;"
-        #cursor.execute(query, (pid,))
-        #result = cursor.fetchone()
-       row = {};
-       row[0] = '21'
-       row[1] = 'get'
-       row[2] = 'Medication'
-       row[3] = 'by'
-       row[4] = 'iD Values'
-
-
-       return row
-
-    def getMedicationByDosage(self, mdosage):
-        #cursor = self.conn.cursor()
-        #query = "select * from parts where pmaterial = %s;"
-        #cursor.execute(query, (material,))
-        #result = []
-        #for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'Get'
-        row[2] = 'Medication'
-        row[3] = 'by'
-        row[4] = 'Name'
-
-        result.append(row)
+        cursor = self.conn.cursor()
+        query = "select mid,rid,rname,mdosage, mdescription,rlocation from medications natural inner join resource where mid = %s;"
+        cursor.execute(query, (mid,))
+        result = cursor.fetchone()
         return result
 
-    def getMedicationByName(self, mname):
-        # cursor = self.conn.cursor()
-        # query = "select * from parts where pcolor = %s;"
-        # cursor.execute(query, (color,))
-        # result = []
-        # for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'Get'
-        row[2] = 'Medication'
-        row[3] = 'By'
-        row[4] = 'Type'
+    def getMedicationByRId(self, rid):
+        cursor = self.conn.cursor()
+        query = "select mid,rid,rname,mdosage, mdescription,rlocation from medication natural inner join resource where rid = %s;"
+        cursor.execute(query, (rid,))
+        result = []
+        for row in cursor:
+            result.append(row)
 
-        result.append(row)
+        return result
+
+
+    def getMedicationByDosage(self, mdosage):
+        cursor = self.conn.cursor()
+        query = "select mid,rid,rname,mdosage,mdescription,rlocation from medications natural inner join resource where mdosage = %s;"
+        cursor.execute(query, (mdosage,))
+        result = []
+        for row in cursor:
+           result.append(row)
+
+        return result
+
+    def getMedicationByName(self, rname):
+        cursor = self.conn.cursor()
+        query = "select mid,rid,rname,mdosage, mdescription,rlocation from medications natural inner join resource where rname = %s;"
+        cursor.execute(query, (rname,))
+        result = []
+        for row in cursor:
+           result.append(row)
+
         return result
 
     def insert(self, rid, mname, mdosage, mdescription):
@@ -126,9 +104,12 @@ class MedicationDAO:
         return mname
 
     def getResourceID(self,mid):
-        rid = mid+2;  #dummy code
-        #select rid from Medication where mid = %s;
-        return rid
+        cursor = self.conn.cursor()
+        query = "select rid from medications natural inner join resource where mid = %s;"
+        cursor.execute(query, (mid,))
+        result = cursor.fetchone()
+
+        return result
 
     def getCountByMedicationId(self):
         #cursor = self.conn.cursor()

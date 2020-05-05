@@ -9,34 +9,13 @@ class MedicalDeviceHandler:
     def build_MedicalDevices_dict(self, row):
         result = {};
         result['mdid'] = row[0]
-        result['mdbrand'] = row[1]
-        result['mdname'] = row[2]
-        result['mddescription'] = row[3]
-        result['rid'] = row[4]
+        result['rid'] = row[1]
+        result['rname'] = row[2]
+        result['mdbrand'] = row[3]
+        result['mddescription'] = row[4]
+        result['rlocation'] = row[5]
         return result
 
-    def build_supplier_dict(self, row):
-        result = {}
-        result['sid'] = row[0]
-        result['stype'] = row[1]
-        result['sname'] = row[2]
-        result['semail'] = row[3]
-        result['sphone'] = row[4]
-        result['saddress'] = row[5]
-        result['sfinance'] = row[6]
-        return result
-
-    def build_requester_dict(self, row):
-        result = {}
-        result['uid'] = row[0]
-        result['ReqID'] = row[1]
-        result['rfirstname'] = row[2]
-        result['rlastname'] = row[3]
-        result['remail'] = row[4]
-        result['rphone'] = row[5]
-        result['raddress'] = row[6]
-        result['rlocation'] = row[6]
-        return result
 
     def build_MedicalDevices_attributes(self, mdid, rid, mdbrand, mdname, mddescription):
         result = {};
@@ -49,7 +28,9 @@ class MedicalDeviceHandler:
 
     def getAllMedicalDevices(self):
         dao = MedicalDeviceDAO()
+        rdao = ResourceDAO()
         MedicalDevices_list = dao.getAllMedicalDevices()
+        Resources_List = rdao.getResourceByType("medical devices")
         result_list = []
         for row in MedicalDevices_list:
             result = self.build_MedicalDevices_dict(row)
