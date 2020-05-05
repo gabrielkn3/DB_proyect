@@ -20,20 +20,20 @@ class stocksDAO:
         row = {}
         row[0] = id1 #sid
         row[1] = id2 #rid
-        row[2] = number #quantity
+        row[2] = number #squantity
         example_list.append(row)
 
-    def insert(self, sid, rid, quantity):
+    def insert(self, sid, rid, squantity):
         # cursor = self.conn.cursor()
-        # query = "insert into stocks(sid, rid, quantity) values(%s, %s, %s) returning primary key;"
-        # cursor.execute(query, (sid, rid, quantity,))
+        # query = "insert into stocks(sid, rid, squantity) values(%s, %s, %s) returning primary key;"
+        # cursor.execute(query, (sid, rid, squantity,))
         # pkey = cursor.fetchone()
         # self.conn.commit()
         # return pkey
         row = {}
         row[0] = int(sid)
         row[1] = int(rid)
-        row[2] = int(quantity)
+        row[2] = int(squantity)
         example_list.append(row)
         return row
 
@@ -48,15 +48,15 @@ class stocksDAO:
                 example_list.remove(row)
                 return {sid, rid}
 
-    def update(self, sid, rid, quantity):
+    def update(self, sid, rid, squantity):
         # cursor = self.conn.cursor()
-        # query = "update payment set quantity = %s where sid = %s and rid = %s;"
-        # cursor.execute(query, (quantity, sid, rid))
+        # query = "update payment set squantity = %s where sid = %s and rid = %s;"
+        # cursor.execute(query, (squantity, sid, rid))
         # self.conn.commit()
         # return {sid, rid}
         for row in example_list:
             if row[0] == sid and row[1] == rid:
-                row[2] = quantity
+                row[2] = squantity
                 return {sid, rid}
 
     def getAllStocks(self):
@@ -99,17 +99,17 @@ class stocksDAO:
         #         result.append(row)
         # return result
 
-    def getStocksByQuantity(self, quantity):
+    def getStocksBysQuantity(self, squantity):
         cursor = self.conn.cursor()
-        query = "select * from stocks where quantity = %s;"
-        cursor.execute(query, (quantity,))
+        query = "select * from stocks where squantity = %s;"
+        cursor.execute(query, (squantity,))
         result = []
         for row in cursor:
             result.append(row)
         return result
         # result = []
         # for row in example_list:
-        #     if row[2] == quantity:
+        #     if row[2] == squantity:
         #         result.append(row)
         # return result
 
@@ -127,17 +127,17 @@ class stocksDAO:
         #         result.append(row)
         # return result
 
-    def getStocksByResourceIdAndQuantity(self, rid, quantity):
+    def getStocksByResourceIdAndQuantity(self, rid, squantity):
         cursor = self.conn.cursor()
-        query = "selct * from stocks where rid = %s and quantity = %s;"
-        cursor.exectue(query, (rid, quantity,))
+        query = "selct * from stocks where rid = %s and squantity = %s;"
+        cursor.exectue(query, (rid, squantity,))
         result = []
         for row in cursor:
             result.append(row)
         return result
         # result = []
         # for row in example_list:
-        #     if row[1] == rid and row[2] == quantity:
+        #     if row[1] == rid and row[2] == squantity:
         #         result.append(row)
         # return result
 
