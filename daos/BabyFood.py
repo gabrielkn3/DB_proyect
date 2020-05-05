@@ -1,11 +1,11 @@
-#import psycopg2
+import psycopg2
+import config.dbconfig
 class BabyFoodDAO:
     def __init__(self):
-
-       connection_url = "dbname=%s user=%s password=%s" % ('dbname',
-                                                    'user',
-                                                          'passwd')
-       #self.conn = psycopg2._connect(connection_url)
+        connection_url = "dbname=%s user=%s host = 'localhost' password=%s" % (
+            config.dbconfig.database_config['dbname'], config.dbconfig.database_config['user'],
+            config.dbconfig.database_config['passwd'])
+        self.conn = psycopg2._connect(connection_url)
 
     def getAllBabyFood(self):
         cursor = self.conn.cursor()
@@ -28,7 +28,10 @@ class BabyFoodDAO:
         cursor = self.conn.cursor()
         query = "select bfid, rid, rname, bfbrand, bfflavor, bfdescription, rlocation from BabyFood natural inner join resource where bfflavor = %s;"
         cursor.execute(query, (bfflavor,))
-        result = cursor.fetchone()
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
         return result
 
@@ -36,8 +39,9 @@ class BabyFoodDAO:
         cursor = self.conn.cursor()
         query = "select bfid, rid, rname, bfbrand, bfflavor, bfdescription, rlocation from BabyFood natural inner join resource where bfbrand = %s;"
         cursor.execute(query, (bfbrand,))
-        result = cursor.fetchone()
-
+        result = []
+        for row in cursor:
+            result.append(row)
         return result
 
     def insert(self, rid, bfbrand, bfflavor, bfdescription):
