@@ -1,102 +1,53 @@
-#import psycopg2
+import config.dbconfig
+import psycopg2
 class ClothingDAO:
     def __init__(self):
-
-       connection_url = "dbname=%s user=%s password=%s" % ('dbname',
-                                                    'user',
-                                                          'passwd')
-       #self.conn = psycopg2._connect(connection_url)
+        connection_url = "dbname=%s user=%s host = 'localhost' password=%s" % (
+            config.dbconfig.database_config['dbname'], config.dbconfig.database_config['user'],
+            config.dbconfig.database_config['passwd'])
+        self.conn = psycopg2._connect(connection_url)
 
     def getAllClothing(self):
-        #cursor = self.conn.cursor()
-        #query = "select pid, pname, pmaterial, pcolor, pprice from parts;"
-        #cursor.execute(query)x
-        row={};
-        result = [];
-        row[0] = 'ALL'
-        row[1] = 'CLOTHING'
-        row[2] = 'GET'
-        row[3] = 'TEST'
-        row[4] = 'SUCCESSFUL'
-        row[5] = 'DUMMYVAL'
-
-        result.append(row)
-        #for row in cursor:
-        #    result.append(row)
+        cursor = self.conn.cursor()
+        query = "select clid, rid, rname, clbrand, clsize, cldescription, rlocation from resource natural inner join clothing"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
-    def getClothingById(self, clid):
-       # cursor = self.conn.cursor()
-        #query = "select pid, pname, pmaterial, pcolor, pprice from parts where pid = %s;"
-        #cursor.execute(query, (pid,))
-        #result = cursor.fetchone()
-       row = {};
-       row[0] = 'clid 9810'
-       row[1] = 'get'
-       row[2] = 'Clothing'
-       row[3] = 'by'
-       row[4] = 'iD Values'
-       row[5] = 'DUMMYVAL'
-
-
-       return row
+    def getClothingById(self, rid):
+        cursor = self.conn.cursor()
+        query = "select clid, rid, rname, clbrand, clsize, cldescription, rlocation from resource natural inner join clothing where rid = %s"
+        cursor.execute(query, (rid,))
+        result = cursor.fetchone()
+        return result
 
     def getClothingByBrand(self, clbrand):
-        #cursor = self.conn.cursor()
-        #query = "select * from parts where pmaterial = %s;"
-        #cursor.execute(query, (material,))
-        #result = []
-        #for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = 'SUPREME'
-        row[1] = 'Get'
-        row[2] = 'Clothing'
-        row[3] = 'by'
-        row[4] = 'Brand'
-        row[5] = 'DUMMYVAL'
-
-        result.append(row)
+        cursor = self.conn.cursor()
+        query = "select clid, rid, rname, clbrand, clsize, cldescription, rlocation from resource natural inner join clothing where clbrand = %s"
+        cursor.execute(query,(clbrand,))
+        result = []
+        for row in cursor:
+            result.append(row)
         return result
 
-    def getClothingByName(self, clname):
-        # cursor = self.conn.cursor()
-        # query = "select * from parts where pcolor = %s;"
-        # cursor.execute(query, (color,))
-        # result = []
-        # for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = 'SUPREME T-SHIRT'
-        row[1] = 'Get'
-        row[2] = 'Clothing'
-        row[3] = 'By'
-        row[4] = 'Name'
-        row[5] = 'DUMMYVAL'
-
-
-        result.append(row)
+    def getClothingByName(self, rname):
+        cursor = self.conn.cursor()
+        query = "select clid, rid, rname, clbrand, clsize, cldescription, rlocation from resource natural inner join clothing where rname = %s"
+        cursor.execute(query, (rname,))
+        result = []
+        for row in cursor:
+            result.append(row)
         return result
 
     def getClothingBySize(self, clsize):
-        # cursor = self.conn.cursor()
-        # query = "select * from parts where pcolor = %s;"
-        # cursor.execute(query, (color,))
-        # result = []
-        # for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = 'XXL'
-        row[1] = 'Get'
-        row[2] = 'Clothing'
-        row[3] = 'By'
-        row[4] = 'Size'
-        row[5] = 'DUMMYVAL'
-
-        result.append(row)
+        cursor = self.conn.cursor()
+        query = "select clid, rid, rname, clbrand, clsize, cldescription, rlocation from resource natural inner join clothing where clsize = %s"
+        cursor.execute(query, (clsize,))
+        result = []
+        for row in cursor:
+            result.append(row)
         return result
 
     def insert(self, rid, clbrand, clname, clsize, cldescription):
@@ -150,9 +101,11 @@ class ClothingDAO:
         return clname
 
     def getResourceID(self,clid):
-        rid = clid+2;  #dummy code
-        #select rid from Clothing where clid = %s;
-        return rid
+        cursor = self.conn.cursor()
+        query = "select rid from resource natural inner join clothing where clid = %s"
+        cursor.execute(query, (clid,))
+        result = cursor.fetchone()
+        return result
 
     def getCountByClothingId(self):
         #cursor = self.conn.cursor()

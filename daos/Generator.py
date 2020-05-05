@@ -1,83 +1,44 @@
-#import psycopg2
+import config.dbconfig
+import psycopg2
 class GeneratorDAO:
     def __init__(self):
-
-       connection_url = "dbname=%s user=%s password=%s" % ('dbname',
-                                                    'user',
-                                                          'passwd')
-       #self.conn = psycopg2._connect(connection_url)
+        connection_url = "dbname=%s user=%s host = 'localhost' password=%s" % (
+            config.dbconfig.database_config['dbname'], config.dbconfig.database_config['user'],
+            config.dbconfig.database_config['passwd'])
+        self.conn = psycopg2._connect(connection_url)
 
     def getAllGenerator(self):
-        #cursor = self.conn.cursor()
-        #query = "select pid, pname, pmaterial, pcolor, pprice from parts;"
-        #cursor.execute(query)
-        row={};
-        result = [];
-        row[0] = 'dummygid'
-        row[1] = 'Get'
-        row[2] = 'All'
-        row[3] = 'Generator'
-        row[4] = 'Test'
-        row[5] = 'Dummyval'
-
-
-        result.append(row)
-        #for row in cursor:
-        #    result.append(row)
+        cursor = self.conn.cursor()
+        query = "select gid, rid, rname, gbrand, gfueltype, gpowerOutput, gdescription, rlocation from resource natural inner join powerGenerators;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
-    def getGeneratorById(self, gid):
-       # cursor = self.conn.cursor()
-        #query = "select pid, pname, pmaterial, pcolor, pprice from parts where pid = %s;"
-        #cursor.execute(query, (pid,))
-        #result = cursor.fetchone()
-       row = {};
-       row[0] = '21'
-       row[1] = 'get'
-       row[2] = 'Generator'
-       row[3] = 'by'
-       row[4] = 'iD Values'
-       row[5] = 'Dummyval'
-
-
-       return row
+    def getGeneratorById(self, rid):
+        cursor = self.conn.cursor()
+        query = "select gid, rid, rname, gbrand, gfueltype, gpowerOutput, gdescription, rlocation from resource natural inner join powerGenerators where rid = %s;"
+        cursor.execute(query, (rid,))
+        result = cursor.fetchone()
+        return result
 
     def getGeneratorByFuelType(self, gfueltype):
-        #cursor = self.conn.cursor()
-        #query = "select * from parts where pmaterial = %s;"
-        #cursor.execute(query, (material,))
-        #result = []
-        #for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'Get'
-        row[2] = 'Generator'
-        row[3] = 'by'
-        row[4] = 'Fuel Type'
-        row[5] = 'Dummyval'
-
-        result.append(row)
+        cursor = self.conn.cursor()
+        query = "select gid, rid, rname, gbrand, gfueltype, gpowerOutput, gdescription, rlocation from resource natural inner join powerGenerators where gfueltype = %s;"
+        cursor.execute(query,(gfueltype,))
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
     def getGeneratorByPowerOutput(self, gpoweroutput):
-        # cursor = self.conn.cursor()
-        # query = "select * from parts where pcolor = %s;"
-        # cursor.execute(query, (color,))
-        # result = []
-        # for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'Get'
-        row[2] = 'Generator'
-        row[3] = 'By'
-        row[4] = 'Power Output'
-        row[5] = 'Dummyval'
-
-        result.append(row)
+        cursor = self.conn.cursor()
+        query = "select gid, rid, rname, gbrand, gfueltype, gpowerOutput, gdescription, rlocation from resource natural inner join powerGenerators where gpowerOutput = %s;"
+        cursor.execute(query,(gpoweroutput,))
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
     def insert(self, rid, gbrand, gfueltype, gpoweroutput, gdescription):
@@ -132,9 +93,11 @@ class GeneratorDAO:
         return gbrand
 
     def getResourceID(self,gid):
-        rid = gid+2;  #dummy code
-        #select rid from Generator where gid = %s;
-        return rid
+        cursor = self.conn.cursor()
+        query = "select rid from resource natural inner join powerGenerators where gid = %s;"
+        cursor.execute(query, (gid,))
+        result = cursor.fetchone()
+        return result
 
     def getCountByGeneratorId(self):
         #cursor = self.conn.cursor()

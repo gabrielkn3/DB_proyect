@@ -101,47 +101,26 @@ class RequestDAO:
         return result
 
     def insert(self, status, rid, reqID, requantity, date):
-        # cursor = self.conn.cursor()
-        # query = "insert into requests(RequestID, status, rid, lid, reqID, sid, amount, date) values (%s, %s, %s, %s, %s, %s, %s, %s) returning RequestID;"
-        # cursor.execute(query, (RequestID, status, rid, lid, reqID, sid, amount, date,))
-        # lid = cursor.fetchone()[0]
-        # self.conn.commit()
-        # return lid
+        cursor = self.conn.cursor()
+        query = "insert into requests(RequestID, status, rid, lid, reqID, sid, amount, date) values (%s, %s, %s, %s, %s, %s, %s, %s) returning RequestID;"
+        cursor.execute(query, (RequestID, status, rid, lid, reqID, sid, amount, date,))
+        lid = cursor.fetchone()[0]
+        self.conn.commit()
+        return lid
 
-        row = {};
-        row[0] = 'Inserted'
-        row[1] = 'Request'
-        row[2] = 'Successfully'
-
-        return 232
 
     def delete(self, RequestID):
-        # cursor = self.conn.cursor()
-        # query = "delete from requests where RequestID = %s;"
-        # cursor.execute(query, (RequestID,))
-        # self.conn.commit()
-        # return RequestID
+        cursor = self.conn.cursor()
+        query = "delete from requests where RequestID = %s;"
+        cursor.execute(query, (RequestID,))
+        self.conn.commit()
+        return RequestID
 
-        row = {};
-        row[0] = 'Deleting'
-        row[1] = 'Request'
-        row[2] = 'Successful'
-
-        return 123
 
     def update(self, RequestID, status, rid, reqID, amount, date):
-        # cursor = self.conn.cursor()
-        # query = "update requests set RequestID = %s, status = %s, rid = %s, lid = %s, reqID = %s, sid = %s, amount = %s, date = %s where RequestID = %s;"
-        # cursor.execute(query, (RequestID, status, rid, lid, reqID, sid, amount, date,))
-        # self.conn.commit()
-        # return lid
+        cursor = self.conn.cursor()
+        query = "update requests set RequestID = %s, status = %s, rid = %s, lid = %s, reqID = %s, sid = %s, amount = %s, date = %s where RequestID = %s;"
+        cursor.execute(query, (RequestID, status, rid, lid, reqID, sid, amount, date,))
+        self.conn.commit()
+        return lid
 
-        row = {};
-        row[0] = 'Updating'
-        row[1] = 'Request'
-        row[2] = 'Successfully'
-        row[3] = 'RID and Quantity'
-        row[4] = 'Successful'
-        row[5] = 'Successful'
-
-        return row
