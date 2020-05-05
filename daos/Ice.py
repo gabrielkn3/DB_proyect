@@ -1,79 +1,46 @@
-#import psycopg2
+import psycopg2
+import config.dbconfig
 class IceDAO:
     def __init__(self):
-
-       connection_url = "dbname=%s user=%s password=%s" % ('dbname',
-                                                    'user',
-                                                          'passwd')
-       #self.conn = psycopg2._connect(connection_url)
+        connection_url = "dbname=%s user=%s host = 'localhost' password=%s" % (
+            config.dbconfig.database_config['dbname'], config.dbconfig.database_config['user'],
+            config.dbconfig.database_config['passwd'])
+        self.conn = psycopg2._connect(connection_url)
 
     def getAllIce(self):
-        #cursor = self.conn.cursor()
-        #query = "select pid, pname, pmaterial, pcolor, pprice from parts;"
-        #cursor.execute(query)
-        row={};
-        result = [];
-        row[0] = 'dummyiid'
-        row[1] = 'Get'
-        row[2] = 'All'
-        row[3] = 'Ice'
-        row[4] = 'Test'
-
-
-        result.append(row)
-        #for row in cursor:
-        #    result.append(row)
+        cursor = self.conn.cursor()
+        query = "select iid, rid, rname, itype, iweight, idescription, rlocation from resource natural inner join ice;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
-    def getIceById(self, iid):
-       # cursor = self.conn.cursor()
-        #query = "select pid, pname, pmaterial, pcolor, pprice from parts where pid = %s;"
-        #cursor.execute(query, (pid,))
-        #result = cursor.fetchone()
-       row = {};
-       row[0] = '21'
-       row[1] = 'get'
-       row[2] = 'Ice'
-       row[3] = 'by'
-       row[4] = 'iD Values'
+    def getIceById(self, rid):
+        cursor = self.conn.cursor()
+        query = "select iid, rid, rname, itype, iweight, idescription, rlocation from resource natural inner join ice where rid = %s;"
+        cursor.execute(query)
+        result = cursor.fetchone()
 
-
-       return row
+        return result
 
     def getIceByWeight(self, iweight):
-        #cursor = self.conn.cursor()
-        #query = "select * from parts where pmaterial = %s;"
-        #cursor.execute(query, (material,))
-        #result = []
-        #for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'Get'
-        row[2] = 'Ice'
-        row[3] = 'by'
-        row[4] = 'Weight'
-
-        result.append(row)
+        cursor = self.conn.cursor()
+        query = "select iid, rid, rname, itype, iweight, idescription, rlocation from resource natural inner join ice where iweight = %s;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
-    def getIceByType(self, itype):
-        # cursor = self.conn.cursor()
-        # query = "select * from parts where pcolor = %s;"
-        # cursor.execute(query, (color,))
-        # result = []
-        # for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'Get'
-        row[2] = 'Ice'
-        row[3] = 'By'
-        row[4] = 'Type'
 
-        result.append(row)
+    def getIceByType(self, itype):
+        cursor = self.conn.cursor()
+        query = "select iid, rid, rname, itype, iweight, idescription, rlocation from resource natural inner join ice where itype = %s;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
     def insert(self, rid, itype, iweight, idescription):
@@ -126,9 +93,12 @@ class IceDAO:
         return itype
 
     def getResourceID(self,iid):
-        rid = iid+2;  #dummy code
-        #select rid from Ice where iid = %s;
-        return rid
+        cursor = self.conn.cursor()
+        query = "select rid from resource natural inner join ice where iid = %s;"
+        cursor.execute(query)
+        result = cursor.fetchone()
+
+        return result
 
     def getCountByIceId(self):
         #cursor = self.conn.cursor()
