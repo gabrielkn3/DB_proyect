@@ -19,15 +19,15 @@ class paymentDAO:
         row[0] = len(example_list) #pID
         row[1] = id2 #reqID
         row[2] = id3 #sID
-        row[3] = 420 #price
+        row[3] = 420 #pamaount
         row[4] = "credit" #payment type
         row[5] = "Used a Bank of America card" #account details
         example_list.append(row)
 
-    def insert(self, reqid, sid, price, paymentType, acDetails):
+    def insert(self, reqid, sid, pamaount, paymentType, paymentdetails):
         # cursor = self.conn.cursor()
-        # query = "insert into payment(reqid, sid, price, paymentType, acDetail) values(%s, %s, %s, %s, %s) returning pid;"
-        # cursor.execute(query, (reqid, sid, price, paymentType, acDetail,))
+        # query = "insert into payment(reqid, sid, pamaount, paymentType, paymentdetails) values(%s, %s, %s, %s, %s) returning pid;"
+        # cursor.execute(query, (reqid, sid, pamaount, paymentType, paymentdetail,))
         # pid = cursor.fetchone()
         # self.conn.commit()
         # return pid
@@ -35,9 +35,9 @@ class paymentDAO:
         row[0] = len(example_list)
         row[1] = reqid
         row[2] = sid
-        row[3] = price
+        row[3] = pamaount
         row[4] = paymentType
-        row[5] = acDetails
+        row[5] = paymentdetails
         example_list.append(row)
         return row[0]
 
@@ -52,19 +52,19 @@ class paymentDAO:
                 example_list.remove(row)
                 return pid
 
-    def update(self, pid, reqid, sid, price, paymentType, acDetails):
+    def update(self, pid, reqid, sid, pamaount, paymentType, paymentdetails):
         # cursor = self.conn.cursor()
-        # query = "update payment set reqid = %s, sid = %s, price = %s, paymentType = %s, acDetail = %s where = %s;"
-        # cursor.execute(query, (reqid, sid, price, paymentType, acDetails, pid,))
+        # query = "update payment set reqid = %s, sid = %s, pamaount = %s, paymentType = %s, paymentdetails = %s where = %s;"
+        # cursor.execute(query, (reqid, sid, pamaount, paymentType, paymentdetails, pid,))
         # self.conn.commit()
         # return pid
         for row in example_list:
             if row[0] == pid:
                 row[1] = reqid
                 row[2] = sid
-                row[3] = price
+                row[3] = pamaount
                 row[4] = paymentType
-                row[5] = acDetails
+                row[5] = paymentdetails
                 return row
 
     def getAllPayments(self):
@@ -118,17 +118,17 @@ class paymentDAO:
         #         row_list.append(row)
         # return row_list
 
-    def getPaymentsByPrice(self, price):
+    def getPaymentsByPrice(self, pamaount):
         cursor = self.conn.cursor()
-        query = "select * from payment where price = %s;"
-        cursor.execute(query, (price,))
+        query = "select * from payment where pamaount = %s;"
+        cursor.execute(query, (pamaount,))
         result = []
         for row in cursor:
             result.append(row)
         return result
         # row_list = []
         # for row in example_list:
-        #     if row[3] == price:
+        #     if row[3] == pamaount:
         #         row_list.append(row)
         # return row_list
 
