@@ -60,6 +60,13 @@ class MedicalDeviceDAO:
         result.append(row)
         return rid
 
+    def getResourceID(self,mdid):
+        cursor = self.conn.cursor()
+        query = "select rid from MedicalDevices natural inner join resource where mdid = %s returning rid;"
+        cursor.execute(query, (mdid,))
+        result = cursor.fetchone()
+        return result
+
     def delete(self, mdid):
         #cursor = self.conn.cursor()
         #query = "delete from parts where pid = %s;"
