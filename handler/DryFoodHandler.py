@@ -11,31 +11,9 @@ class DryFoodHandler:
         result['dfid'] = row[0]
         result['rid'] = row[1]
         result['dfbrand'] = row[2]
-        result['dfname'] = row[3]
+        result['rname'] = row[3]
         result['dfdescription'] = row[4]
-        return result
-
-    def build_supplier_dict(self, row):
-        result = {}
-        result['sid'] = row[0]
-        result['stype'] = row[1]
-        result['sname'] = row[2]
-        result['semail'] = row[3]
-        result['sphone'] = row[4]
-        result['saddress'] = row[5]
-        result['sfinance'] = row[6]
-        return result
-
-    def build_requester_dict(self, row):
-        result = {}
-        result['uid'] = row[0]
-        result['ReqID'] = row[1]
-        result['rfirstname'] = row[2]
-        result['rlastname'] = row[3]
-        result['remail'] = row[4]
-        result['rphone'] = row[5]
-        result['raddress'] = row[6]
-        result['rlocation'] = row[6]
+        result['rlocation'] = row[5]
         return result
 
     def build_DryFood_attributes(self, dfid, rid, dfbrand, dfname, dfdescription):

@@ -1,79 +1,47 @@
-#import psycopg2
+import psycopg2
+import config.dbconfig
 class BabyFoodDAO:
     def __init__(self):
-
-       connection_url = "dbname=%s user=%s password=%s" % ('dbname',
-                                                    'user',
-                                                          'passwd')
-       #self.conn = psycopg2._connect(connection_url)
+        connection_url = "dbname=%s user=%s host = 'localhost' password=%s" % (
+            config.dbconfig.database_config['dbname'], config.dbconfig.database_config['user'],
+            config.dbconfig.database_config['passwd'])
+        self.conn = psycopg2._connect(connection_url)
 
     def getAllBabyFood(self):
-        #cursor = self.conn.cursor()
-        #query = "select pid, pname, pmaterial, pcolor, pprice from parts;"
-        #cursor.execute(query)
-        row={};
-        result = [];
-        row[0] = 'dummybfid'
-        row[1] = 'Get'
-        row[2] = 'All'
-        row[3] = 'BabyFood'
-        row[4] = 'Test'
-
-
-        result.append(row)
-        #for row in cursor:
-        #    result.append(row)
+        cursor = self.conn.cursor()
+        query = "select bfid, rid, rname, bfbrand, bfflavor, bfdescription, rlocation from BabyFood natural inner join resource;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
-    def getBabyFoodById(self, bfid):
-       # cursor = self.conn.cursor()
-        #query = "select pid, pname, pmaterial, pcolor, pprice from parts where pid = %s;"
-        #cursor.execute(query, (pid,))
-        #result = cursor.fetchone()
-       row = {};
-       row[0] = '21'
-       row[1] = 'get'
-       row[2] = 'BabyFood'
-       row[3] = 'by'
-       row[4] = 'iD Values'
+    def getBabyFoodById(self, rid):
+        cursor = self.conn.cursor()
+        query = "select bfid, rid, rname, bfbrand, bfflavor, bfdescription, rlocation from BabyFood natural inner join resource where rid = %s;"
+        cursor.execute(query, (rid,))
+        result = cursor.fetchone()
 
-
-       return row
+        return result
 
     def getBabyFoodByFlavor(self, bfflavor):
-        #cursor = self.conn.cursor()
-        #query = "select * from parts where pmaterial = %s;"
-        #cursor.execute(query, (material,))
-        #result = []
-        #for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'Get'
-        row[2] = 'BabyFood'
-        row[3] = 'by'
-        row[4] = 'Flavor'
+        cursor = self.conn.cursor()
+        query = "select bfid, rid, rname, bfbrand, bfflavor, bfdescription, rlocation from BabyFood natural inner join resource where bfflavor = %s;"
+        cursor.execute(query, (bfflavor,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
-        result.append(row)
         return result
 
     def getBabyFoodByBrand(self, bfbrand):
-        # cursor = self.conn.cursor()
-        # query = "select * from parts where pcolor = %s;"
-        # cursor.execute(query, (color,))
-        # result = []
-        # for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'Get'
-        row[2] = 'BabyFood'
-        row[3] = 'By'
-        row[4] = 'Brand'
-
-        result.append(row)
+        cursor = self.conn.cursor()
+        query = "select bfid, rid, rname, bfbrand, bfflavor, bfdescription, rlocation from BabyFood natural inner join resource where bfbrand = %s;"
+        cursor.execute(query, (bfbrand,))
+        result = []
+        for row in cursor:
+            result.append(row)
         return result
 
     def insert(self, rid, bfbrand, bfflavor, bfdescription):
@@ -126,9 +94,12 @@ class BabyFoodDAO:
         return bfbrand
 
     def getResourceID(self,bfid):
-        rid = bfid+2;  #dummy code
-        #select rid from BabyFood where bfid = %s;
-        return rid
+        cursor = self.conn.cursor()
+        query = "select rid from BabyFood natural inner join resource where bfid = %s;"
+        cursor.execute(query, (bfid,))
+        result = cursor.fetchone()
+
+        return result
 
     def getCountByBabyFoodId(self):
         #cursor = self.conn.cursor()

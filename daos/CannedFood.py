@@ -1,79 +1,45 @@
-#import psycopg2
+import psycopg2
+import config.dbconfig
 class CannedFoodDAO:
     def __init__(self):
-
-       connection_url = "dbname=%s user=%s password=%s" % ('dbname',
-                                                    'user',
-                                                          'passwd')
-       #self.conn = psycopg2._connect(connection_url)
+        connection_url = "dbname=%s user=%s host = 'localhost' password=%s" % (
+            config.dbconfig.database_config['dbname'], config.dbconfig.database_config['user'],
+            config.dbconfig.database_config['passwd'])
+        self.conn = psycopg2._connect(connection_url)
 
     def getAllCannedFood(self):
-        #cursor = self.conn.cursor()
-        #query = "select pid, pname, pmaterial, pcolor, pprice from parts;"
-        #cursor.execute(query)
-        row={};
-        result = [];
-        row[0] = 'dummycfid'
-        row[1] = 'Get'
-        row[2] = 'All'
-        row[3] = 'CannedFood'
-        row[4] = 'Test'
-
-
-        result.append(row)
-        #for row in cursor:
-        #    result.append(row)
+        cursor = self.conn.cursor()
+        query = "select cfid, rid, rname, cfbrand, cfdescription, rlocation from resource natural inner join cannedfood;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
-    def getCannedFoodById(self, cfid):
-       # cursor = self.conn.cursor()
-        #query = "select pid, pname, pmaterial, pcolor, pprice from parts where pid = %s;"
-        #cursor.execute(query, (pid,))
-        #result = cursor.fetchone()
-       row = {};
-       row[0] = '21'
-       row[1] = 'get'
-       row[2] = 'CannedFood'
-       row[3] = 'by'
-       row[4] = 'iD Values'
+    def getCannedFoodById(self, rid):
+        cursor = self.conn.cursor()
+        query = "select cfid, rid, rname, cfbrand, cfdescription, rlocation from resource natural inner join cannedfood where rid = %s;"
+        cursor.execute(query, (rid,))
+        result = cursor.fetchone()
 
-
-       return row
+        return result
 
     def getCannedFoodByName(self, cfname):
-        #cursor = self.conn.cursor()
-        #query = "select * from parts where pmaterial = %s;"
-        #cursor.execute(query, (material,))
-        #result = []
-        #for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'Get'
-        row[2] = 'CannedFood'
-        row[3] = 'by'
-        row[4] = 'Name'
-
-        result.append(row)
+        cursor = self.conn.cursor()
+        query = "select cfid, rid, rname, cfbrand, cfdescription, rlocation from resource natural inner join cannedfood where cfname = %s;"
+        cursor.execute(query,(cfname,))
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
     def getCannedFoodByBrand(self, cfbrand):
-        # cursor = self.conn.cursor()
-        # query = "select * from parts where pcolor = %s;"
-        # cursor.execute(query, (color,))
-        # result = []
-        # for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'Get'
-        row[2] = 'CannedFood'
-        row[3] = 'By'
-        row[4] = 'Brand'
-
-        result.append(row)
+        cursor = self.conn.cursor()
+        query = "select cfid, rid, rname, cfbrand, cfdescription, rlocation from resource natural inner join cannedfood where cfbrand = %s;"
+        cursor.execute(query,(cfbrand,))
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
     def insert(self, rid, cfbrand, cfname, cfdescription):
@@ -126,9 +92,13 @@ class CannedFoodDAO:
         return cfbrand
 
     def getResourceID(self,cfid):
-        rid = cfid+2;  #dummy code
-        #select rid from CannedFood where cfid = %s;
-        return rid
+        cursor = self.conn.cursor()
+        query = "select cfid, rid, rname, cfbrand, cfdescription, rlocation from resource natural inner join cannedfood where cfid = %s;"
+        cursor.execute(query, (cfid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
     def getCountByCannedFoodId(self):
         #cursor = self.conn.cursor()

@@ -1,79 +1,44 @@
-#import psycopg2
+import psycopg2
+import config.dbconfig
 class WaterDAO:
     def __init__(self):
-
-       connection_url = "dbname=%s user=%s password=%s" % ('dbname',
-                                                    'user',
-                                                          'passwd')
-       #self.conn = psycopg2._connect(connection_url)
+        connection_url = "dbname=%s user=%s host = 'localhost' password=%s" % (
+            config.dbconfig.database_config['dbname'], config.dbconfig.database_config['user'],
+            config.dbconfig.database_config['passwd'])
+        self.conn = psycopg2._connect(connection_url)
 
     def getAllWater(self):
-        #cursor = self.conn.cursor()
-        #query = "select pid, pname, pmaterial, pcolor, pprice from parts;"
-        #cursor.execute(query)
-        row={};
-        result = [];
-        row[0] = 'Test'
-        row[1] = 'Get'
-        row[2] = 'All'
-        row[3] = 'Water'
-        row[4] = 'Test'
-
-
-        result.append(row)
-        #for row in cursor:
-        #    result.append(row)
+        cursor = self.conn.cursor()
+        query = "select wid, rid, rname, wbrand, wsize, wdescription, rlocation from resource natural inner join water;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
-    def getWaterById(self, wid):
-       # cursor = self.conn.cursor()
-        #query = "select pid, pname, pmaterial, pcolor, pprice from parts where pid = %s;"
-        #cursor.execute(query, (pid,))
-        #result = cursor.fetchone()
-       row = {};
-       row[0] = '12345'
-       row[1] = 'Get'
-       row[2] = 'Water'
-       row[3] = 'by'
-       row[4] = 'ID'
-
-
-       return row
+    def getWaterById(self, rid):
+        cursor = self.conn.cursor()
+        query = "select wid, rid, rname, wbrand, wsize, wdescription, rlocation from resource natural inner join water where rid = %s;"
+        cursor.execute(query, (rid,))
+        result = cursor.fetchone()
+        return result
 
     def getWaterBySize(self, wsize):
-        #cursor = self.conn.cursor()
-        #query = "select * from parts where pmaterial = %s;"
-        #cursor.execute(query, (material,))
-        #result = []
-        #for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = '1 Gallon'
-        row[1] = 'Get'
-        row[2] = 'Water'
-        row[3] = 'by'
-        row[4] = 'Size'
-
-        result.append(row)
+        cursor = self.conn.cursor()
+        query = "select wid, rid, rname, wbrand, wsize, wdescription, rlocation from resource natural inner join water where wsize = %s;"
+        cursor.execute(query,(wsize,))
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
     def getWaterByBrand(self, wbrand):
-        # cursor = self.conn.cursor()
-        # query = "select * from parts where pcolor = %s;"
-        # cursor.execute(query, (color,))
-        # result = []
-        # for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = 'FIJI'
-        row[1] = 'Get'
-        row[2] = 'Water'
-        row[3] = 'By'
-        row[4] = 'Brand'
-
-        result.append(row)
+        cursor = self.conn.cursor()
+        query = "select wid, rid, rname, wbrand, wsize, wdescription, rlocation from resource natural inner join water where wbrand = %s;"
+        cursor.execute(query,(wbrand,))
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
     def insert(self, rid, wbrand, wsize, wdescription):
@@ -124,9 +89,11 @@ class WaterDAO:
         return wbrand
 
     def getResourceID(self,wid):
-        rid = wid+2;  #dummy code
-        #select rid from Water where wid = %s;
-        return rid
+        cursor = self.conn.cursor()
+        query = "select wid from resource natural inner join water where wid = %s;"
+        cursor.execute(query, (wid,))
+        result = cursor.fetchone()
+        return result
 
     def getCountByWaterId(self):
         #cursor = self.conn.cursor()

@@ -1,79 +1,44 @@
-#import psycopg2
+import psycopg2
+import config.dbconfig
 class DryFoodDAO:
     def __init__(self):
-
-       connection_url = "dbname=%s user=%s password=%s" % ('dbname',
-                                                    'user',
-                                                          'passwd')
-       #self.conn = psycopg2._connect(connection_url)
+        connection_url = "dbname=%s user=%s host = 'localhost' password=%s" % (
+            config.dbconfig.database_config['dbname'], config.dbconfig.database_config['user'],
+            config.dbconfig.database_config['passwd'])
+        self.conn = psycopg2._connect(connection_url)
 
     def getAllDryFood(self):
-        #cursor = self.conn.cursor()
-        #query = "select pid, pname, pmaterial, pcolor, pprice from parts;"
-        #cursor.execute(query)
-        row={};
-        result = [];
-        row[0] = 'dummydfid'
-        row[1] = 'Get'
-        row[2] = 'All'
-        row[3] = 'DryFood'
-        row[4] = 'Test'
-
-
-        result.append(row)
-        #for row in cursor:
-        #    result.append(row)
+        cursor = self.conn.cursor()
+        query = "select dfid, rid, dfbrand, rname, cdfescription, rlocation from resource natural inner join dryfood;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
-    def getDryFoodById(self, dfid):
-       # cursor = self.conn.cursor()
-        #query = "select pid, pname, pmaterial, pcolor, pprice from parts where pid = %s;"
-        #cursor.execute(query, (pid,))
-        #result = cursor.fetchone()
-       row = {};
-       row[0] = '21'
-       row[1] = 'get'
-       row[2] = 'DryFood'
-       row[3] = 'by'
-       row[4] = 'iD Values'
+    def getDryFoodById(self, rid):
+        cursor = self.conn.cursor()
+        query = "select dfid, rid, dfbrand, rname, cdfescription, rlocation from resource natural inner join dryfood where rid = %s;"
+        cursor.execute(query, (rid,))
+        result = cursor.fetchone()
+        return result
 
-
-       return row
-
-    def getDryFoodByName(self, dfname):
-        #cursor = self.conn.cursor()
-        #query = "select * from parts where pmaterial = %s;"
-        #cursor.execute(query, (material,))
-        #result = []
-        #for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'Get'
-        row[2] = 'DryFood'
-        row[3] = 'by'
-        row[4] = 'Name'
-
-        result.append(row)
+    def getDryFoodByName(self, rname):
+        cursor = self.conn.cursor()
+        query = "select dfid, rid, dfbrand, rname, cdfescription, rlocation from resource natural inner join dryfood where rname = %s;"
+        cursor.execute(query, (rname,))
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
     def getDryFoodByBrand(self, dfbrand):
-        # cursor = self.conn.cursor()
-        # query = "select * from parts where pcolor = %s;"
-        # cursor.execute(query, (color,))
-        # result = []
-        # for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'Get'
-        row[2] = 'DryFood'
-        row[3] = 'By'
-        row[4] = 'Brand'
-
-        result.append(row)
+        cursor = self.conn.cursor()
+        query = "select dfid, rid, dfbrand, rname, cdfescription, rlocation from resource natural inner join dryfood where dfbrand = %s;"
+        cursor.execute(query, (dfbrand,))
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
     def insert(self, rid, dfbrand, dfname, dfdescription):
@@ -126,9 +91,11 @@ class DryFoodDAO:
         return dfbrand
 
     def getResourceID(self,dfid):
-        rid = dfid+2;  #dummy code
-        #select rid from DryFood where dfid = %s;
-        return rid
+        cursor = self.conn.cursor()
+        query = "select rid from resource natural inner join dryfood where dfid = %s;"
+        cursor.execute(query, (dfid,))
+        result = cursor.fetchone()
+        return result
 
     def getCountByDryFoodId(self):
         #cursor = self.conn.cursor()
