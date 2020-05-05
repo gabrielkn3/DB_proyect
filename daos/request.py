@@ -9,171 +9,86 @@ class RequestDAO:
     #                                                         pg_config['passwd'])
     #     self.conn = psycopg2._connect(connection_url)
 
-    def first_time(self):
-        row = {}
-        row[0] = 23
-        row[1] = "In progress."
-        row[2] = 456
-        row[3] = 3499445
-        row[4] = 45 #Quantity
-        row[5] = "January 23"
-        request_list.append(row)
-
 
     def getAllRequests(self):
-        # cursor = self.conn.cursor()
-        # query = "select * from requests;"
-        # cursor.execute(query)
-        # result = []
-        # for row in cursor:
-        #     result.append(row)
-        # return result
-
-        if len(request_list) ==0:
-            self.first_time()
-            return request_list
-        row = {};
-        row[0] = 'Get'
-        row[1] = 'All'
-        row[2] = 'Requests'
-        row[3] = 'Getting...'
-        row[4] = 'Successful'
-        request_list.append(row)
-        return request_list
+        cursor = self.conn.cursor()
+        query = "select * from request;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
     def getRequestByID(self, RequestID):
-        # cursor = self.conn.cursor()
-        # query = "select * from requests where RequestID = %s;"
-        # cursor.execute(query, (RequestID,))
-        # result = cursor.fetchone()
-        # return result
-        if len(request_list) ==0:
-            self.first_time()
-            return request_list[0]
-        row = {};
-        row[0] = 'Get'
-        row[1] = 'Request'
-        row[2] = 'By'
-        row[3] = 'ID'
-        row[4] = 'Successful'
-
-        return row
+        cursor = self.conn.cursor()
+        query = "select * from request where RequestID = %s;"
+        cursor.execute(query, (RequestID,))
+        result = cursor.fetchone()
+        return result
 
 
+    # By Requester's ID
     def getRequestByreqID(self, reqID):
-        # cursor = self.conn.cursor()
-        # query = "select * from requests where reqID = %s;"
-        # cursor.execute(query, (reqID,))
-        # result = []
-        # for row in cursor:
-        #     result.append(row)
-        # return result
-        if len(request_list) ==0:
-            self.first_time()
-            return request_list[0]
-        row = {};
-        row[0] = 'Get'
-        row[1] = 'Request'
-        row[2] = 'By'
-        row[3] = 'Requestor ID'
-        row[4] = 'Successful'
 
-        return row
+        cursor = self.conn.cursor()
+        query = "select * from request where reqID = %s;"
+        cursor.execute(query, (reqID,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
+    # By Resource's ID
     def getRequestByRID(self, rid):
-        # cursor = self.conn.cursor()
-        # query = "select * from requests where rid = %s;"
-        # cursor.execute(query, (rid,))
-        # result = []
-        # for row in cursor:
-        #     result.append(row)
-        # return result
 
-        row = {};
-        row[0] = 'Get'
-        row[1] = 'Request'
-        row[2] = 'By'
-        row[3] = 'Resource ID'
-        row[4] = 'Successful'
-        row[5] = 'Successful'
+        cursor = self.conn.cursor()
+        query = "select * from request where rid = %s;"
+        cursor.execute(query, (rid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
-        return row
-
+    # pending / paid
     def getRequestByStatus(self, status):
-        # cursor = self.conn.cursor()
-        # query = "select * from requests where status = %s;"
-        # cursor.execute(query, (status,))
-        # result = []
-        # for row in cursor:
-        #     result.append(row)
-        # return result
-
-        row = {};
-        row[0] = 'Get'
-        row[1] = 'Request'
-        row[2] = 'By'
-        row[3] = 'Status'
-        row[4] = 'Successful'
-        row[5] = 'Successful'
-
-        return row
+        cursor = self.conn.cursor()
+        query = "select * from request where status = %s;"
+        cursor.execute(query, (status,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
     def getRequestsByQuantity(self, quantity):
-        # cursor = self.conn.cursor()
-        # query = "select * from requests where quantity = %s;"
-        # cursor.execute(query, (quantity,))
-        # result = []
-        # for row in cursor:
-        #     result.append(row)
-        # return result
+        cursor = self.conn.cursor()
+        query = "select * from request where quantity = %s;"
+        cursor.execute(query, (quantity,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
-        row = {};
-        row[0] = 'Get'
-        row[1] = 'Request'
-        row[2] = 'By'
-        row[3] = 'Quantity'
-        row[4] = 'Successful'
-        row[5] = 'Successful'
-
-        return row
 
     def getRequestByRIDAndStatus(self, status, rid):
-        # cursor = self.conn.cursor()
-        # query = "select * from requests where status = %s and rid = %s;"
-        # cursor.execute(query, (status,rid,))
-        # result = []
-        # for row in cursor:
-        #     result.append(row)
-        # return result
 
-        row = {};
-        row[0] = 'Get'
-        row[1] = 'Request'
-        row[2] = 'By'
-        row[3] = 'RID and Status'
-        row[4] = 'Successful'
-        row[5] = 'Successful'
+        cursor = self.conn.cursor()
+        query = "select * from request where status = %s and rid = %s;"
+        cursor.execute(query, (status,rid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
-        return row
 
     def getRequestByRIDAndQuantity(self, status, quantity):
-        # cursor = self.conn.cursor()
-        # query = "select * from requests where status = %s and quantity = %s;"
-        # cursor.execute(query, (status,quantity,))
-        # result = []
-        # for row in cursor:
-        #     result.append(row)
-        # return result
 
-        row = {};
-        row[0] = 'Get'
-        row[1] = 'Request'
-        row[2] = 'By'
-        row[3] = 'RID and Quantity'
-        row[4] = 'Successful'
-        row[5] = 'Successful'
-
-        return row
+        cursor = self.conn.cursor()
+        query = "select * from request where status = %s and quantity = %s;"
+        cursor.execute(query, (status,quantity,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
     def insert(self, status, rid, reqID, requantity, date):
         # cursor = self.conn.cursor()
