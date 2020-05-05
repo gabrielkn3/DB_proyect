@@ -46,19 +46,12 @@ def greeting():
 def getAllResources():
     return ResourceHandler().getAllResources()
 
-@app.route('/ResourceApp/resources/<string:rtype>', methods=['GET'])
-def getResourceByType(rtype):
-    return ResourceHandler().getResourcesByType(rtype)
-
 #Get,Update, or Delete Resource By ID
 @app.route('/ResourceApp/resources/<int:rid>', methods=['GET'])
 def getResourceById(rid):
     if request.method == 'GET':
         return ResourceHandler().getResourcesById(rid)
-    # elif request.method == 'PUT':                     #Resource Updates and Deletes are managed by individual resource type handlers to guarantee consistency with resource master table
-    #     return ResourceHandler().updateResource(rid, request.form)
-    # elif request.method == 'DELETE':
-    #     return ResourceHandler().deleteResource(rid)
+
     else:
         return jsonify(Error="Method not allowed."), 405
 
@@ -410,7 +403,6 @@ def getDryFoodByFlavor(dfname):
 @app.route('/ResourceApp/resources/ice', methods=['GET', 'POST'])
 def getAllIce():
     if request.method == 'POST':
-        
         print("REQUEST: ", request.json)
         return IceHandler().insertIceJson(request.json)
     else:
