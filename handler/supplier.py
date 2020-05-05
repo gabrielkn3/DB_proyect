@@ -5,6 +5,7 @@ from handler.user import userHandler
 
 class SupplierHandler:
     def build_supplier_dict(self, row):
+        print(str(row))
         result = {}
         result['sid'] = row[0]
         result['uid'] = row[1]
@@ -13,16 +14,18 @@ class SupplierHandler:
 
     def build_company_dict(selfself,row):
         result = {}
-        result['sid'] = row[0]
-        result['Comoany Name'] = row[1]
+        result['cid'] = row[0]
+        result['Company Name'] = row[1]
         result['Business Type'] = row[2]
         result['Description'] = row[3]
+        result['sid'] = row[4]
 
-    def build_resource_from_listing(self, row):
+
+    def build_resource_dict(self, row):
         result = {}
-        result['rtype'] = row[3]
-        result['rquantity'] = row[6]
-        result['sid'] = row[2]
+        result['rid'] = row[0]
+        result['rname'] = row[1]
+        result['rtype'] = row[2]
         return result
 
     def build_supplier_attributes(self, sid, slocation):
@@ -42,9 +45,7 @@ class SupplierHandler:
         return jsonify(Suppliers=result_list)
 
     def getSupplierById(self, sid):
-
         dao = SupplierDAO()
-
         row = dao.getSupplierById(sid)
         if not row:
             return jsonify(Error="Supplier Not Found"), 404
@@ -52,32 +53,24 @@ class SupplierHandler:
             supplier = self.build_supplier_dict(row)
         return jsonify(Supplier=supplier)
 
-
-    def searchSuppliers(self, form):
-        if len(form) > 1:
-            return jsonify(Error = "Malformed search(SUPPLIER) string."), 400
-        else:
-            slocation = form["slocation"]
-            if slocation:
-                dao = SupplierDAO()
-                supplier_list = dao.getSuppliersByLocation(slocation)
-                result_list = []
-                for row in supplier_list:
-                    result = self.build_supplier_dict(row)
-                    result_list.append(result)
-                return jsonify(Suppliers=result_list)
-            else:
-                return jsonify(Error="Malformed search string."), 400
-
     def getResourcesBySupplierId(self, sid):
         dao = SupplierDAO()
         row = dao.getSupplierById(sid)
         if not row:
             return jsonify(Error="Supplier Not Found"), 404
         else:#supplier exists
-            listings = dao.getResourcesBySID(sid)
-            resources = self.build_resource_from_listing(listings)
-            return jsonify(Resources=resources)
+            resources = dao.getResourcesBySID(sid)
+            result_list = []
+            for row in resources:
+                result = self.build_resource_dict(row)
+                result_list.append(result)
+            return jsonify(Resources=result_list)
+
+
+
+
+
+
 
 
 
@@ -145,53 +138,69 @@ class SupplierHandler:
             else:
                 return jsonify(Error="Error deleting (SUPPLIER) request"), 400
 
+
+
+
+  #--------------------------------------------------------------------COMPANIES--------------------------------------------------------------------------------------
+
     def getAllCompanies(self):
         dao = CompanyDAO()
         c_list = dao.getAllCompanies()
-        # result_list = []
-        # for row in c_list:
-        #     result = self.build_company_dict(row)
-        #     result_list.append(result)
-        return jsonify(Companies=c_list)
+        result_list = []
+        if not c_list:
+            return jsonify(Result="No companies registered.")
+        for row in c_list:
+            result = self.build_company_dict(row)
+            result_list.append(result)
+        return jsonify(Companies=result_list)
 
     def getCompanyById(self, cid):
 
         dao = CompanyDAO()
-
         row = dao.getCompanyById(cid)
-        # if not row:
-        #     return jsonify(Error="Company Not Found"), 404
-        # else:
-        #     company = self.build_company_dict(row)
-        return jsonify(Company=row)
+        if not row:
+            return jsonify(Error="Company Not Found"), 404
+        else:
+            company = self.build_company_dict(row)
+        return jsonify(Company=company)
 
     def getCompanyBySid(self, sid):
         dao = SupplierDAO()
+        cdao = CompanyDAO()
 
-        row = dao.getSupplierById(sid)
-        # if not row:
-        #     return jsonify(Error="Supplier Not Found"), 404
-        # else:
-        #     company = self.build_company_dict(row)
-        return jsonify(Company=row)
+        row0 = dao.getSupplierById(sid)
+        if not row0:
+            return jsonify(Error="Company Not Found"), 404
+        else:
+            row = cdao.getCompanyBySid(sid)
+            company = self.build_company_dict(row)
+        return jsonify(Company=company)
 
     def getCompanyByName(self, cname):
         dao = CompanyDAO()
         row = dao.getCompanyByName(cname)
-        # if not row:
-        #     return jsonify(Error="Supplier Not Found"), 404
-        # else:
-        #     company = self.build_company_dict(row)
-        return jsonify(Company=row)
+        if not row:
+            return jsonify(Error="Company Not Found"), 404
+        else:
+            company = self.build_company_dict(row)
+        return jsonify(Company=company)
 
     def getCompanyByCompanyType(self, btype):
         dao = CompanyDAO()
-        row = dao.getCompanyByCompanyType(btype)
-        # if not row:
-        #     return jsonify(Error="Company Not Found"), 404
-        # else:
-        #     company = self.build_company_dict(row)
-        return jsonify(Company=row)
+        row = dao.getCompanyByType(btype)
+        if not row:
+            return jsonify(Error="Company Not Found"), 404
+        else:
+            company = self.build_company_dict(row)
+        return jsonify(Company=company)
+
+
+
+
+
+
+
+
 
     def deleteCompany(self, cid):
         dao = CompanyDAO()
@@ -205,7 +214,3 @@ class SupplierHandler:
                 return jsonify(Result="Deleted Company with sid: "+str(status))
             else:
                 return jsonify(Error="Error deleting (COMPANY) request"), 400
-
-
-
-            #NO UPDATE SUPPORTED AS OF YET

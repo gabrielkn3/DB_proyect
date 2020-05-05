@@ -1,17 +1,18 @@
 from config.dbconfig import database_config
 import psycopg2
 from daos.user import userDAO
-from daos.listing import ListingDAO
+
 class SupplierDAO:
-    global supplier_list, s_id
+    global supplier_list, s_id, removed
     supplier_list = []
     s_id = 0
-    # def __init__(self):
-    #
-    #     connection_url = "dbname=%s user=%s password=%s" % (database_config['dbname'],
-    #                                                         database_config['user'],
-    #                                                         database_config['passwd'])
-    #     self.conn = psycopg2._connect(connection_url)
+    removed=0
+    def __init__(self):
+
+        connection_url = "dbname=%s user=%s host = '*' password=%s" % (database_config['dbname'],
+                                                            database_config['user'],
+                                                            database_config['passwd'])
+        self.conn = psycopg2._connect(connection_url)
 
 
     def first_time(self):
@@ -22,59 +23,54 @@ class SupplierDAO:
         supplier_list.append(row)
 
     def getAllSuppliers(self):
-        # cursor = self.conn.cursor()
-        # query = "select * from supplier;"
-        # cursor.execute(query)
-        # result = []
-        # for row in cursor:
-        #     result.append(row)
-        if len(supplier_list) == 0:
-            self.first_time()
-            return supplier_list
-        return supplier_list
+        cursor = self.conn.cursor()
+        query = "select * from supplier;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
 
     def getSupplierById(self, sid):
-            # cursor = self.conn.cursor()
-            # query = "select * from supplier where sid = %s;"
-            # cursor.execute(query, (sid,))
-            # result = cursor.fetchone()
-        if len(supplier_list) == 0:
-            self.first_time()
-            return supplier_list
-        result=[]
-        for i in range(0, len(supplier_list)):
-            for row in supplier_list:
-                if row[0] == sid:
-                 result.append(row)
-                 return result[0]
-        return None
+        cursor = self.conn.cursor()
+        query = "select sid, uid, slocation from supplier where sid = %s;"
+        cursor.execute(query, (sid,))
+        result = cursor.fetchone()
+        return result
+
 
     def getSupplierByEmail(self, email):
         u = userDAO()
         return u.getUserByEmail(email)
 
-#need tu test
-    def getSuppliersByAddress(self, address):
-        u = userDAO()
-        return u.getUserByAddress(address)
 
     def getResourcesBySID(self, sid):
-        l = ListingDAO()
-        if self.getSupplierById(sid):
-            return l.getListingsBySupplierID(sid)
-        else:
-            return None
+        cursor = self.conn.cursor()
+        query = "select rid, rname, rtype from resource natural inner join stocks where stocks.sid = %s;"
+        cursor.execute(query, (sid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
     def getSuppliersByLocation(self, slocation):
-        suppliers = self.getAllSuppliers()
-        result = []
-        for i in range(0, len(suppliers)):
-            for row in suppliers:
-                if row[2] == slocation:
-                    result.append(row)
+        query = "select sid, uid, slocation from supplier where slocation = %s;"
+        cursor = self.conn.cursor()
+        cursor.execute(query, (slocation,))
+        result = cursor.fetchone()
         return result
 
 
+
+
+
+
+
+
+
+
+################################################################################################################################################################################
     def insert(self, uid, slocation):
         row={}
         row[0] = len(supplier_list)
@@ -88,8 +84,9 @@ class SupplierDAO:
             for row in supplier_list:
                 if row[0] == sid:
                     supplier_list.remove(row)
+                    removed =1
                     return sid
-        return -1 #failed
+        return None #failed
 
     def update(self, sid, slocation):
         result = []
