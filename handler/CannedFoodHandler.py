@@ -10,8 +10,8 @@ class CannedFoodHandler:
         result = {};
         result['cfid'] = row[0]
         result['rid'] = row[1]
-        result['cfbrand'] = row[2]
-        result['rname'] = row[3]
+        result['rname'] = row[2]
+        result['cfbrand'] = row[3]
         result['cfdescription'] = row[4]
         result['rlocation'] = row[5]
         return result
