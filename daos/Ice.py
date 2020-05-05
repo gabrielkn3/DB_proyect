@@ -19,7 +19,7 @@ class IceDAO:
     def getIceById(self, rid):
         cursor = self.conn.cursor()
         query = "select iid, rid, rname, itype, iweight, idescription, rlocation from resource natural inner join ice where rid = %s;"
-        cursor.execute(query)
+        cursor.execute(query, (rid,))
         result = cursor.fetchone()
 
         return result
@@ -27,7 +27,7 @@ class IceDAO:
     def getIceByWeight(self, iweight):
         cursor = self.conn.cursor()
         query = "select iid, rid, rname, itype, iweight, idescription, rlocation from resource natural inner join ice where iweight = %s;"
-        cursor.execute(query)
+        cursor.execute(query, (iweight,))
         result = []
         for row in cursor:
            result.append(row)
@@ -37,7 +37,7 @@ class IceDAO:
     def getIceByType(self, itype):
         cursor = self.conn.cursor()
         query = "select iid, rid, rname, itype, iweight, idescription, rlocation from resource natural inner join ice where itype = %s;"
-        cursor.execute(query)
+        cursor.execute(query, (itype,))
         result = []
         for row in cursor:
            result.append(row)
