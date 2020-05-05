@@ -38,30 +38,31 @@ class adminHandler:
 
     def getAllAdmins(self):
         dao = adminDAO()
-        # admin_list = dao.getAllAdmins()
-        # result_list = []
-        # for row in admin_list:
-        #     result_list.append(self.build_admin_dict(row))
-        # return jsonify(Admins=result_list)
-        return jsonify(Admins=dao.getAllAdmins())
+        admin_list = dao.getAllAdmins()
+        result_list = []
+
+        if not admin_list:
+            return jsonify(Error="No admins found"), 404
+
+        for row in admin_list:
+            result_list.append(self.build_admin_dict(row))
+        return jsonify(Admins=result_list)
 
 
     def getAdminByAdminId(self, aid):
         dao = adminDAO()
-        # admin = dao.getAdminByAdminId(aid)
-        # if not admin:
-        #     return jsonify(Error="User not found"), 404
-        # else:
-        #     result = self.build_admin_dict(admin)
-        #     return jsonify(Admin=result)
-        return jsonify(Admin=dao.getAdminByAdminId(aid))
+        admin = dao.getAdminByAdminId(aid)
+        if not admin:
+            return jsonify(Error="User not found"), 404
+        else:
+            result = self.build_admin_dict(admin)
+        return jsonify(Admin=result)
 
     def getAdminByUserId(self, uid):
         dao = adminDAO()
-        # admin = dao.getAdminByUserId(uid)
-        # if not admin:
-        #     return jsonify(Error="User not found"), 404
-        # else:
-        #     result = self.build_admin_dict(admin)
-        #     return jsonify(Admin=result)
-        return jsonify(Admin=dao.getAdminByUserId(uid))
+        admin = dao.getAdminByUserId(uid)
+        if not admin:
+            return jsonify(Error="User not found"), 404
+        else:
+            result = self.build_admin_dict(admin)
+            return jsonify(Admin=result)

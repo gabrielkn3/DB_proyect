@@ -12,7 +12,7 @@ class SupplierHandler:
         result['slocation'] = row[2]
         return result
 
-    def build_company_dict(selfself,row):
+    def build_company_dict(self, row):
         result = {}
         result['cid'] = row[0]
         result['Company Name'] = row[1]

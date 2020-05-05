@@ -5,7 +5,7 @@ class stocksHandler:
     def build_stocks_dict(self, row):
         result = {}
         result['sid'] = row[0]
-        result['pid'] = row[1]
+        result['rid'] = row[1]
         result['quantity'] = row[2]
         return result
 
@@ -57,24 +57,72 @@ class stocksHandler:
 
     def getAllStocks(self):
         dao = stocksDAO()
-        return jsonify(Stocks=dao.getAllStocks())
+        list = dao.getAllStocks()
+        result = []
+
+        if not list:
+            return jsonify(Error="No stocks found"), 404
+
+        for row in list:
+            result.append(self.build_stocks_dict(row))
+        return jsonify(Stocks=result)
 
     def getStocksBySupplierId(self, sid):
         dao = stocksDAO()
-        return jsonify(Stocks=dao.getStocksBySupplierId(sid))
+        list = dao.getStocksBySupplierId(sid)
+        result = []
+
+        if not list:
+            return jsonify(Error="No stocks found"), 404
+
+        for row in list:
+            result.append(self.build_stocks_dict(row))
+        return jsonify(Stocks=result)
 
     def getStocksByResourceId(self, rid):
         dao = stocksDAO()
-        return jsonify(Stocks=dao.getStocksByResourceId(rid))
+        list = dao.getStocksByResourceId(rid)
+        result = []
+
+        if not list:
+            return jsonify(Error="No stocks found"), 404
+
+        for row in list:
+            result.append(self.build_stocks_dict(row))
+        return jsonify(Stocks=result)
 
     def getStocksByStockId(self, sid, rid):
         dao = stocksDAO()
-        return jsonify(Stocks=dao.getStocksByStockId(sid, rid))
+        list = dao.getStocksByStockId(sid, rid)
+        result = []
+
+        if not list:
+            return jsonify(Error="No stocks found"), 404
+
+        for row in list:
+            result.append(self.build_stocks_dict(row))
+        return jsonify(Stocks=result)
 
     def getStocksByQuantity(self, quantity):
         dao = stocksDAO()
-        return jsonify(Stocks=dao.getStocksByQuantity(quantity))
+        list = dao.getStocksByQuantity(quantity)
+        result = []
+
+        if not list:
+            return jsonify(Error="No stocks found"), 404
+
+        for row in list:
+            result.append(self.build_stocks_dict(row))
+        return jsonify(Stocks=result)
 
     def getStocksByResourceIdAndQuantity(self, rid, quantity):
         dao = stocksDAO()
-        return jsonify(Stocks=dao.getStocksByResourceIdAndQuantity(rid, quantity))
+        list = dao.getStocksByResourceIdAndQuantity(rid, quantity)
+        result = []
+
+        if not list:
+            return jsonify(Error="No stocks found"), 404
+
+        for row in list:
+            result.append(self.build_stocks_dict(row))
+        return jsonify(Stocks=result)

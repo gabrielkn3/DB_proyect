@@ -1,79 +1,45 @@
-#import psycopg2
+import psycopg2
+import config.dbconfig
 class HeavyEquipmentDAO:
     def __init__(self):
-
-       connection_url = "dbname=%s user=%s password=%s" % ('dbname',
-                                                    'user',
-                                                          'passwd')
-       #self.conn = psycopg2._connect(connection_url)
+        connection_url = "dbname=%s user=%s host = 'localhost' password=%s" % (
+            config.dbconfig.database_config['dbname'], config.dbconfig.database_config['user'],
+            config.dbconfig.database_config['passwd'])
+        self.conn = psycopg2._connect(connection_url)
 
     def getAllHeavyEquipment(self):
-        #cursor = self.conn.cursor()
-        #query = "select pid, pname, pmaterial, pcolor, pprice from parts;"
-        #cursor.execute(query)
-        row={};
+        cursor = self.conn.cursor()
+        query = "select hid, rid, rname, hbrand, hdescription, rlocation from resource natural inner join heavyequipment;"
+        cursor.execute(query)
         result = [];
-        row[0] = 'HID 12345'
-        row[1] = 'Get'
-        row[2] = 'All'
-        row[3] = 'Heavy Equipment'
-        row[4] = 'Test'
-
-
-        result.append(row)
-        #for row in cursor:
-        #    result.append(row)
+        for row in cursor:
+           result.append(row)
         return result
 
-    def getHeavyEquipmentById(self, hid):
-       # cursor = self.conn.cursor()
-        #query = "select pid, pname, pmaterial, pcolor, pprice from parts where pid = %s;"
-        #cursor.execute(query, (pid,))
-        #result = cursor.fetchone()
-       row = {};
-       row[0] = '21'
-       row[1] = 'get'
-       row[2] = 'Heavy Equipment'
-       row[3] = 'by'
-       row[4] = 'iD Values'
+    def getHeavyEquipmentById(self, rid):
+        cursor = self.conn.cursor()
+        query = "select hid, rid, rname, hbrand, hdescription, rlocation from resource natural inner join heavyequipment where rid = %s;"
+        cursor.execute(query, (rid,))
+        result = cursor.fetchone()
 
+        return result
 
-       return row
-
-    def getHeavyEquipmentByName(self, hname):
-        #cursor = self.conn.cursor()
-        #query = "select * from parts where pmaterial = %s;"
-        #cursor.execute(query, (material,))
-        #result = []
-        #for row in cursor:
-        #    result.append(row)
-        row = {};
+    def getHeavyEquipmentByName(self, rname):
+        cursor = self.conn.cursor()
+        query = "select hid, rid, rname, hbrand, hdescription, rlocation from resource natural inner join heavyequipment where rname = %s;"
+        cursor.execute(query, (rname,))
         result = [];
-        row[0] = 'POWER DRILL'
-        row[1] = 'Get'
-        row[2] = 'Heavy Equipment'
-        row[3] = 'by'
-        row[4] = 'Name'
-
-        result.append(row)
+        for row in cursor:
+           result.append(row)
         return result
 
     def getHeavyEquipmentByBrand(self, hbrand):
-        # cursor = self.conn.cursor()
-        # query = "select * from parts where pcolor = %s;"
-        # cursor.execute(query, (color,))
-        # result = []
-        # for row in cursor:
-        #    result.append(row)
-        row = {};
+        cursor = self.conn.cursor()
+        query = "select hid, rid, rname, hbrand, hdescription, rlocation from resource natural inner join heavyequipment where hbrand = %s;"
+        cursor.execute(query, (hbrand,))
         result = [];
-        row[0] = 'HOME DEPOT'
-        row[1] = 'Get'
-        row[2] = 'Heavy Equipment'
-        row[3] = 'By'
-        row[4] = 'Brand'
-
-        result.append(row)
+        for row in cursor:
+           result.append(row)
         return result
 
     def insert(self, rid, hbrand, hname, hdescription):
@@ -126,9 +92,12 @@ class HeavyEquipmentDAO:
         return hbrand
 
     def getResourceID(self,hid):
-        rid = hid+2;  #dummy code
-        #select rid from HeavyEquipment where hid = %s;
-        return rid
+        cursor = self.conn.cursor()
+        query = "select rid from resource natural inner join heavyequipment where hid = %s;"
+        cursor.execute(query, (hid,))
+        result = cursor.fetchone()
+
+        return result
 
     def getCountByHeavyEquipmentId(self):
         #cursor = self.conn.cursor()
