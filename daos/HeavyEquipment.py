@@ -24,10 +24,10 @@ class HeavyEquipmentDAO:
 
         return result
 
-    def getHeavyEquipmentByName(self, hname):
+    def getHeavyEquipmentByName(self, rname):
         cursor = self.conn.cursor()
-        query = "select hid, rid, rname, hbrand, hdescription, rlocation from resource natural inner join heavyequipment where hname = %s;"
-        cursor.execute(query, (hname,))
+        query = "select hid, rid, rname, hbrand, hdescription, rlocation from resource natural inner join heavyequipment where rname = %s;"
+        cursor.execute(query, (rname,))
         result = [];
         for row in cursor:
            result.append(row)
