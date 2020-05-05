@@ -16,22 +16,13 @@ class MedicationDAO:
            result.append(row)
         return result
 
-    def getMedicationById(self, mid):
+    def getMedicationById(self, rid):
         cursor = self.conn.cursor()
-        query = "select mid,rid,rname,mdosage, mdescription,rlocation from medications natural inner join resource where mid = %s;"
-        cursor.execute(query, (mid,))
+        query = "select mid,rid,rname,mdosage, mdescription,rlocation from medications natural inner join resource where rid = %s;"
+        cursor.execute(query, (rid,))
         result = cursor.fetchone()
         return result
 
-    def getMedicationByRId(self, rid):
-        cursor = self.conn.cursor()
-        query = "select mid,rid,rname,mdosage, mdescription,rlocation from medication natural inner join resource where rid = %s;"
-        cursor.execute(query, (rid,))
-        result = []
-        for row in cursor:
-            result.append(row)
-
-        return result
 
 
     def getMedicationByDosage(self, mdosage):
