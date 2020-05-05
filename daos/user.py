@@ -59,7 +59,7 @@ class userDAO:
 
     def delete(self, uid):
         # cursor = self.conn.cursor()
-        # query = "delete from user where uid = %s;"
+        # query = "delete from useraccounts where uid = %s;"
         # cursor.execute(query, (uid,))
         # self.conn.commit()
         # return uid
@@ -108,7 +108,7 @@ class userDAO:
 
     def getAllUsers(self):
         cursor = self.conn.cursor()
-        query = "select * from user;"
+        query = "select * from useraccounts;"
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -120,7 +120,7 @@ class userDAO:
 
     def getUserById(self, uid):
         cursor = self.conn.cursor()
-        query = "select * from user where uID = %s;"
+        query = "select * from useraccounts where uID = %s;"
         cursor.execute(query, (uid,))
         result = cursor.fetchone()
         return result
@@ -132,7 +132,7 @@ class userDAO:
 
     def getUserByUsername(self, username):
         cursor = self.conn.cursor()
-        query = "select * from user where username = %s;"
+        query = "select * from useraccounts where username = %s;"
         cursor.execute(query, (username,))
         result = cursor.fetchone()
         return result
@@ -143,7 +143,7 @@ class userDAO:
 
     def getUserByFirstName(self, fname):
         cursor = self.conn.cursor()
-        query = "select * from user where fname = %s;"
+        query = "select * from useraccounts where fname = %s;"
         cursor.execute(query, (fname,))
         result = []
         for row in cursor:
@@ -157,7 +157,7 @@ class userDAO:
 
     def getUserByLastName(self, lname):
         cursor = self.conn.cursor()
-        query = "select * from user where lname = %s;"
+        query = "select * from useraccounts where lname = %s;"
         cursor.execute(query, (lname,))
         result = []
         for row in cursor:
@@ -171,7 +171,7 @@ class userDAO:
 
     def getUserByEmail(self, email):
         cursor = self.conn.cursor()
-        query = "select * from user where email = %s;"
+        query = "select * from useraccounts where email = %s;"
         cursor.execute(query, (email,))
         result = cursor.fetchone()
         return result
@@ -182,7 +182,7 @@ class userDAO:
 
     def getUserByPhoneNumber(self, phone):
         cursor = self.conn.cursor()
-        query = "select * from user where phone = %s;"
+        query = "select * from useraccounts where phone = %s;"
         cursor.execute(query, (phone,))
         result = cursor.fetchone()
         return result
@@ -193,7 +193,7 @@ class userDAO:
 
     def getUserByState(self, state):
         cursor = self.conn.cursor()
-        query = "select * from user where state = %s;"
+        query = "select * from useraccounts where state = %s;"
         cursor.execute(query, (state,))
         result = []
         for row in cursor:
@@ -206,7 +206,7 @@ class userDAO:
 
     def getUserByCity(self, city):
         cursor = self.conn.cursor()
-        query = "select * from user where city = %s;"
+        query = "select * from useraccounts where city = %s;"
         cursor.execute(query, (city,))
         result = []
         for row in cursor:
@@ -219,7 +219,7 @@ class userDAO:
 
     def getUserByNeighborhood(self, neighborhood):
         cursor = self.conn.cursor()
-        query = "select * from user where neighborhood = %s;"
+        query = "select * from useraccounts where neighborhood = %s;"
         cursor.execute(query, (neighborhood,))
         result = []
         for row in cursor:
@@ -232,7 +232,7 @@ class userDAO:
 
     def getUserByZipcode(self, zipcode):
         cursor = self.conn.cursor()
-        query = "select * from user where zipcode = %s;"
+        query = "select * from useraccounts where zipcode = %s;"
         cursor.execute(query, (zipcode,))
         result = []
         for row in cursor:
@@ -245,7 +245,7 @@ class userDAO:
 
     def getUserByStateAndCity(self, state, city):
         cursor = self.conn.cursor()
-        query = "select * from user where state = %s and city = %s;"
+        query = "select * from useraccounts where state = %s and city = %s;"
         cursor.execute(query, (state, city,))
         result = []
         for row in cursor:
