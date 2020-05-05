@@ -10,12 +10,12 @@ class FuelHandler:
         result = {};
         result['fid'] = row[0]
         result['rid'] = row[1]
-        result['rname'] = row[1]
-        result['ftype'] = row[2]
-        result['fquantity'] = row[3]
-        result['octane'] = row[4]
-        result['fdescription'] = row[5]
-        result['rlocation'] = row[1]
+        result['rname'] = row[2]
+        result['ftype'] = row[3]
+        result['fquantity'] = row[4]
+        result['octane'] = row[5]
+        result['fdescription'] = row[6]
+        result['rlocation'] = row[7]
 
         return result
 
