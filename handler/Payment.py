@@ -73,56 +73,70 @@ class paymentHandler:
 
     def getAllPayments(self):
         dao = paymentDAO()
-        # payment_list = dao.getAllPayments()
-        # result_list = []
-        # for row in payment_list:
-        #     result_list.append(self.build_payment_dict(row))
-        # return jsonify(Payments=result_list)
-        return jsonify(Payment=dao.getAllPayments())
+        payment_list = dao.getAllPayments()
+        result_list = []
+
+        if not payment_list:
+            return jsonify(Error="No payments found"), 404
+
+        for row in payment_list:
+            result_list.append(self.build_payment_dict(row))
+        return jsonify(Payments=result_list)
 
     def getPaymentByPaymentId(self, pid):
         dao = paymentDAO()
         payment = dao.getPaymentByPaymentId(pid)
-        # if not payment:
-        #     return jsonify(Error="Payment not found."), 404
-        # else:
-        #     result = self.build_payment_dict(payment)
-        #     return jsonify(Payment=result)
-        return jsonify(Payment=payment)
+        if not payment:
+            return jsonify(Error="Payment not found."), 404
+        else:
+            result = self.build_payment_dict(payment)
+            return jsonify(Payment=result)
 
     def getPaymentByRequestorId(self, reqid):
         dao = paymentDAO()
         payment_list = dao.getPaymentsByRequestorId(reqid)
-        # result_list = []
-        # for row in payment_list:
-        #     result_list.append(self.build_payment_dict(row))
-        # return jsonify(Payments=result_list)
-        return jsonify(Payment=payment_list)
+        result_list = []
+
+        if not payment_list:
+            return jsonify(Error="No payments found"), 404
+
+        for row in payment_list:
+            result_list.append(self.build_payment_dict(row))
+        return jsonify(Payments=result_list)
 
     def getPaymentBySupplierId(self, sid):
         dao = paymentDAO()
         payment_list = dao.getPaymentsBySupplierId(sid)
-        # result_list = []
-        # for row in payment_list:
-        #     result_list.append(self.build_payment_dict(row))
-        # return jsonify(Payments=result_list)
-        return jsonify(Payment=payment_list)
+        result_list = []
+
+        if not payment_list:
+            return jsonify(Error="No payments found"), 404
+
+        for row in payment_list:
+            result_list.append(self.build_payment_dict(row))
+        return jsonify(Payments=result_list)
 
     def getPaymentByPrice(self, price):
         dao = paymentDAO()
         payment_list = dao.getPaymentsByPrice(price)
-        # result_list = []
-        # for row in payment_list:
-        #     result_list.append(self.build_payment_dict(row))
-        # return jsonify(Payments=result_list)
-        return jsonify(Payment=payment_list)
+        result_list = []
+
+        if not payment_list:
+            return jsonify(Error="No payments found"), 404
+
+        for row in payment_list:
+            result_list.append(self.build_payment_dict(row))
+        return jsonify(Payments=result_list)
 
     def getPaymentByType(self, paymentType):
         dao = paymentDAO()
         payment_list = dao.getPaymentsByType(paymentType)
-        # result_list = []
-        # for row in payment_list:
-        #     result_list.append(self.build_payment_dict(row))
-        # return jsonify(Payments=result_list)
-        return jsonify(Payment=payment_list)
+        result_list = []
+
+        if not payment_list:
+            return jsonify(Error="No payments found"), 404
+
+        for row in payment_list:
+            result_list.append(self.build_payment_dict(row))
+        return jsonify(Payments=result_list)
 
