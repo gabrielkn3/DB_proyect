@@ -10,33 +10,12 @@ class ClothingHandler:
         result = {};
         result['clid'] = row[0]
         result['rid'] = row[1]
-        result['clname'] = row[2]
+        result['rname'] = row[2]
         result['clbrand'] = row[3]
-        result['cldescription'] = row[4]
-        result['clsize'] = row[5]
-        return result
-
-    def build_supplier_dict(self, row):
-        result = {}
-        result['sid'] = row[0]
-        result['stype'] = row[1]
-        result['sname'] = row[2]
-        result['semail'] = row[3]
-        result['sphone'] = row[4]
-        result['saddress'] = row[5]
-        result['sfinance'] = row[6]
-        return result
-
-    def build_requester_dict(self, row):
-        result = {}
-        result['uid'] = row[0]
-        result['ReqID'] = row[1]
-        result['rfirstname'] = row[2]
-        result['rlastname'] = row[3]
-        result['remail'] = row[4]
-        result['rphone'] = row[5]
-        result['raddress'] = row[6]
+        result['clsize'] = row[4]
+        result['cldescription'] = row[5]
         result['rlocation'] = row[6]
+
         return result
 
     def build_Clothing_attributes(self, clid, rid, clname, clbrand, cldescription, clsize):
