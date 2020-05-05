@@ -1,103 +1,53 @@
-#import psycopg2
+import config.dbconfig
+import psycopg2
 class BatteriesDAO:
     def __init__(self):
-
-       connection_url = "dbType=%s user=%s password=%s" % ('dbType',
-                                                    'user',
-                                                          'passwd')
-       #self.conn = psycopg2._connect(connection_url)
+        connection_url = "dbname=%s user=%s host = 'localhost' password=%s" % (
+            config.dbconfig.database_config['dbname'], config.dbconfig.database_config['user'],
+            config.dbconfig.database_config['passwd'])
+        self.conn = psycopg2._connect(connection_url)
 
     def getAllBatteries(self):
-        #cursor = self.conn.cursor()
-        #query = "select pid, pType, pmaterial, pcolor, pprice from parts;"
-        #cursor.execute(query)x
-        row={};
-        result = [];
-        row[0] = 'ALL'
-        row[1] = 'Batteries'
-        row[2] = 'GET'
-        row[3] = 'TEST'
-        row[4] = 'SUCCESSFUL'
-        row[5] = 'dummyval'
-
-
-        result.append(row)
-        #for row in cursor:
-        #    result.append(row)
+        cursor = self.conn.cursor()
+        query = "select bid, rid, rname, bbrand, btype, blife, bdescription, rlocation from resource natural inner join batteries;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
-    def getBatteriesById(self, bid):
-       # cursor = self.conn.cursor()
-        #query = "select pid, pType, pmaterial, pcolor, pprice from parts where pid = %s;"
-        #cursor.execute(query, (pid,))
-        #result = cursor.fetchone()
-       row = {};
-       row[0] = 'bid 9810'
-       row[1] = 'get'
-       row[2] = 'Batteries'
-       row[3] = 'by'
-       row[4] = 'iD Values'
-       row[5] = 'dummyval'
-
-
-       return row
+    def getBatteriesById(self, rid):
+        cursor = self.conn.cursor()
+        query = "select bid, rid, rname, bbrand, btype, blife, bdescription, rlocation from resource natural inner join batteries where rid = %s;"
+        cursor.execute(query, (rid,))
+        result = cursor.fetchone()
+        return result
 
     def getBatteriesByBrand(self, bbrand):
-        #cursor = self.conn.cursor()
-        #query = "select * from parts where pmaterial = %s;"
-        #cursor.execute(query, (material,))
-        #result = []
-        #for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = 'DURACELL'
-        row[1] = 'Get'
-        row[2] = 'Batteries'
-        row[3] = 'by'
-        row[4] = 'Brand'
-        row[5] = 'dummyval'
-
-        result.append(row)
+        cursor = self.conn.cursor()
+        query = "select bid, rid, rname, bbrand, btype, blife, bdescription, rlocation from resource natural inner join batteries where bbrand = %s;"
+        cursor.execute(query, (bbrand,))
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
     def getBatteriesByType(self, btype):
-        # cursor = self.conn.cursor()
-        # query = "select * from parts where pcolor = %s;"
-        # cursor.execute(query, (color,))
-        # result = []
-        # for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = 'AAA'
-        row[1] = 'Get'
-        row[2] = 'Batteries'
-        row[3] = 'By'
-        row[4] = 'Type'
-        row[5] = 'dummyval'
-
-
-        result.append(row)
+        cursor = self.conn.cursor()
+        query = "select bid, rid, rname, bbrand, btype, blife, bdescription, rlocation from resource natural inner join batteries where btype = %s;"
+        cursor.execute(query, (btype,))
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
     def getBatteriesByBatteryLife(self, blife):
-        # cursor = self.conn.cursor()
-        # query = "select * from parts where pcolor = %s;"
-        # cursor.execute(query, (color,))
-        # result = []
-        # for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = '10 Hours'
-        row[1] = 'Get'
-        row[2] = 'Batteries'
-        row[3] = 'By'
-        row[4] = 'BatteryLife'
-        row[5] = 'dummyval'
-
-        result.append(row)
+        cursor = self.conn.cursor()
+        query = "select bid, rid, rname, bbrand, btype, blife, bdescription, rlocation from resource natural inner join batteries where blife = %s;"
+        cursor.execute(query, (blife,))
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
     def insert(self, rid, bbrand, btype, blife, bdescription):
@@ -150,9 +100,11 @@ class BatteriesDAO:
         return btype
 
     def getResourceID(self,bid):
-        rid = bid+2;  #dummy code
-        #select rid from Batteries where bid = %s;
-        return rid
+        cursor = self.conn.cursor()
+        query = "select rid from resource natural inner join batteries where bid = %s;"
+        cursor.execute(query, (bid,))
+        result = cursor.fetchone()
+        return result
 
     def getCountByBatteriesId(self):
         #cursor = self.conn.cursor()

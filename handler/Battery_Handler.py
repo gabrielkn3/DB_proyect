@@ -10,33 +10,13 @@ class BatteriesHandler:
         result = {};
         result['bid'] = row[0]
         result['rid'] = row[1]
-        result['btype'] = row[2]
+        result['rname'] = row[2]
         result['bbrand'] = row[3]
-        result['bdescription'] = row[4]
+        result['btype'] = row[4]
         result['blife'] = row[5]
-        return result
+        result['bdescription'] = row[6]
+        result['rlocation'] = row[7]
 
-    def build_supplier_dict(self, row):
-        result = {}
-        result['sid'] = row[0]
-        result['stype'] = row[1]
-        result['sType'] = row[2]
-        result['semail'] = row[3]
-        result['sphone'] = row[4]
-        result['saddress'] = row[5]
-        result['sfinance'] = row[6]
-        return result
-
-    def build_requester_dict(self, row):
-        result = {}
-        result['uid'] = row[0]
-        result['ReqID'] = row[1]
-        result['rfirstType'] = row[2]
-        result['rlastType'] = row[3]
-        result['remail'] = row[4]
-        result['rphone'] = row[5]
-        result['raddress'] = row[6]
-        result['rlocation'] = row[6]
         return result
 
     def build_Batteries_attributes(self, bid, rid, bbrand, btype, blife, bdescription):

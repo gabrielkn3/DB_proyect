@@ -9,16 +9,15 @@ class RequesterHandler:
     def build_requester_dict(self, row):
         result = {}
         result['reqid'] = row[0]
-        result['uid'] = row[1]
-        result['reqlocation'] = row[2]
+        result['reqlocation'] = row[1]
+        result['uid'] = row[2]
         return result
 
-    def build_resource_from_request(self, row):
+    def build_resource_dict(self, row):
         result = {}
-        result['rid'] = row[2]
-        result['Quantity'] = row[4]
-        result['RequestedDate'] = row[5]
-
+        result['rid'] = row[0]
+        result['rname'] = row[1]
+        result['rtype'] = row[2]
         return result
 
     def build_requester_attributes(self, reqid, reqlocation):
@@ -40,7 +39,6 @@ class RequesterHandler:
     def getRequesterById(self, reqid):
 
         dao = RequesterDAO()
-
         row = dao.getRequesterById(reqid)
         if not row:
             return jsonify(Error="Requester Not Found"), 404
@@ -49,9 +47,24 @@ class RequesterHandler:
         return jsonify(Requester=requester)
 
 
+    def getResourcesByRequesterId(self, reqid):
+
+        dao = RequesterDAO()
+        requester = dao.getRequesterById(reqid)
+        result_list = []
+        if not requester:
+            return jsonify(Error="Requester Not Found"), 404
+        else:  # Requester exists
+            resource_list = dao.getResourcesByREQID(reqid)
+            for row in resource_list:
+                result=self.build_resource_dict(row)
+                result_list.append(result)
+            return jsonify(Resources=result_list)
+
+    #Only filters by location... cheking more requirements later
     def searchRequesters(self, form):
         if len(form) > 1:
-            return jsonify(Error = "Malformed search(REQUESTER) string."), 400
+            return jsonify(Error="Malformed search(REQUESTER) string."), 400
         else:
             reqlocation = form["reqlocation"]
             if reqlocation:
@@ -61,20 +74,15 @@ class RequesterHandler:
                 for row in requester_list:
                     result = self.build_requester_dict(row)
                     result_list.append(result)
-                return jsonify(Requester=result_list)
+                return jsonify(Requesters=result_list)
             else:
                 return jsonify(Error="Malformed search(REQUESTER) string."), 400
 
-    def getResourcesByRequesterId(self, reqid):
-        dao = RequesterDAO()
-        row = dao.getRequesterById(reqid)
-        if not row:
-            return jsonify(Error="Requester Not Found"), 404
-        else:  # Requester exists
-            requests = dao.getResourcesByREQID(reqid)
-            resources = self.build_resource_from_request(requests)
-            return jsonify(Resources=resources)
 
+
+
+
+   #------------------------------------------------------------------------------------------------------------------------------------------
 
     def updateRequester (self, reqid, form):
              dao = RequesterDAO()

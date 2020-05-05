@@ -7,13 +7,12 @@ class ListingHandler:
     def build_listing_dict(self, row):
         result = {}
         result['lid'] = row[0]
-        result['rid'] = row[1]
-        result['sid'] = row[2]
-        result['rtype'] = row[3]
-        result['postDate'] = row[4]
-        result['lprice'] = row[5]
-        result['lquantity'] = row[6]
-        result['rlocation'] = row[7]
+        result['postDate'] = row[1]
+        result['lprice'] = row[2]
+        result['lquantity'] = row[3]
+        result['llocation'] = row[4]
+        result['sid'] = row[5]
+        result['rid'] = row[6]
         return result
 
 
