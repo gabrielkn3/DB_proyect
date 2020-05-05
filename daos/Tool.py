@@ -31,7 +31,6 @@ class ToolDAO:
         for row in cursor:
             result.append(row)
         return result
-        return result
 
     def getToolByBrand(self, tbrand):
         def getToolByName(self, tbrand):
@@ -42,7 +41,7 @@ class ToolDAO:
             for row in cursor:
                 result.append(row)
             return result
-            return result
+
 
     def insert(self, rid, tbrand, tname, tdescription):
         #cursor = self.conn.cursor()
