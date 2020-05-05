@@ -10,34 +10,13 @@ class FuelHandler:
         result = {};
         result['fid'] = row[0]
         result['rid'] = row[1]
+        result['rname'] = row[1]
         result['ftype'] = row[2]
         result['fquantity'] = row[3]
         result['octane'] = row[4]
         result['fdescription'] = row[5]
+        result['rlocation'] = row[1]
 
-        return result
-
-    def build_supplier_dict(self, row):
-        result = {}
-        result['sid'] = row[0]
-        result['stype'] = row[1]
-        result['stype'] = row[2]
-        result['semail'] = row[3]
-        result['sphone'] = row[4]
-        result['saddress'] = row[5]
-        result['sfinance'] = row[6]
-        return result
-
-    def build_requester_dict(self, row):
-        result = {}
-        result['uid'] = row[0]
-        result['ReqID'] = row[1]
-        result['rfirsttype'] = row[2]
-        result['rlasttype'] = row[3]
-        result['remail'] = row[4]
-        result['rphone'] = row[5]
-        result['raddress'] = row[6]
-        result['rlocation'] = row[6]
         return result
 
     def build_Fuel_attributes(self, fid, rid, ftype, fquantity, octane, fdescription):

@@ -1,102 +1,55 @@
-#import psycopg2
+import config.dbconfig
+import psycopg2
 class FuelDAO:
     def __init__(self):
-
-       connection_url = "dbType=%s user=%s password=%s" % ('dbType',
-                                                    'user',
-                                                          'passwd')
-       #self.conn = psycopg2._connect(connection_url)
+        connection_url = "dbname=%s user=%s host = 'localhost' password=%s" % (
+            config.dbconfig.database_config['dbname'], config.dbconfig.database_config['user'],
+            config.dbconfig.database_config['passwd'])
+        self.conn = psycopg2._connect(connection_url)
 
     def getAllFuel(self):
-        #cursor = self.conn.cursor()
-        #query = "select pid, pType, pmaterial, pcolor, pprice from parts;"
-        #cursor.execute(query)
-        row={};
-        result = [];
-        row[0] = 'FID 12345'
-        row[1] = 'Get'
-        row[2] = 'All'
-        row[3] = 'Fuel'
-        row[4] = 'Test'
-        row[5] = 'Octane'
-
-
-        result.append(row)
-        #for row in cursor:
-        #    result.append(row)
+        cursor = self.conn.cursor()
+        query = "select fid, rid, rname, ftype, fquantity, foctane, fdescription, rlocation from resource natural inner join fuel;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
-    def getFuelById(self, fid):
-       # cursor = self.conn.cursor()
-        #query = "select pid, pType, pmaterial, pcolor, pprice from parts where pid = %s;"
-        #cursor.execute(query, (pid,))
-        #result = cursor.fetchone()
-       row = {};
-       row[0] = '2211'
-       row[1] = 'get'
-       row[2] = 'Fuel'
-       row[3] = 'by'
-       row[4] = 'iD Values'
-       row[5] = 'iD Values'
+    def getFuelById(self, rid):
+        cursor = self.conn.cursor()
+        query = "select fid, rid, rname, ftype, fquantity, foctane, fdescription, rlocation from resource natural inner join fuel where rid = %s;"
+        cursor.execute(query, (rid,))
+        result = cursor.fetchone()
 
-
-       return row
+        return result
 
     def getFuelByQuantity(self, fquantity):
-        #cursor = self.conn.cursor()
-        #query = "select * from parts where pmaterial = %s;"
-        #cursor.execute(query, (material,))
-        #result = []
-        #for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = '30GAL'
-        row[1] = 'Get'
-        row[2] = 'Fuel'
-        row[3] = 'by'
-        row[4] = 'Quantity'
-        row[5] = 'iD Values'
-
-        result.append(row)
+        cursor = self.conn.cursor()
+        query = "select fid, rid, rname, ftype, fquantity, foctane, fdescription, rlocation from resource natural inner join fuel where fquantity = %s;"
+        cursor.execute(query,(fquantity,))
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
     def getFuelByType(self, ftype):
-        # cursor = self.conn.cursor()
-        # query = "select * from parts where pcolor = %s;"
-        # cursor.execute(query, (color,))
-        # result = []
-        # for row in cursor:
-        #    result.append(row)
-        row = {};
-        result = [];
-        row[0] = 'DIESEL'
-        row[1] = 'Get'
-        row[2] = 'Fuel'
-        row[3] = 'by'
-        row[4] = 'Type'
-        row[5] = 'iD Values'
-
-        result.append(row)
+        cursor = self.conn.cursor()
+        query = "select fid, rid, rname, ftype, fquantity, foctane, fdescription, rlocation from resource natural inner join fuel where ftype = %s;"
+        cursor.execute(query,(ftype,))
+        result = []
+        for row in cursor:
+           result.append(row)
         return result
 
-    def getFuelByOctane(self, octane):
-       # cursor = self.conn.cursor()
-        #query = "select pid, pType, pmaterial, pcolor, pprice from parts where pid = %s;"
-        #cursor.execute(query, (pid,))
-        #result = cursor.fetchone()
-       row = {};
-       result = [];
-       row[0] = '86octane'
-       row[1] = 'get'
-       row[2] = 'Fuel'
-       row[3] = 'by'
-       row[4] = 'octane'
-       row[5] = 'iD Values'
-       result.append(row)
-
-       return result
-
+    def getFuelByOctane(self, foctane):
+        cursor = self.conn.cursor()
+        query = "select fid, rid, rname, ftype, fquantity, foctane, fdescription, rlocation from resource natural inner join fuel where foctane = %s;"
+        cursor.execute(query, (foctane,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
     def insert(self, rid, ftype, fquantity, octane, fdescription):
         #cursor = self.conn.cursor()
         #query = "insert into parts(pType, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
@@ -148,9 +101,13 @@ class FuelDAO:
         return ftype
 
     def getResourceID(self,fid):
-        rid = fid+2;  #dummy code
-        #select rid from Fuel where fid = %s;
-        return rid
+        def getFuelById(self, fid):
+            cursor = self.conn.cursor()
+            query = "select rid from resource natural inner join fuel where fid = %s;"
+            cursor.execute(query, (fid,))
+            result = cursor.fetchone()
+
+            return result
 
     def getCountByFuelId(self):
         #cursor = self.conn.cursor()
