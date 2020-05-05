@@ -21,12 +21,17 @@ class MedicationDAO:
         query = "select mid,rid,rname,mdosage, mdescription,rlocation from medication natural inner join resource where mid = %s;"
         cursor.execute(query, (mid,))
         result = cursor.fetchone()
+        return result
 
     def getMedicationByRId(self, rid):
         cursor = self.conn.cursor()
         query = "select mid,rid,rname,mdosage, mdescription,rlocation from medication natural inner join resource where rid = %s;"
         cursor.execute(query, (rid,))
-        result = cursor.fetchone()
+        result = []
+        for row in cursor:
+            result.append(row)
+
+        return result
 
 
     def getMedicationByDosage(self, mdosage):
@@ -99,9 +104,12 @@ class MedicationDAO:
         return mname
 
     def getResourceID(self,mid):
-        rid = mid+2;  #dummy code
-        #select rid from Medication where mid = %s;
-        return rid
+        cursor = self.conn.cursor()
+        query = "select rid from medication natural inner join resource where mid = %s;"
+        cursor.execute(query, (mid,))
+        result = cursor.fetchone()
+
+        return result
 
     def getCountByMedicationId(self):
         #cursor = self.conn.cursor()
