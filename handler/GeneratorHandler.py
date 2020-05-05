@@ -10,10 +10,12 @@ class GeneratorHandler:
         result = {};
         result['gid'] = row[0]
         result['rid'] = row[1]
-        result['gbrand'] = row[2]
-        result['gfueltype'] = row[3]
-        result['gpoweroutput'] = row[4]
-        result['gdescription'] = row[5]
+        result['rname'] = row[2]
+        result['gbrand'] = row[3]
+        result['gfueltype'] = row[4]
+        result['gpoweroutput'] = row[5]
+        result['gdescription'] = row[6]
+        result['rlocation'] = row[7]
         return result
 
     def build_supplier_dict(self, row):

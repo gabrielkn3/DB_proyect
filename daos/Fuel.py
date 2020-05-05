@@ -101,13 +101,12 @@ class FuelDAO:
         return ftype
 
     def getResourceID(self,fid):
-        def getFuelById(self, fid):
-            cursor = self.conn.cursor()
-            query = "select rid from resource natural inner join fuel where fid = %s;"
-            cursor.execute(query, (fid,))
-            result = cursor.fetchone()
+        cursor = self.conn.cursor()
+        query = "select rid from resource natural inner join fuel where fid = %s;"
+        cursor.execute(query, (fid,))
+        result = cursor.fetchone()
 
-            return result
+        return result
 
     def getCountByFuelId(self):
         #cursor = self.conn.cursor()
