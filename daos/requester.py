@@ -13,7 +13,7 @@ class RequesterDAO:
 
     def getAllRequesters(self):
         cursor = self.conn.cursor()
-        query = "select * from requester;"
+        query = "select reqid, firstname, lastname, email, city, country, saddress, zip from requester natural inner join useraccounts;"
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -22,7 +22,7 @@ class RequesterDAO:
 
     def getRequesterById(self, reqid):
         cursor = self.conn.cursor()
-        query = "select * from requester where reqid = %s;"
+        query = "select reqid, firstname, lastname, email, city, country, saddress, zip from requester natural inner join useraccounts where reqid = %s;"
         cursor.execute(query, (reqid,))
         result = cursor.fetchone()
         return result
@@ -42,7 +42,7 @@ class RequesterDAO:
         return result
 
     def getRequestersByLocation(self, reqlocation):
-        query = "select * from requester where reqlocation=%s;"
+        query = "select reqid, firstname, lastname, email, city, country, saddress, zip from requester natural inner join useraccounts where reqlocation=%s;"
         cursor = self.conn.cursor()
         cursor.execute(query, (reqlocation,))
         result = []

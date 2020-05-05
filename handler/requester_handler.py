@@ -3,14 +3,17 @@ from daos.requester import RequesterDAO
 from handler.user import userHandler
 
 
-
-
 class RequesterHandler:
     def build_requester_dict(self, row):
         result = {}
         result['reqid'] = row[0]
-        result['reqlocation'] = row[1]
-        result['uid'] = row[2]
+        result['First Name'] = row[1]
+        result['Last Name'] = row[2]
+        result['Email'] = row[3]
+        result['City'] = row[4]
+        result['Country'] = row[5]
+        result['Address'] = row[6]
+        result['Zip Code'] = row[7]
         return result
 
     def build_resource_dict(self, row):

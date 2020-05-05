@@ -3,16 +3,24 @@ from daos.supplier import SupplierDAO
 from daos.company import CompanyDAO
 from handler.user import userHandler
 
+
+
+
+
 class SupplierHandler:
     def build_supplier_dict(self, row):
         result = {}
         result['sid'] = row[0]
-        result['slocation'] = row[1]
-        result['uid'] = row[2]
+        result['First Name'] = row[1]
+        result['Last Name'] = row[2]
+        result['Email'] = row[3]
+        result['City'] = row[4]
+        result['Country'] = row[5]
+        result['Address'] = row[6]
+        result['Zip Code'] = row[7]
         return result
 
     def build_company_dict(self, row):
-        print(str(row))
         result = {}
         result['cid'] = row[0]
         result['Company Name'] = row[1]
