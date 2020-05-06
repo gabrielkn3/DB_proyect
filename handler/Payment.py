@@ -4,12 +4,12 @@ from daos.Payment import paymentDAO
 class paymentHandler:
     def build_payment_dict(self,row):
         result = {}
-        result['pid'] = row[0]
-        result['reqid'] = row[1]
-        result['sid'] = row[2]
-        result['price'] = row[3]
-        result['paymentType'] = row[4]
-        result['acDetails'] = row[5]
+        result['payment id'] = row[0]
+        result['amaount'] = row[1]
+        result['payment type'] = row[2]
+        result['payment details'] = row[3]
+        result['requestor id'] = row[4]
+        result['supplier id'] = row[5]
         return result
 
     def insertPayment(self, form):
