@@ -38,7 +38,7 @@ class receiptHandler:
             return jsonify(Error="Part Not Found"), 404
         else:
             receipt = self.build_receipt_dict(row)
-            return jsonify(Receipt=result_list)
+            return jsonify(Receipt=receipt)
 
     def getReceiptByRequestorID(self, ReqID):
         dao = ReceiptDAO()
