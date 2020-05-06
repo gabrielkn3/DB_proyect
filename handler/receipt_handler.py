@@ -49,7 +49,7 @@ class receiptHandler:
         else:
             for row in result:
                 req = self.build_receipt_dict(row)
-                result_list.append(ReqID)
+                result_list.append(req)
         return jsonify(Receipt=result_list)
 
     def getReceiptByRID(self, rid):
