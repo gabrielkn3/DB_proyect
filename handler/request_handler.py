@@ -7,22 +7,22 @@ class RequestHandler:
     def build_request_dict(self, row):
         result = {}
         result['RequestID'] = row[0]
-        result['status'] = row[1]
-        result['rid'] = row[2]
-        result['reqID'] = row[3]
-        result['requantity'] = row[4]
-        result['date'] = row[5]
+        result['requestStatus'] = row[1]
+        result['requestQuantity'] = row[2]
+        result['requestDate'] = row[3]
+        result['rid'] = row[4]
+        result['reqID'] = row[5]
 
         return result
 
     def build_request_attributes(self, RequestID, status, rid, reqID, requantity, date):
         result = {}
         result['RequestID'] = RequestID
-        result['status'] = status
-        result['rid'] = rid
-        result['reqID'] = reqID
-        result['requantity'] = requantity
-        result['date'] = date
+        result['requestStatus'] = status
+        result['requestQuantity'] = rid
+        result['requestDate'] = reqID
+        result['rid'] = requantity
+        result['reqID'] = date
         return result
 
     def getAllRequests(self):
@@ -47,12 +47,27 @@ class RequestHandler:
 
     def getRequestByreqID(self, reqID):
         dao = RequestDAO()
-        row = dao.getRequestByreqID(reqID)
-        if not row:
-            return jsonify(Error="Request Not Found"), 404
+        result = dao.getRequestByreqID(reqID)
+        out = []
+        if not result:
+            return jsonify(Error="No Requests found"), 404
         else:
-            req = self.build_request_dict(row)
-        return jsonify(Request=req)
+            for row in result:
+                entry =  self.build_request_dict(row)
+                out.append(entry)
+        return jsonify(Request=out)
+
+    def getRequestByrname(self, rname):
+        dao = RequestDAO()
+        result = dao.getRequestByrname(rname)
+        out = []
+        if not result:
+            return jsonify(Error="No Requests found"), 404
+        else:
+            for row in result:
+                entry =  self.build_request_dict(row)
+                out.append(entry)
+        return jsonify(Request=out)
 
     def getRequestsByRID(self, rid):
         dao = RequestDAO()
@@ -66,8 +81,7 @@ class RequestHandler:
     def getRequestsByResourceName(self, rname):
         resourcedao = ResourceDAO()
         dao = RequestDAO()
-        rid = resourcedao.getResourceByName(rname)
-        row = dao.getRequestByRID(rid)
+        row = resourcedao.getResourceByName(rname)
         if not row:
             return jsonify(Error="Request Not Found"), 404
         else:

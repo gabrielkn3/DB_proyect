@@ -57,9 +57,7 @@ class ListingHandler:
 
     def getListingsByResourceName(self, rname):
         dao = ListingDAO()
-        resourcedao = ResourceDAO()
-        rid = resourcedao.getResourceByName(rname)
-        listings_list = dao.getListingsByTypeAndPrice(rid, "price")
+        listings_list = dao.getListingsByResourceName(rname)
         result_list = []
         for row in listings_list:
             result = self.build_listing_dict(row)

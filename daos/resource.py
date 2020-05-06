@@ -9,7 +9,7 @@ class ResourceDAO:
 
     def getAllResources(self):
         cursor = self.conn.cursor()
-        query = "select * from resource;"
+        query = "select * from resource order by rname;"
         cursor.execute(query)
         result = [];
         for row in cursor:
@@ -27,7 +27,7 @@ class ResourceDAO:
 
     def getResourceByType(self, rtype):
         cursor = self.conn.cursor()
-        query = "select * from resource where rtype = %s;"
+        query = "select * from resource where rtype = %s order by rtype;"
         cursor.execute(query, (rtype,))
         result = [];
         for row in cursor:
@@ -37,11 +37,20 @@ class ResourceDAO:
 
     def getResourceByName(self, rname):
         cursor = self.conn.cursor()
-        query = "select * from resource where rname = %s;"
+        query = "select * from resource where rname = %s order by rname;"
         cursor.execute(query, (rname,))
         result = []
         for row in cursor:
             result.append(row)
+
+        return result
+
+
+    def getResourceByrequestID(self, requestID):
+        cursor = self.conn.cursor()
+        query = "select rid, rtype, rname, rlocation from resource natural inner join request where requestID = %s;"
+        cursor.execute(query, (requestID,))
+        result = cursor.fetchone()
 
         return result
 

@@ -1,11 +1,12 @@
+import config.dbconfig
+import psycopg2
 class ReceiptDAO:
-
     def __init__(self):
-
-        connection_url = "dbname=%s user=%s password=%s" % (pg_config['dbname'],
-                                                            pg_config['user'],
-                                                            pg_config['passwd'])
-        self.conn = psycopg2._connect(connection_url)
+        connection_url = "dbname=%s user=%s host = 'localhost' password=%s" % (
+            config.dbconfig.database_config['dbname'],
+            config.dbconfig.database_config['user'],
+            config.dbconfig.database_config['passwd'])
+        self.conn = psycopg2.connect(connection_url)
 
     def getAllReceipts(self):
         cursor = self.conn.cursor()

@@ -36,12 +36,23 @@ class RequestDAO:
             result.append(row)
         return result
 
+
     # By Resource's ID
     def getRequestByRID(self, rid):
 
         cursor = self.conn.cursor()
         query = "select * from request where rid = %s;"
         cursor.execute(query, (rid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getRequestByrname(self, rname):
+
+        cursor = self.conn.cursor()
+        query = "select requestID, requestStatus,requestQuantity, requestDate, rid, reqid from request natural inner join resource where rname = %s;"
+        cursor.execute(query, (rname,))
         result = []
         for row in cursor:
             result.append(row)

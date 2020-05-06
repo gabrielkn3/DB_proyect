@@ -55,6 +55,15 @@ def getResourceById(rid):
     else:
         return jsonify(Error="Method not allowed."), 405
 
+#Get,Update, or Delete Resource By ID
+@app.route('/ResourceApp/resources/<string:rname>', methods=['GET'])
+def getResourceByName(rname):
+    if request.method == 'GET':
+        return ResourceHandler().getResourcesByName(rname)
+
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
 #GetSuppliersByResourceID
 @app.route('/ResourceApp/resources/<int:rid>/suppliers')
 def getSuppliersByResourceId(rid):
@@ -76,6 +85,38 @@ def getAllRequests():
         if not request.args:
             return RequestHandler().getAllRequests()
 
+#Keyword Search Requests by Resource Name
+@app.route('/ResourceApp/requests/<string:rname>', methods=['GET', 'POST'])
+def getRequestsByName(rname):
+    if request.method == 'GET':
+        return RequestHandler().getRequestsByResourceName(rname)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+#Keyword Search Requests by Resource ID
+@app.route('/ResourceApp/requests/<int:requestid>', methods=['GET', 'POST'])
+def getRequestByID(requestid):
+    if request.method == 'GET':
+        return RequestHandler().getRequestByID(requestid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+#Keyword Search Requests by user id
+@app.route('/ResourceApp/requests/requester/<int:reqid>', methods=['GET', 'POST'])
+def getRequestByreqID(reqid):
+    if request.method == 'GET':
+        return RequestHandler().getRequestByreqID(reqid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+#Keyword Search Requests by user id
+@app.route('/ResourceApp/requests/resource/<int:requestid>', methods=['GET', 'POST'])
+def getResourceInRequest(requestid):
+    if request.method == 'GET':
+        return ResourceHandler().getResourceByrequestID(requestid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
 #Browse All Listings or Insert new Listing
 @app.route('/ResourceApp/listings', methods=['GET', 'POST'])
 def getAllListings():
@@ -87,11 +128,11 @@ def getAllListings():
         if not request.args:
             return ListingHandler().getAllListings()
 
-#Keyword Search Requests by Resource Name
-@app.route('/ResourceApp/requests/<string:rname>', methods=['GET', 'POST'])
-def getRequestsByName(rname):
+#Keyword Search Requests Resource Name
+@app.route('/ResourceApp/requests/resource/<string:rname>', methods=['GET', 'POST'])
+def getRequestByrname(rname):
     if request.method == 'GET':
-        return RequestHandler().getRequestsByResourceName(rname)
+        return RequestHandler().getRequestByrname(rname)
     else:
         return jsonify(Error="Method not allowed."), 405
 

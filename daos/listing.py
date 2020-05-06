@@ -36,6 +36,15 @@ class ListingDAO:
             result.append(row)
         return result
 
+    def getListingsByResourceName(self, rname):
+        cursor = self.conn.cursor()
+        query = "select lid, postDate, lprice, lquantity, llocation, sid, rid from listing natural inner join resource where rname = %s;"
+        cursor.execute(query, (rname,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
     def getListingsByPrice(self, lprice):
         cursor = self.conn.cursor()
         query = "select * from listing where lprice = %s;"
