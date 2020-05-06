@@ -36,7 +36,7 @@ class ReceiptDAO:
 
     def getReceiptByRequestorID(self, reqID):
         cursor = self.conn.cursor()
-        query = "select * from orders where reqID = %s;"
+        query = "select * from orders where reqid = %s;"
         cursor.execute(query, (reqID,))
         result = []
         for row in cursor:
@@ -44,9 +44,10 @@ class ReceiptDAO:
         return result
 
 
+
     def getReceiptByRID(self, rid):
         cursor = self.conn.cursor()
-        query = "select * from orders where rid = %s;"
+        query = "select oid, ostatus, reqid, sid, pid from orders natural inner join belongs where rid = %s;"
         cursor.execute(query, (rid,))
         result = []
         for row in cursor:
@@ -56,7 +57,7 @@ class ReceiptDAO:
 
     def getReceiptByQuantity(self, quantity):
         cursor = self.conn.cursor()
-        query = "select * from orders where quantity = %s;"
+        query = "select * from orders natural inner join belongs where rquantity = %s;"
         cursor.execute(query, (quantity,))
         result = []
         for row in cursor:
@@ -76,7 +77,7 @@ class ReceiptDAO:
 
     def getReceiptByRIDAndStatus(self, status, rid):
         cursor = self.conn.cursor()
-        query = "select * from orders where ostatus = %s and rid = %s;"
+        query = "select * from orders natural inner join belongs where ostatus = %s and rid = %s;"
         cursor.execute(query, (status,rid,))
         result = []
         for row in cursor:
@@ -84,10 +85,10 @@ class ReceiptDAO:
         return result
 
 
-    def getReceiptByRIDAndQuantity(self, status, quantity):
+    def getReceiptByRIDAndQuantity(self, rid, quantity):
         cursor = self.conn.cursor()
-        query = "select * from orders where ostatus = %s and quantity = %s;"
-        cursor.execute(query, (status,quantity,))
+        query = "select * from orders natural inner join belongs where rid = %s and rquantity = %s;"
+        cursor.execute(query, (quantity,rid,))
         result = []
         for row in cursor:
             result.append(row)

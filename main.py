@@ -21,7 +21,9 @@ from handler.user import userHandler
 from handler.administrator import adminHandler
 from handler.requester_handler import RequesterHandler
 from handler.Payment import paymentHandler
+from handler.receipt_handler import receiptHandler
 from handler.stocksHandler import stocksHandler
+
 
 # Import Cross-Origin Resource Sharing to enable
 # services on other ports on this machine or on other
@@ -986,6 +988,87 @@ def getCompanyByType():
         return jsonify(Error="Method not allowed."), 405
 
 
+# ******************************************************** Orders / Receipts ******************************************************************************
+
+@app.route('/ResourceApp/receipt', methods=['GET', 'POST'])
+def getAllReceipts():
+    if request.method == 'POST':
+        return receiptHandler.insertReceiptJson(request.form)
+    elif request.method == 'GET':
+        return receiptHandler().getAllReceipts()
+    else:
+        return jsonify(Error="Invalid Operation"), 405
+
+
+@app.route('/ResourceApp/receipt/receiptID/<int:oid>', methods=['GET', 'PUT', 'DELETE'])
+def getReceiptByID(oid):
+    if request.method == 'GET':
+        return receiptHandler().getReceiptByID(oid)
+    elif request.method == 'PUT':
+        return receiptHandler().updateReceipt(oid, request.form)
+    elif request.method == 'DELETE':
+        return receiptHandler().deleteReceipt(oid)
+    else:
+        return jsonify(Error="Invalid Operation"), 405
+
+
+@app.route('/ResourceApp/receipt/supplierID/<int:sid>', methods=['GET'])
+def getReceiptBySupplierID(sid):
+    if request.method == 'GET':
+        return receiptHandler().getReceiptBySupplierID(sid)
+    else:
+        return jsonify(Error="Invalid Operation"), 405
+
+
+@app.route('/ResourceApp/receipt/requestorID/<int:reqID>', methods=['GET'])
+def getReceiptByRequestorID(reqID):
+    if request.method == 'GET':
+        return receiptHandler().getReceiptByRequestorID(reqID)
+    else:
+        return jsonify(Error="Invalid Operation"), 405
+
+
+@app.route('/ResourceApp/receipt/resourceID/<int:rid>', methods=['GET'])
+def getReceiptByRID(rid):
+    if request.method == 'GET':
+        return receiptHandler().getReceiptByRID(rid)
+    else:
+        return jsonify(Error="Invalid Operation"), 405
+
+
+@app.route('/ResourceApp/receipt/quantity/<int:quantity>', methods=['GET'])
+def getReceiptByQuantity(quantity):
+    if request.method == 'GET':
+        return receiptHandler().getReceiptByQuantity(quantity)
+    else:
+        return jsonify(Error="Invalid Operation"), 405
+
+
+@app.route('/ResourceApp/receipt/status/<string:status>', methods=['GET'])
+def getReceiptByStatus(status):
+    if request.method == 'GET':
+        return receiptHandler().getReceiptByStatus(status)
+    else:
+        return jsonify(Error="Invalid Operation"), 405
+
+
+@app.route('/ResourceApp/receipt/RIDandStatus/<int:rid>/<string:status>', methods=['GET'])
+def getReceiptByRIDandStatus(rid, status):
+    if request.method == 'GET':
+        return receiptHandler().getReceiptByRIDAndStatus(status, rid)
+    else:
+        return jsonify(Error="Invalid Operation"), 405
+
+
+@app.route('/ResourceApp/receipt/RIDandQuantity/<int:rid>/<int:quantity>', methods=['GET'])
+def getReceiptByRIDandQuantity(rid, quantity):
+    if request.method == 'GET':
+        return receiptHandler().getReceiptByRIDAndQuantity(rid, quantity)
+    else:
+        return jsonify(Error="Invalid Operation"), 405
+
+
+
 #************************************************************ Stocks ******************************************************************************
 @app.route('/ResourceApp/Stocks', methods=['GET', 'POST'])
 def getAllStocks():
@@ -1034,9 +1117,6 @@ def getStocksByResourceIdAndQuantity(rid, quantity):
         return stocksHandler().getStocksByResourceIdAndQuantity(rid, quantity)
     else:
         return jsonify(Error="Method not allowed."), 405
-
-
-
 
 
 if __name__ == '__main__':
