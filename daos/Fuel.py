@@ -50,23 +50,13 @@ class FuelDAO:
         for row in cursor:
             result.append(row)
         return result
-    def insert(self, rid, ftype, fquantity, octane, fdescription):
-        #cursor = self.conn.cursor()
-        #query = "insert into parts(pType, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
-        #cursor.execute(query, (pType, pcolor, pmaterial, pprice,))
-        #pid = cursor.fetchone()[0]
-        #self.conn.commit()
-        row = {};
-        result = [];
-        row[0] = 'INSERTING:'
-        row[1] = 'inserttype'
-        row[2] = 'insertname'
-        row[3] = 'insertlocation'
-        row[4] = 'Insertdescription'
-
-
-        result.append(row)
-        return rid
+    def insert(self, ftype, fquantity, octane, fdescription, rid):
+        cursor = self.conn.cursor()
+        query = "insert into fuel(ftype,fquantity,foctane,fdescription,rid values (%s, %s, %s, %s, %s) returning fid;"
+        cursor.execute(query, (ftype,fquantity,octane, fdescription, rid,))
+        fid = cursor.fetchone()[0]
+        self.conn.commit()
+        return fid
 
     def delete(self, fid):
         #cursor = self.conn.cursor()

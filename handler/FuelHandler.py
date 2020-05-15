@@ -19,14 +19,16 @@ class FuelHandler:
 
         return result
 
-    def build_Fuel_attributes(self, fid, rid, ftype, fquantity, octane, fdescription):
+    def build_Fuel_attributes(self, fid, rid, rname, ftype, fquantity, octane, fdescription, rlocation):
         result = {};
         result['fid'] = fid
         result['rid'] = rid
+        result['rname'] = rname
         result['ftype'] = ftype
         result['fquantity'] = fquantity
         result['octane'] = octane
         result['fdescription'] = fdescription
+        result['rlocation'] = rlocation
         return result
 
     def getAllFuel(self):
@@ -113,19 +115,18 @@ class FuelHandler:
         rname = json['rname']
         rtype = json['rtype']
         rlocation = json['rlocation']
-        sid = json['sid']
         ftype = json['ftype']
         fquantity = json['fquantity']
         octane = json['octane']
         fdescription = json['fdescription']
 
 
-        if rname and rtype and rlocation and sid and ftype and fquantity and fdescription and octane:
+        if rname and rtype and rlocation and ftype and fquantity and fdescription and octane:
             resourcedao = ResourceDAO()
             dao = FuelDAO()
-            rid = resourcedao.insert(rname, rtype, rlocation, sid)
-            fid = dao.insert(rid, ftype, fquantity, octane, fdescription)
-            result = self.build_Fuel_attributes(fid, rid, ftype, fquantity, octane, fdescription)
+            rid = resourcedao.insert(rname, rtype, rlocation)
+            fid = dao.insert(ftype, fquantity, octane, fdescription, rid)
+            result = self.build_Fuel_attributes(fid, rid, rname, ftype, fquantity, octane, fdescription, rlocation)
             return jsonify(Fuel=result), 201
 
         else:
