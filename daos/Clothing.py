@@ -51,22 +51,13 @@ class ClothingDAO:
         return result
 
     def insert(self, rid, clbrand, clname, clsize, cldescription):
-        #cursor = self.conn.cursor()
-        #query = "insert into parts(pname, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
-        #cursor.execute(query, (pname, pcolor, pmaterial, pprice,))
-        #pid = cursor.fetchone()[0]
-        #self.conn.commit()
-        row = {};
-        result = [];
-        row[0] = 'INSERTING:'
-        row[1] = 'clothing'
-        row[2] = 'insertname'
-        row[3] = 'insertlocation'
-        row[4] = 'Insertdescription'
-        row[5] = 'DUMMYVAL'
+        cursor = self.conn.cursor()
+        query = "INSERT INTO clothing(clbrand, clname, clsize, cldescription,rid) values(%s, %s, %s, %s) returning cid;"
+        cursor.execute(query, (clbrand, clname, clsize, cldescription,))
+        cid = cursor.fetchone()[0]
+        self.conn.commit()
 
-        result.append(row)
-        return rid
+        return cid;
 
     def delete(self, clid):
         #cursor = self.conn.cursor()

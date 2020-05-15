@@ -18,14 +18,16 @@ class ClothingHandler:
 
         return result
 
-    def build_Clothing_attributes(self, clid, rid, clname, clbrand, cldescription, clsize):
+    def build_Clothing_attributes(self, clid, rid, rname, clbrand, clname, clsize, cldescription, rlocation):
         result = {};
         result['clid'] = clid
         result['rid'] = rid
-        result['clname'] = clname
+        result['rname'] = rname
         result['clbrand'] = clbrand
-        result['cldescription'] = cldescription
+        result['clname'] = clname
         result['clsize'] = clsize
+        result['cldescription'] = cldescription
+        result['rlocation'] = rlocation
         return result
 
     def getAllClothing(self):
@@ -112,19 +114,18 @@ class ClothingHandler:
         rname = json['rname']
         rtype = json['rtype']
         rlocation = json['rlocation']
-        sid = json['sid']
-        clname = json['clname']
+        clname = json['rname']
         clbrand = json['clbrand']
         cldescription = json['cldescription']
         clsize = json['clsize']
 
 
-        if rtype and rname and rlocation and sid and clname and clbrand and cldescription and clsize:
+        if rtype and rname and rlocation and clname and clbrand and cldescription and clsize:
             resourcedao = ResourceDAO()
             dao = ClothingDAO()
-            rid = resourcedao.insert(rtype, rname, rlocation, sid)
-            clid = dao.insert(rid, clbrand, clname, clsize, cldescription)
-            result = self.build_Clothing_attributes(clid, rid, clname, clbrand, cldescription,clsize)
+            rid = resourcedao.insert(rtype, rname, rlocation)
+            clid = dao.insert(clbrand, clname, clsize, cldescription, rid)
+            result = self.build_Clothing_attributes(clid, rid, rname, clname, clbrand, cldescription,clsize, rlocation)
             return jsonify(Clothing=result), 201
 
         else:
