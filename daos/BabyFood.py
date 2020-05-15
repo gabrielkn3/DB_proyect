@@ -47,7 +47,7 @@ class BabyFoodDAO:
     def insert(self, bfbrand, bfflavor, bfdescription, rid):
         cursor = self.conn.cursor()
         query = "insert into babyfood(bfbrand, bfflavor, bfdescription, rid) values (%s, %s, %s, %s) returning bfid;"
-        cursor.execute(query, (rid,bfbrand,bfflavor, bfdescription,))
+        cursor.execute(query, (bfbrand,bfflavor, bfdescription,rid))
         bfid = cursor.fetchone()[0]
         self.conn.commit()
         return bfid

@@ -99,7 +99,7 @@ class MedicationHandler:
         rname = json['rname']
         rtype = json['rtype']
         rlocation = json['rlocation']
-        mname = json['mname']
+        mname = json['rname']
         mdosage = json['mdosage']
         mdescription = json['mdescription']
 
