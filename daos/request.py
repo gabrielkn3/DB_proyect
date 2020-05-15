@@ -109,10 +109,10 @@ class RequestDAO:
             result.append(row)
         return result
 
-    def insert(self, RequestID, status, rid, lid, reqID, sid, amount, date):
+    def insert(self, requeststatus, requestquantity, requestdate, rid, reqid):
         cursor = self.conn.cursor()
-        query = "insert into requests(RequestID, status, rid, lid, reqID, sid, amount, date) values (%s, %s, %s, %s, %s, %s, %s, %s) returning RequestID;"
-        cursor.execute(query, (RequestID, status, rid, lid, reqID, sid, amount, date,))
+        query = "insert into request(requeststatus, requestquantity, requestdate, rid, reqid) values (%s, %s, %s, %s, %s) returning RequestID;"
+        cursor.execute(query, (requeststatus, requestquantity, requestdate, rid, reqid,))
         lid = cursor.fetchone()[0]
         self.conn.commit()
         return lid
@@ -126,9 +126,9 @@ class RequestDAO:
         return RequestID
 
 
-    def update(self, RequestID, status, rid, lid, reqID, sid, amount, date):
+    def update(self, requeststatus, requestquantity, requestdate, rid, reqid):
         cursor = self.conn.cursor()
-        query = "update requests set RequestID = %s, status = %s, rid = %s, lid = %s, reqID = %s, sid = %s, amount = %s, date = %s where RequestID = %s;"
-        cursor.execute(query, (RequestID, status, rid, lid, reqID, sid, amount, date,))
+        query = "update requests set requeststatus = %s, requestquantity = %s, requestdate = %s, rid = %s, reqid = %s where RequestID = %s;"
+        cursor.execute(query, (requeststatus, requestquantity, requestdate, rid, reqid,))
         self.conn.commit()
-        return lid
+
