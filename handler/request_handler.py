@@ -53,7 +53,7 @@ class RequestHandler:
             return jsonify(Error="No Requests found"), 404
         else:
             for row in result:
-                entry =  self.build_request_dict(row)
+                entry = self.build_request_dict(row)
                 out.append(entry)
         return jsonify(Request=out)
 
@@ -112,36 +112,36 @@ class RequestHandler:
             result_list.append(result)
         return jsonify(Request=result_list)
 
-    def insertRequest(self, form):
-        print("form: ", form)
-        if len(form) != 6:
-            return jsonify(Error="Malformed post request"), 400
-        else:
-            status = form['status']
-            rid = form['rid']
-            reqID = form['reqID']
-            requantity = form['requantity']
-            date = form['date']
-
-            if status and rid and reqID and requantity and date:
-                dao = RequestDAO()
-                RequestID = dao.insert(status, rid, reqID, requantity, date)
-                result = self.build_request_attributes(RequestID, status, rid, reqID, requantity, date)
-                return jsonify(Request=result), 201
-            else:
-                return jsonify(Error="Unexpected attributes in post request"), 400
+    # def insertRequest(self, form):
+    #     print("form: ", form)
+    #     if len(form) != 6:
+    #         return jsonify(Error="Malformed post request"), 400
+    #     else:
+    #         requestStatus = json['requestStatus']
+    #         requestQuantity = json['requestQuantity']
+    #         requestDate = json['requestDate']
+    #         rid = json['rid']
+    #         reqID = json['reqID']
+    #
+    #         if status and rid and reqID and requantity and date:
+    #             dao = RequestDAO()
+    #             RequestID = dao.insert(status, rid, reqID, requantity, date)
+    #             result = self.build_request_attributes(RequestID, status, rid, reqID, requantity, date)
+    #             return jsonify(Request=result), 201
+    #         else:
+    #             return jsonify(Error="Unexpected attributes in post request"), 400
 
     def insertRequestJson(self, json):
-        status = json['status']
+        requestStatus = json['requestStatus']
+        requestQuantity = json['requestQuantity']
+        requestDate = json['requestDate']
         rid = json['rid']
         reqID = json['reqID']
-        requantity = json['requantity']
-        date = json['date']
 
-        if status and rid and reqID and requantity and date:
+        if requestStatus and requestQuantity and requestDate and rid and reqID:
             dao = RequestDAO()
-            RequestID = dao.insert(status, rid, reqID, requantity, date)
-            result = self.build_request_attributes(RequestID, status, rid, reqID, requantity, date)
+            RequestID = dao.insert(requestStatus, requestQuantity, requestDate, rid, reqID)
+            result = self.build_request_attributes(RequestID, requestStatus, requestQuantity, requestDate, rid, reqID)
             return jsonify(Request=result), 201
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
