@@ -163,13 +163,13 @@ def getListingsByName(rname):
 #Get All Suppliers or REGISTER AS A SUPPLIER
 def getAllSuppliers():
     if request.method == 'POST':
-        #print("REQUEST: ", request.form)
-        return jsonify(Error="Method not allowed"), 405#SupplierHandler().insertSupplier(request.form)
+        print("REQUEST: ", request.form)
+        return SupplierHandler().insertSupplier(request.form)
     else:
         return SupplierHandler().getAllSuppliers()
 
 
-@app.route('/ResourceApp/suppliers/location', methods=['GET'])
+@app.route('/ResourceApp/suppliers/location', methods=['GET','PUT'])
 def getSupplierByLocation():
     if request.method == 'GET':
         return SupplierHandler().getSupplierByLocation(request.form)
@@ -862,10 +862,10 @@ def getUserByPhone(uid):
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/user/state/<string:state>', methods=['GET'])
-def getUserByState(state):
+@app.route('/ResourceApp/user/country/<string:country>', methods=['GET'])
+def getUserByCountry(country):
     if request.method == 'GET':
-        return userHandler().getUserByState(state)
+        return userHandler().getUserByCountry(country)
     else:
         return jsonify(Error="Method not allowed."), 405
 
@@ -883,10 +883,10 @@ def getUserByZipcode(zipcode):
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/user/stateandcity/<string:state>/<string:city>', methods=['GET'])
-def getUserByStateAndCity(state, city):
+@app.route('/ResourceApp/user/countryandcity/<string:country>/<string:city>', methods=['GET'])
+def getUserByCountryAndCity(country, city):
     if request.method == 'GET':
-        return userHandler().getUserByStateAndCity(state, city)
+        return userHandler().getUserByCountryAndCity(country, city)
     else:
         return jsonify(Error="Method not allowed."), 405
 
@@ -946,7 +946,7 @@ def getPaymentByPaymentType(type):
 @app.route('/ResourceApp/companies', methods=['GET', 'POST'])
 def getAllCompanies():
     if request.method == 'POST':
-        return jsonify(Error="Method not allowed."), 405 #SupplierHandler().insertSupplier(request.form)
+        return SupplierHandler().insertSupplier(request.form)
     elif request.method == 'GET':
         return SupplierHandler().getAllCompanies()
     else:
@@ -956,13 +956,13 @@ def getAllCompanies():
 @app.route('/ResourceApp/companies/<int:cid>', methods=['GET'])
 def getCompanyById(cid):
     if request.method == 'GET':
-        return SupplierHandler().getCompanyById(cid)
-    # elif request.method == 'PUT':
-    #     return supplierHandler().updateCompany(cid, request.form)
-    # elif request.method == 'DELETE':
-    #     return SupplierHandler().deleteCompany(cid)
+          return SupplierHandler().getCompanyById(cid)
+    elif request.method == 'PUT':
+          return SupplierHandler().updateSupplier(cid, request.form)
+    elif request.method == 'DELETE':
+          return SupplierHandler().deleteCompany(cid)
     else:
-        return jsonify(Error="Method not allowed."), 405
+          return jsonify(Error="Method not allowed."), 405
 
 @app.route('/ResourceApp/companies/supplierId/<int:sid>', methods=['GET'])
 def getCompnayBySid(sid):

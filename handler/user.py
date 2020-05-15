@@ -26,25 +26,22 @@ class userHandler:
         return result
 
     def insertUser(self, form):
-        if form and len(form) == 7:
+        if form and len(form) == 10:
             username = form['username']
             password = form['password']
             fname = form['fname']
             lname = form['lname']
             email = form['email']
             phone = form['phone']
-            state = form['state']
+            country = form['country']
             city = form['city']
-            neighborhood = form['neighborhood']
-            street = form['street']
-            housenumber = form['housenumber']
-            zipcode = form['zipcode']
+            saddress = form['saddress']
+            zipcode = form['zip']
 
             if username and password and fname and lname and email and phone and\
-                    state and city and neighborhood and street and housenumber and zipcode:
+                    country and city and saddress and zipcode:
                 dao = userDAO()
-                uid = dao.insert(username, password, fname, lname, email, phone,
-                                 state, city, neighborhood, street, housenumber, zipcode)
+                uid = dao.insert(username, password, fname, lname, email, phone, country, city, saddress, zipcode)
                 result = {}
                 result['uid'] = uid
                 result['username'] = username
@@ -53,12 +50,10 @@ class userHandler:
                 result['lname'] = lname
                 result['email'] = email
                 result['phone'] = int(phone)
-                result['state'] = state
+                result['country'] = country
                 result['city'] = city
-                result['neighborhood'] = neighborhood
-                result['street'] = street
-                result['housenumber'] = housenumber
-                result['zipcode'] = zipcode
+                result['saddress'] = saddress
+                result['zip'] = zipcode
                 return jsonify(User=result), 201
             else:
                 return jsonify(Error="Malformed post request")
@@ -70,19 +65,17 @@ class userHandler:
             lname = form['lname']
             email = form['email']
             phone = form['phone']
-            state = form['state']
+            country = form['country']
             city = form['city']
-            neighborhood = form['neighborhood']
-            street = form['street']
-            housenumber = form['housenumber']
-            zipcode = form['zipcode']
+            saddress = form['saddress']
+            zipcode = form['zip']
             location = form['location']
 
             if username and password and fname and lname and email and phone and \
-                    state and city and neighborhood and street and housenumber and zipcode and location:
+                    country and city and saddress and zipcode and location:
                 dao = userDAO()
                 uid = dao.insert(username, password, fname, lname, email, phone,
-                                 state, city, neighborhood, street, housenumber, zipcode)
+                                 country, city, saddress, zipcode)
                 result = {}
                 result['uid'] = uid
                 result['username'] = username
@@ -91,12 +84,10 @@ class userHandler:
                 result['lname'] = lname
                 result['email'] = email
                 result['phone'] = int(phone)
-                result['state'] = state
+                result['country'] = country
                 result['city'] = city
-                result['neighborhood'] = neighborhood
-                result['street'] = street
-                result['housenumber'] = housenumber
-                result['zipcode'] = zipcode
+                result['saddress'] = saddress
+                result['zip'] = zipcode
                 result['location'] = location
                 return result
             else:
@@ -231,9 +222,9 @@ class userHandler:
                 result_list.append(result)
             return jsonify(PhoneNumbers=result_list)
 
-    def getUserByState(self, state):
+    def getUserByCountry(self, country):
         dao = userDAO()
-        user_list = dao.getUserByState(state)
+        user_list = dao.getUserByCountry(country)
         result_list = []
         if not user_list:
             return jsonify(Error="Users not found"), 404
@@ -255,7 +246,7 @@ class userHandler:
                 result_list.append(result)
             return jsonify(Users=result_list)
 
-    def getUserByNeighborhood(self, address):
+    def getUserByAddress(self, address):
         dao = userDAO()
         user_list = dao.getUserByAddress(address)
         result_list = []
@@ -279,9 +270,9 @@ class userHandler:
                 result_list.append(result)
             return jsonify(Users=result_list)
 
-    def getUserByStateAndCity(self, state, city):
+    def getUserByCountryAndCity(self, country, city):
         dao = userDAO()
-        user_list = dao.getUserByStateAndCity(state, city)
+        user_list = dao.getUserByCountryAndCity(country, city)
         result_list = []
         if not user_list:
             return jsonify(Error="Users not found"), 404
@@ -301,3 +292,12 @@ class userHandler:
         for row in phone_list:
             result_list.append(self.build_phone_dict(row))
         return jsonify(PhoneNumbers=result_list)
+
+    def test(self, uid):
+        dao = userDAO()
+        userID = dao.test(uid)
+        if not userID:
+            return jsonify(Error="User not found"), 404
+        else:
+            print("Handler = " + str(userID))
+            return str(userID)
