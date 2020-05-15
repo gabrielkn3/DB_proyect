@@ -124,7 +124,7 @@ class ResourceDAO:
 
         return result
 
-    def insert(self, rname, rtype, rlocation):
+    def insert(self, rtype, rname, rlocation):
         cursor = self.conn.cursor()
         query = "insert into resource(rname, rtype, rlocation) values (%s, %s, %s) returning pid;"
         cursor.execute(query, (rname,rtype,rlocation,))

@@ -107,7 +107,7 @@ class BabyFoodHandler:
         if rtype and rname and rlocation and bfbrand and bfflavor and bfdescription:
             resourcedao = ResourceDAO()
             dao = BabyFoodDAO()
-            rid = resourcedao.insert(rname,rtype,rlocation)
+            rid = resourcedao.insert(rtype,rname,rlocation)
             bfid = dao.insert(bfbrand, bfflavor, bfdescription, rid)
             result = self.build_BabyFood_attributes(bfid, rid, rname, bfbrand, bfflavor, bfdescription, rlocation)
             return jsonify(BabyFood=result), 201

@@ -124,7 +124,7 @@ class FuelHandler:
         if rname and rtype and rlocation and ftype and fquantity and fdescription and octane:
             resourcedao = ResourceDAO()
             dao = FuelDAO()
-            rid = resourcedao.insert(rname, rtype, rlocation)
+            rid = resourcedao.insert(rtype, rname, rlocation)
             fid = dao.insert(ftype, fquantity, octane, fdescription, rid)
             result = self.build_Fuel_attributes(fid, rid, rname, ftype, fquantity, octane, fdescription, rlocation)
             return jsonify(Fuel=result), 201

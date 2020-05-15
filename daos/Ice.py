@@ -43,22 +43,14 @@ class IceDAO:
            result.append(row)
         return result
 
-    def insert(self, rid, itype, iweight, idescription):
-        #cursor = self.conn.cursor()
-        #query = "insert into parts(pname, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
-        #cursor.execute(query, (pname, pcolor, pmaterial, pprice,))
-        #pid = cursor.fetchone()[0]
-        #self.conn.commit()
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'inserttype'
-        row[2] = 'insertname'
-        row[3] = 'insertlocation'
-        row[4] = 'Insertdescription'
+    def insert(self, itype, iweight, idescription,rid):
+        cursor = self.conn.cursor()
+        query = "insert into ice(itype, iweight, idescription,rid) values (%s, %s, %s, %s) returning iid;"
+        cursor.execute(query, (itype, iweight, idescription, rid,))
+        iid = cursor.fetchone()[0]
+        self.conn.commit()
 
-        result.append(row)
-        return rid
+        return iid
 
     def delete(self, iid):
         #cursor = self.conn.cursor()

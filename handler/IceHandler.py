@@ -17,13 +17,15 @@ class IceHandler:
         result['rlocation'] = row[6]
         return result
 
-    def build_Ice_attributes(self, iid, rid, itype, iweight, idescription):
+    def build_Ice_attributes(self, iid, rid, rname, itype, iweight, idescription, rlocation):
         result = {};
         result['iid'] = iid
         result['rid'] = rid
+        result['rname'] = rname
         result['itype'] = itype
         result['iweight'] = iweight
         result['idescription'] = idescription
+        result['rlocation'] = rlocation
         return result
 
     def getAllIce(self):
@@ -97,18 +99,17 @@ class IceHandler:
         rname = json['rname']
         rtype = json['rtype']
         rlocation = json['rlocation']
-        sid = json['sid']
         itype = json['itype']
         iweight = json['iweight']
         idescription = json['idescription']
 
 
-        if rtype and rname and rlocation and sid and itype and iweight and idescription:
+        if rtype and rname and rlocation  and itype and iweight and idescription:
             resourcedao = ResourceDAO()
             dao = IceDAO()
-            rid = resourcedao.insert(rtype, rname, rlocation, sid)
-            iid = dao.insert(rid, itype, iweight, idescription)
-            result = self.build_Ice_attributes(iid, rid, itype, iweight, idescription)
+            rid = resourcedao.insert(rtype, rname, rlocation)
+            iid = dao.insert(itype, iweight, idescription, rid)
+            result = self.build_Ice_attributes(iid, rid,rname,  itype, iweight, idescription, rlocation)
             return jsonify(Ice=result), 201
 
         else:
