@@ -45,21 +45,12 @@ class BabyFoodDAO:
         return result
 
     def insert(self, rid, bfbrand, bfflavor, bfdescription):
-        #cursor = self.conn.cursor()
-        #query = "insert into parts(pname, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
-        #cursor.execute(query, (pname, pcolor, pmaterial, pprice,))
-        #pid = cursor.fetchone()[0]
-        #self.conn.commit()
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'inserttype'
-        row[2] = 'insertname'
-        row[3] = 'insertlocation'
-        row[4] = 'Insertdescription'
-
-        result.append(row)
-        return rid
+        cursor = self.conn.cursor()
+        query = "insert into babyfood(rid, bfbrand, bfflavor, bfdescription values (%s, %s, %s, %s) returning bfid;"
+        cursor.execute(query, (rid,bfbrand,bfflavor, bfdescription,))
+        bfid = cursor.fetchone()[0]
+        self.conn.commit()
+        return bfid
 
     def delete(self, bfid):
         #cursor = self.conn.cursor()

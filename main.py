@@ -215,7 +215,6 @@ def getResourcesByRequesterId(reqid):
 @app.route('/ResourceApp/resources/medicaldevices', methods=['GET', 'POST'])
 def getAllMedicalDevices():
     if request.method == 'POST':
-        
         print("REQUEST: ", request.json)
         return MedicalDeviceHandler().insertMedicalDeviceJson(request.json)
     else:

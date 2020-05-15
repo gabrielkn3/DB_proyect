@@ -115,21 +115,14 @@ class ResourceDAO:
 
         return result
 
-    def insert(self, rname, rtype, rlocation, sid):
-        #cursor = self.conn.cursor()
-        #query = "insert into parts(pname, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
-        #cursor.execute(query, (pname, pcolor, pmaterial, pprice,))
-        #pid = cursor.fetchone()[0]
-        #self.conn.commit()
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'inserttype'
-        row[2] = 'insertname'
-        row[3] = 'insertlocation'
+    def insert(self, rname, rtype, rlocation):
+        cursor = self.conn.cursor()
+        query = "insert into resource(rname, rtype, rlocation) values (%s, %s, %s) returning pid;"
+        cursor.execute(query, (rname,rtype,rlocation,))
+        rid = cursor.fetchone()[0]
+        self.conn.commit()
 
-        result.append(row)
-        return sid
+        return rid
 
     def delete(self, rid):
         #cursor = self.conn.cursor()

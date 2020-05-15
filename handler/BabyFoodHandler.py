@@ -17,13 +17,15 @@ class BabyFoodHandler:
         result['rlocation'] = row[6]
         return result
 
-    def build_BabyFood_attributes(self, bfid, rid, bfbrand, bfflavor, bfdescription):
+    def build_BabyFood_attributes(self, bfid, rid, rname, bfbrand, bfflavor, bfdescription, rlocation):
         result = {};
         result['bfid'] = bfid
         result['rid'] = rid
+        result['rname'] = rname
         result['bfbrand'] = bfbrand
         result['bfflavor'] = bfflavor
         result['bfdescription'] = bfdescription
+        result['rlocation'] = rlocation
         return result
 
     def getAllBabyFood(self):
@@ -68,47 +70,46 @@ class BabyFoodHandler:
                 result_list.append(result)
             return jsonify(BabyFood = result_list)
 
-    def insertBabyFood(self, form):
-        print("form: ", form)
-        if len(form) != 7:
-            return jsonify(Error = "Malformed post request"), 400
-        else:
-            rname = form['rname']
-            rtype = form['rtype']
-            rlocation = form['rlocation']
-            sid = form['sid']
-
-            bfbrand = form['bfbrand']
-            bfflavor = form['bfflavor']
-            bfdescription = form['bfdescription']
-
-            if rtype and rname and rlocation and sid and bfbrand and bfflavor and bfdescription:
-                resourcedao = ResourceDAO()
-                dao = BabyFoodDAO()
-                rid = resourcedao.insert(rtype,rname,rlocation,sid)
-                bfid = dao.insert(rid, bfbrand, bfflavor, bfdescription)
-                result = self.build_BabyFood_attributes(bfid, rid, bfbrand, bfflavor, bfdescription)
-                return jsonify(BabyFood=result), 201
-            else:
-                return jsonify(Error="Unexpected attributes in post request"), 400
+    # def insertBabyFood(self, form):
+    #     print("form: ", form)
+    #     if len(form) != 7:
+    #         return jsonify(Error = "Malformed post request"), 400
+    #     else:
+    #         rname = form['rname']
+    #         rtype = form['rtype']
+    #         rlocation = form['rlocation']
+    #         sid = form['sid']
+    #
+    #         bfbrand = form['bfbrand']
+    #         bfflavor = form['bfflavor']
+    #         bfdescription = form['bfdescription']
+    #
+    #         if rtype and rname and rlocation and sid and bfbrand and bfflavor and bfdescription:
+    #             resourcedao = ResourceDAO()
+    #             dao = BabyFoodDAO()
+    #             rid = resourcedao.insert(rtype,rname,rlocation,sid)
+    #             bfid = dao.insert(rid, bfbrand, bfflavor, bfdescription)
+    #             result = self.build_BabyFood_attributes(bfid, rid, bfbrand, bfflavor, bfdescription)
+    #             return jsonify(BabyFood=result), 201
+    #         else:
+    #             return jsonify(Error="Unexpected attributes in post request"), 400
 
     def insertBabyFoodJson(self, json):
 
         rname = json['rname']
         rtype = json['rtype']
         rlocation = json['rlocation']
-        sid = json['sid']
         bfbrand = json['bfbrand']
         bfflavor = json['bfflavor']
         bfdescription = json['bfdescription']
 
 
-        if rtype and rname and rlocation and sid and bfbrand and bfflavor and bfdescription:
+        if rtype and rname and rlocation and bfbrand and bfflavor and bfdescription:
             resourcedao = ResourceDAO()
             dao = BabyFoodDAO()
-            rid = resourcedao.insert(rtype, rname, rlocation, sid)
-            bfid = dao.insert(rid, bfbrand, bfflavor, bfdescription)
-            result = self.build_BabyFood_attributes(bfid, rid, bfbrand, bfflavor, bfdescription)
+            rid = resourcedao.insert(rname,rtype,rlocation)
+            bfid = dao.insert(bfbrand, bfflavor, bfdescription, rid)
+            result = self.build_BabyFood_attributes(bfid, rid, rname, bfbrand, bfflavor, bfdescription, rlocation)
             return jsonify(BabyFood=result), 201
 
         else:
