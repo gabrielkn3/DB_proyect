@@ -132,3 +132,4 @@ class RequestDAO:
         cursor.execute(query, (requeststatus, requestquantity, requestdate, rid, reqid,))
         self.conn.commit()
 
+    #

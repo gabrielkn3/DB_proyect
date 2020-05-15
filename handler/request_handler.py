@@ -192,7 +192,7 @@ class RequestHandler:
     #     result = dao.getCountByRequestId()
     #     # print(self.build_listing_counts(result))
     #     return jsonify(RequestCounts=self.build_listing_counts(result)), 200
-
+    #
 
 
 
