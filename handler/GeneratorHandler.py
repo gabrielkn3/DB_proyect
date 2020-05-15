@@ -41,14 +41,16 @@ class GeneratorHandler:
         result['rlocation'] = row[6]
         return result
 
-    def build_Generator_attributes(self, gid, rid, gbrand, gfueltype, gpoweroutput, gdescription):
+    def build_Generator_attributes(self, gid, rid, rname, gbrand, gfueltype, gpoweroutput, gdescription, rlocation):
         result = {};
         result['gid'] = gid
         result['rid'] = rid
+        result['rname'] = rname
         result['gbrand'] = gbrand
         result['gfueltype'] = gfueltype
         result['gpoweroutput'] = gpoweroutput
         result['gdescription'] = gdescription
+        result['rlocation'] = rlocation
         return result
 
     def getAllGenerator(self):
@@ -123,19 +125,18 @@ class GeneratorHandler:
         rname = json['rname']
         rtype = json['rtype']
         rlocation = json['rlocation']
-        sid = json['sid']
 
         gbrand = json['gbrand']
         gfueltype = json['gfueltype']
         gpoweroutput = json['gpoweroutput']
         gdescription = json['gdescription']
 
-        if rtype and rname and rlocation and sid and gbrand and gfueltype and gpoweroutput and gdescription:
+        if rtype and rname and rlocation and gbrand and gfueltype and gpoweroutput and gdescription:
             resourcedao = ResourceDAO()
             dao = GeneratorDAO()
-            rid = resourcedao.insert(rtype, rname, rlocation, sid)
-            gid = dao.insert(rid, gbrand, gfueltype, gpoweroutput, gdescription)
-            result = self.build_Generator_attributes(gid, rid, gbrand, gfueltype, gpoweroutput, gdescription)
+            rid = resourcedao.insert(rtype, rname, rlocation)
+            gid = dao.insert(gbrand, gfueltype, gpoweroutput, gdescription, rid)
+            result = self.build_Generator_attributes(gid, rid, rname, gbrand, gfueltype, gpoweroutput, gdescription, rlocation)
             return jsonify(Generator=result), 201
 
         else:

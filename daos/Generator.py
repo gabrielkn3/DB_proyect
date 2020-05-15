@@ -41,23 +41,13 @@ class GeneratorDAO:
            result.append(row)
         return result
 
-    def insert(self, rid, gbrand, gfueltype, gpoweroutput, gdescription):
-        #cursor = self.conn.cursor()
-        #query = "insert into parts(pname, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
-        #cursor.execute(query, (pname, pcolor, pmaterial, pprice,))
-        #pid = cursor.fetchone()[0]
-        #self.conn.commit()
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'inserttype'
-        row[2] = 'insergfueltype'
-        row[3] = 'insertlocation'
-        row[4] = 'Insergdescription'
-        row[5] = 'Dummyval'
-
-        result.append(row)
-        return rid
+    def insert(self, gbrand, gfueltype, gpoweroutput, gdescription,rid):
+        cursor = self.conn.cursor()
+        query = "insert into powerGenerators values (%s, %s, %s, %s, %s) returning gid;"
+        cursor.execute(query, (gbrand, gfueltype, gpoweroutput, gdescription, rid,))
+        gid = cursor.fetchone()[0]
+        self.conn.commit()
+        return gid
 
     def delete(self, gid):
         #cursor = self.conn.cursor()
