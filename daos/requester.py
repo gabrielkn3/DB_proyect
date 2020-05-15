@@ -76,3 +76,13 @@ class RequesterDAO:
         #             req_list.remove(row)
         #             return reqid
         return None #failed
+
+    def validateID(self, reqid):
+        cursor = self.conn.cursor()
+        query = "select * from requester where reqid = %s;"
+        cursor.execute(query, (reqid,))
+        result = cursor.fetchone()
+        if not result:
+            return False
+        else:
+            return True
