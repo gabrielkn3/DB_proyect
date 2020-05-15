@@ -1,5 +1,6 @@
 import psycopg2
 import config.dbconfig
+
 class stocksDAO:
     global example_list, empty_list, id1, id2, id3, id4, number
     example_list = []
@@ -24,18 +25,12 @@ class stocksDAO:
         example_list.append(row)
 
     def insert(self, sid, rid, squantity):
-        # cursor = self.conn.cursor()
-        # query = "insert into stocks(sid, rid, squantity) values(%s, %s, %s) returning primary key;"
-        # cursor.execute(query, (sid, rid, squantity,))
-        # pkey = cursor.fetchone()
-        # self.conn.commit()
-        # return pkey
-        row = {}
-        row[0] = int(sid)
-        row[1] = int(rid)
-        row[2] = int(squantity)
-        example_list.append(row)
-        return row
+        cursor = self.conn.cursor()
+        query = "insert into stocks(sid, rid, squantity) values(%s, %s, %s) returning sid;"
+        cursor.execute(query, (sid, rid, squantity,))
+        supplier = cursor.fetchone()
+        self.conn.commit()
+        return supplier
 
     def delete(self, sid, rid):
         # cursor = self.conn.cursor()

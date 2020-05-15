@@ -1,27 +1,34 @@
 from flask import jsonify
 from daos.stocks import stocksDAO
+from daos.supplier import SupplierDAO
+from daos.resource import ResourceDAO
 
 class stocksHandler:
     def build_stocks_dict(self, row):
         result = {}
-        result['sid'] = row[0]
-        result['rid'] = row[1]
-        result['quantity'] = row[2]
+        result['Supplier ID'] = row[0]
+        result['Resource ID'] = row[1]
+        result['Amount stocked'] = row[2]
         return result
 
     def insertStocks(self, form):
         if form and len(form) == 3:
             sid = form['sid']
             rid = form['rid']
-            quantity = form['quantity']
+            quantity = form['squantity']
+
+            if not SupplierDAO().validateID(sid):
+                return jsonify(Error="Supplier doest not exist."), 404
+            if not ResourceDAO().validateID(rid):
+                return jsonify(Error="Resource doest not exist."), 404
 
             if sid and rid and quantity:
                 dao = stocksDAO()
-                stock = dao.insert(sid, rid, quantity)
+                dao.insert(sid, rid, quantity)
                 result = {}
-                result['sid'] = int(stock[0])
-                result['rid'] = int(stock[1])
-                result['quantity'] = int(stock[2])
+                result['sid'] = sid
+                result['rid'] = rid
+                result['squantity'] = quantity
                 return jsonify(Stocks=result), 201
             else:
                 return jsonify(Error="Malformed post request."), 400
