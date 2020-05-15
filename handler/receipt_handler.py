@@ -11,15 +11,13 @@ class receiptHandler:
         result['pid'] = row[4]
         return result
 
-    def build_receipt_attributes(self, oid, ReqID, sid, pid, rid, quantity, status):
+    def build_receipt_attributes(self, oid, ostatus,reqid, sid, pid):
         result = {}
         result['oid'] = oid
-        result['ReqID'] = ReqID
+        result['ostatus'] = ostatus
+        result['reqid'] = reqid
         result['sid'] = sid
         result['pid'] = pid
-        result['rid'] = rid
-        result['quantity'] = quantity
-        result['status'] = status
         return result
 
     def getAllReceipts(self):
@@ -40,9 +38,9 @@ class receiptHandler:
             receipt = self.build_receipt_dict(row)
             return jsonify(Receipt=receipt)
 
-    def getReceiptByRequestorID(self, ReqID):
+    def getReceiptByRequestorID(self, reqid):
         dao = ReceiptDAO()
-        result = dao.getReceiptByRequestorID(ReqID)
+        result = dao.getReceiptByRequestorID(reqid)
         result_list = []
         if not result:
             return jsonify(Error="Receipt Not Found"), 404
@@ -88,7 +86,7 @@ class receiptHandler:
                 req = self.build_receipt_dict(row)
                 result_list.append(req)
         return jsonify(Receipt=result_list)
-    
+
     def getReceiptByStatus(self, status):
         dao = ReceiptDAO()
         result = dao.getReceiptByStatus(status)
@@ -158,34 +156,30 @@ class receiptHandler:
             return jsonify(Error="Malformed post Receipt"), 400
         else:
             oid = form['oid']
-            ReqID = form['ReqID']
+            ostatus = form['ostatus']
+            reqid = form['reqid']
             sid = form['sid']
             pid = form['pid']
-            rid = form['rid']
-            quantity = form['quantity']
-            status = form['status']
 
-            if oid and ReqID and sid and pid and rid and quantity and status:
+            if oid and ostatus and reqid and sid and pid:
                 dao = ReceiptDAO()
-                lid = dao.insert(oid, ReqID, sid, pid, rid, quantity, status)
-                result = self.build_receipt_attributes(oid, ReqID, sid, pid, rid, quantity, status)
-                return jsonify(Receipts=result), 201
+                oid = dao.insert(ostatus,reqid, sid, pid)
+                result = self.build_receipt_attributes(oid, ostatus,reqid, sid, pid)
+                return jsonify(Receipts = result), 201
             else:
                 return jsonify(Error="Unexpected attributes in post Receipt"), 400
 
     def insertReceiptJson(self, json):
-        oid = json['oid']
-        ReqID = json['ReqID']
+        ostatus = json['ostatus']
+        reqid = json['reqid']
         sid = json['sid']
         pid = json['pid']
-        rid = json['rid']
-        quantity = json['quantity']
-        status = json['status']
-        if oid and ReqID and sid and pid and rid and quantity and status:
+
+        if ostatus and reqid and sid and pid:
             dao = ReceiptDAO()
-            oid = dao.insert(oid, ReqID, sid, pid, rid, quantity, status)
-            result = self.build_receipt_attributes(oid, ReqID, sid, pid, rid, quantity, status)
-            return jsonify(receipt=result), 201
+            oid = dao.insert(ostatus,reqid, sid, pid)
+            result = self.build_receipt_attributes(oid, ostatus,reqid, sid, pid)
+            return jsonify(Receipt = result), 201
         else:
             return jsonify(Error="Unexpected attributes in post Receipt"), 400
 
@@ -206,15 +200,15 @@ class receiptHandler:
                 return jsonify(Error="Malformed update Receipt"), 400
             else:
                 oid = form['oid']
-                ReqID = form['ReqID']
+                reqid = form['reqid']
                 sid = form['sid']
                 pid = form['pid']
                 rid = form['rid']
                 quantity = form['quantity']
                 status = form['status']
-                if oid and ReqID and sid and pid and rid and quantity and status:
-                    dao.update(oid, ReqID, sid, pid, rid, quantity, status)
-                    result = self.build_receipt_attributes(oid, ReqID, sid, pid, rid, quantity, status)
+                if oid and reqid and sid and pid and rid and quantity and status:
+                    dao.update(oid, reqid, sid, pid, rid, quantity, status)
+                    result = self.build_receipt_attributes(oid, reqid, sid, pid, rid, quantity, status)
                     return jsonify(Receipt=result), 200
                 else:
                     return jsonify(Error="Unexpected attributes in update Receipt"), 400
