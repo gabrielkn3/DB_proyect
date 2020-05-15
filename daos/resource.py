@@ -180,3 +180,13 @@ class ResourceDAO:
 
         result.append(row)
         return row
+
+    def validateID(self, rid):
+        cursor = self.conn.cursor()
+        query = "select * from resource where rid = %s;"
+        cursor.execute(query, (rid,))
+        result = cursor.fetchone()
+        if not result:
+            return False
+        else:
+            return True
