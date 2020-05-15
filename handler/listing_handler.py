@@ -119,6 +119,16 @@ class ListingHandler:
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
 
+    #for testing:
+    # {
+    #     "postDate": "2020-05-15",
+    #     "lprice": 2000,
+    #     "lquantity": 10,
+    #     "llocation": "-20.000, 15.000",
+    #     "sid": 2,
+    #     "rid": 14
+    # }
+    #
     def insertListingJson(self, json):
         postDate = json['postDate']
         lprice = json['lprice']
