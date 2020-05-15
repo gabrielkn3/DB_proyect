@@ -18,13 +18,15 @@ class WaterHandler:
         return result
 
 
-    def build_Water_attributes(self, wid, rid, wbrand, wsize, wdescription):
+    def build_Water_attributes(self, wid, rid,rname, wbrand, wsize, wdescription, rlocation):
         result = {};
         result['wid'] = wid
         result['rid'] = rid
+        result['rname'] = rname
         result['wbrand'] = wbrand
         result['wsize'] = wsize
         result['wdescription'] = wdescription
+        result['rlocation'] = rlocation
         return result
 
     def getAllWater(self):
@@ -98,18 +100,17 @@ class WaterHandler:
         rname = json['rname']
         rtype = json['rtype']
         rlocation = json['rlocation']
-        sid = json['sid']
         wbrand = json['wbrand']
         wsize = json['wsize']
         wdescription = json['wdescription']
 
 
-        if rtype and rname and rlocation and sid and wbrand and wsize and wdescription:
+        if rtype and rname and rlocation and wbrand and wsize and wdescription:
             resourcedao = ResourceDAO()
             dao = WaterDAO()
-            rid = resourcedao.insert(rtype, rname, rlocation, sid)
-            wid = dao.insert(rid, wbrand, wsize, wdescription)
-            result = self.build_Water_attributes(wid, rid, wbrand, wsize, wdescription)
+            rid = resourcedao.insert(rtype, rname, rlocation)
+            wid = dao.insert(wbrand, wsize, wdescription,rid)
+            result = self.build_Water_attributes(wid, rid,rname, wbrand, wsize, wdescription, rlocation)
             return jsonify(Water=result), 201
 
         else:

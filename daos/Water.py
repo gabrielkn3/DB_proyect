@@ -41,22 +41,13 @@ class WaterDAO:
            result.append(row)
         return result
 
-    def insert(self, rid, wbrand, wsize, wdescription):
-        #cursor = self.conn.cursor()
-        #query = "insert into parts(pname, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
-        #cursor.execute(query, (pname, pcolor, pmaterial, pprice,))
-        #pid = cursor.fetchone()[0]
-        #self.conn.commit()
-        row = {};
-        result = [];
-        row[0] = 'Inserting:'
-        row[1] = 'RID'
-        row[2] = 'BRAND'
-        row[3] = 'SIZE'
-        row[4] = 'DESCRIPTION'
-
-        result.append(row)
-        return rid
+    def insert(self, wbrand, wsize, wdescription, rid):
+        cursor = self.conn.cursor()
+        query = "insert into water(wbrand, wsize, wdescription, rid) values (%s, %s, %s, %s) returning wid;"
+        cursor.execute(query, (wbrand, wsize, wdescription, rid,))
+        wid = cursor.fetchone()[0]
+        self.conn.commit()
+        return wid
 
     def delete(self, wid):
         #cursor = self.conn.cursor()
