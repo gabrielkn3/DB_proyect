@@ -69,3 +69,13 @@ class SupplierDAO:
 
     def update(self, sid, slocation):
         return None
+
+    def validateID(self, sid):
+        cursor = self.conn.cursor()
+        query = "select * from supplier where sid = %s;"
+        cursor.execute(query, (sid,))
+        result = cursor.fetchone()
+        if not result:
+            return False
+        else:
+            return True
