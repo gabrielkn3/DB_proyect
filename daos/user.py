@@ -32,30 +32,24 @@ class userDAO:
         elist.append(row)
 
     def insert(self, username, password, firstname, lastname, email, phone,
-               country, city, neighborhood, street, housenumber, zipcode):
-        # cursor = self.conn.cursor()
-        # query = "insert into user(username, password, firstname, lastname, email, phone, country, city, neighborhood, street, housenumber, zipcode) " \
-        #         "values(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning uid;"
-        # cursor.execute(query, (username, password, firstname, lastname, email, phone, country, city, neighborhood, street, housenumber, zipcode,))
-        # uid = cursor.fetchone()
-        # self.conn.commit()
-        # return uid
-        row = {}
-        row[0] = len(elist)
-        row[1] = username
-        row[2] = password
-        row[3] = firstname
-        row[4] = lastname
-        row[5] = email
-        row[6] = int(phone)
-        row[7] = country
-        row[8] = city
-        row[9] = neighborhood
-        row[10] = street
-        row[11] = housenumber
-        row[12] = "" + zipcode
-        elist.append(row)
-        return row[0]
+               country, city, saddress, zipcode):
+        cursor = self.conn.cursor()
+
+        # Inserting new user into user table
+        query = "insert into useraccounts(username, password, firstname, lastname, email, " \
+                "country, city, saddress, zip) " \
+                "values(%s, %s, %s, %s, %s, %s, %s, %s, %s) returning uid;"
+        cursor.execute(query, (username, password, firstname, lastname, email,
+                               country, city, saddress, zipcode,))
+        uid = cursor.fetchone()
+        self.conn.commit()
+
+        #### Inserting user's phone number into phonenumber table ####
+        query = "insert into phonenumber(uid, phone) values(%s, %s);"
+        cursor.execute(query, (uid, phone,))
+        self.conn.commit()
+
+        return uid
 
     def delete(self, uid):
         # cursor = self.conn.cursor()
@@ -187,7 +181,7 @@ class userDAO:
         return result
 
 
-    def getUserByState(self, country):
+    def getUserByCountry(self, country):
         cursor = self.conn.cursor()
         query = "select uid, firstname, lastname, email, city, country, saddress, zip from useraccounts where country = %s;"
         cursor.execute(query, (country,))
@@ -227,7 +221,7 @@ class userDAO:
         return result
 
 
-    def getUserByStateAndCity(self, country, city):
+    def getUserByCountryAndCity(self, country, city):
         cursor = self.conn.cursor()
         query = "select * from useraccounts where country = %s and city = %s;"
         cursor.execute(query, (country, city,))
@@ -245,3 +239,11 @@ class userDAO:
         for row in cursor:
             result.append(row)
         return result
+
+    def test(self, uid):
+        cursor = self.conn.cursor()
+        query = "select uid from useraccounts where uid = %s;"
+        cursor.execute(query, (uid,))
+        result = cursor.fetchone()[0]
+        print("DAO = " + str(result))
+        return str(result)

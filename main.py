@@ -862,10 +862,10 @@ def getUserByPhone(uid):
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/user/state/<string:state>', methods=['GET'])
-def getUserByState(state):
+@app.route('/ResourceApp/user/country/<string:country>', methods=['GET'])
+def getUserByCountry(country):
     if request.method == 'GET':
-        return userHandler().getUserByState(state)
+        return userHandler().getUserByCountry(country)
     else:
         return jsonify(Error="Method not allowed."), 405
 
@@ -883,10 +883,10 @@ def getUserByZipcode(zipcode):
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/user/stateandcity/<string:state>/<string:city>', methods=['GET'])
-def getUserByStateAndCity(state, city):
+@app.route('/ResourceApp/user/countryandcity/<string:country>/<string:city>', methods=['GET'])
+def getUserByCountryAndCity(country, city):
     if request.method == 'GET':
-        return userHandler().getUserByStateAndCity(state, city)
+        return userHandler().getUserByCountryAndCity(country, city)
     else:
         return jsonify(Error="Method not allowed."), 405
 

@@ -20,16 +20,17 @@ class adminDAO:
         elist.append(row)
 
     def insert(self, uid):
-        # cursor = self.conn.cursor()
-        # query = "insert into administrator(uid) values(%s) returning aid;"
-        # cursor.execute(query, (uid,))
-        # aid = cursor.conn.commit()
-        # return aid
-        row = {}
-        row[0] = uid
-        row[1] = len(elist)
-        elist.append(row)
-        return row[1]
+        cursor = self.conn.cursor()
+        query = "insert into administrator(uid) values(%s) returning aid;"
+        cursor.execute(query, (uid,))
+        aid = cursor.fetchone()
+        self.conn.commit()
+        return aid
+        # row = {}
+        # row[0] = uid
+        # row[1] = len(elist)
+        # elist.append(row)
+        # return row[1]
 
 
     def delete(self, aid):
