@@ -109,7 +109,7 @@ class RequestDAO:
             result.append(row)
         return result
 
-    def insert(self, status, rid, reqID, requantity, date):
+    def insert(self, RequestID, status, rid, lid, reqID, sid, amount, date):
         cursor = self.conn.cursor()
         query = "insert into requests(RequestID, status, rid, lid, reqID, sid, amount, date) values (%s, %s, %s, %s, %s, %s, %s, %s) returning RequestID;"
         cursor.execute(query, (RequestID, status, rid, lid, reqID, sid, amount, date,))
@@ -126,10 +126,9 @@ class RequestDAO:
         return RequestID
 
 
-    def update(self, RequestID, status, rid, reqID, amount, date):
+    def update(self, RequestID, status, rid, lid, reqID, sid, amount, date):
         cursor = self.conn.cursor()
         query = "update requests set RequestID = %s, status = %s, rid = %s, lid = %s, reqID = %s, sid = %s, amount = %s, date = %s where RequestID = %s;"
         cursor.execute(query, (RequestID, status, rid, lid, reqID, sid, amount, date,))
         self.conn.commit()
         return lid
-

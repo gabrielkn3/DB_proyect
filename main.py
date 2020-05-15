@@ -80,8 +80,6 @@ def getRequestersByResourceId(rid):
 @app.route('/ResourceApp/requests', methods=['GET', 'POST'])
 def getAllRequests():
     if request.method == 'POST':
-
-        print("REQUEST: ", request.json)
         return RequestHandler().insertRequestJson(request.json)
     else:
         if not request.args:
