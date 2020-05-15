@@ -107,7 +107,7 @@ class DryFoodHandler:
             resourcedao = ResourceDAO()
             dao = DryFoodDAO()
             rid = resourcedao.insert(rtype, rname, rlocation)
-            dfid = dao.insert(rid, dfbrand, dfname, dfdescription)
+            dfid = dao.insert(dfbrand, dfname, dfdescription,rid)
             result = self.build_DryFood_attributes(dfid, rid, rname, dfbrand, dfname, dfdescription, rlocation)
             return jsonify(DryFood=result), 201
 

@@ -16,13 +16,15 @@ class HeavyEquipmentHandler:
         result['rlocation'] = row[5]
         return result
 
-    def build_HeavyEquipment_attributes(self, hid, rid, hbrand, hname, hdescription):
+    def build_HeavyEquipment_attributes(self, hid, rid,rname,  hbrand, hname, hdescription, rlocation):
         result = {};
         result['hid'] = hid
         result['rid'] = rid
+        result['rname'] = rname
         result['hbrand'] = hbrand
         result['hname'] = hname
         result['hdescription'] = hdescription
+        result['rlocation'] = rlocation
         return result
 
     def getAllHeavyEquipment(self):
