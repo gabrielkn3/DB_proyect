@@ -45,22 +45,14 @@ class MedicationDAO:
 
         return result
 
-    def insert(self, rid, mname, mdosage, mdescription):
-        #cursor = self.conn.cursor()
-        #query = "insert into parts(pname, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
-        #cursor.execute(query, (pname, pcolor, pmaterial, pprice,))
-        #pid = cursor.fetchone()[0]
-        #self.conn.commit()
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'inserttype'
-        row[2] = 'insertname'
-        row[3] = 'insertlocation'
-        row[4] = 'Insertdescription'
+    def insert(self, mname, mdosage, mdescription,rid):
+        cursor = self.conn.cursor()
+        query = "insert into medications(mname, mdosage, mdescription, rid) values (%s, %s, %s, %s) returning mid;"
+        cursor.execute(query, (mname, mdosage, mdescription, rid,))
+        mid = cursor.fetchone()[0]
+        self.conn.commit()
 
-        result.append(row)
-        return rid
+        return mid
 
     def delete(self, mid):
         #cursor = self.conn.cursor()

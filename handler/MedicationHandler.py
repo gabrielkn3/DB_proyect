@@ -17,13 +17,15 @@ class MedicationHandler:
 
         return result
 
-    def build_Medication_attributes(self, mid, rid, mname, mdosage, mdescription):
+    def build_Medication_attributes(self, mid, rid,rname, mname, mdosage, mdescription, rlocation):
         result = {};
         result['mid'] = mid
         result['rid'] = rid
+        result['rname'] = rname
         result['mname'] = mname
         result['mdosage'] = mdosage
         result['mdescription'] = mdescription
+        result['rlocation'] = rlocation
         return result
 
     def getAllMedication(self):
@@ -97,18 +99,17 @@ class MedicationHandler:
         rname = json['rname']
         rtype = json['rtype']
         rlocation = json['rlocation']
-        sid = json['sid']
         mname = json['mname']
         mdosage = json['mdosage']
         mdescription = json['mdescription']
 
 
-        if rtype and rname and rlocation and sid and mname and mdosage and mdescription:
+        if rtype and rname and rlocation and mname and mdosage and mdescription:
             resourcedao = ResourceDAO()
             dao = MedicationDAO()
-            rid = resourcedao.insert(rtype, rname, rlocation, sid)
-            mid = dao.insert(rid, mname, mdosage, mdescription)
-            result = self.build_Medication_attributes(mid, rid, mname, mdosage, mdescription)
+            rid = resourcedao.insert(rtype, rname, rlocation)
+            mid = dao.insert(mname, mdosage, mdescription, rid)
+            result = self.build_Medication_attributes(mid, rid,rname, mname, mdosage, mdescription, rlocation)
             return jsonify(Medication=result), 201
 
         else:
