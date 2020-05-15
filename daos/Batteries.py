@@ -52,7 +52,7 @@ class BatteriesDAO:
 
     def insert(self, bbrand, btype, blife, bdescription, rid):
         cursor = self.conn.cursor()
-        query = "insert into batteries(bbrand,btype,blife,bdescription,rid) values (%s, %s, %s, %s) returning pid;"
+        query = "insert into batteries(bbrand,btype,blife,bdescription,rid) values (%s, %s, %s, %s) returning bid;"
         cursor.execute(query, (bbrand, btype, blife, bdescription,rid,))
         bid = cursor.fetchone()[0]
         self.conn.commit()

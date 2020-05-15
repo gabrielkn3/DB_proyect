@@ -16,13 +16,15 @@ class CannedFoodHandler:
         result['rlocation'] = row[5]
         return result
 
-    def build_CannedFood_attributes(self, cfid, rid, cfbrand, cfname, cfdescription):
+    def build_CannedFood_attributes(self, cfid, rid, rname, cfbrand, cfname, cfdescription, rlocation):
         result = {};
         result['cfid'] = cfid
         result['rid'] = rid
+        result['rname'] = rname
         result['cfbrand'] = cfbrand
         result['cfname'] = cfname
         result['cfdescription'] = cfdescription
+        result['rlocation'] = rlocation
         return result
 
     def getAllCannedFood(self):
@@ -96,18 +98,17 @@ class CannedFoodHandler:
         rname = json['rname']
         rtype = json['rtype']
         rlocation = json['rlocation']
-        sid = json['sid']
         cfbrand = json['cfbrand']
-        cfname = json['cfname']
+        cfname = json['rname']
         cfdescription = json['cfdescription']
 
 
-        if rtype and rname and rlocation and sid and cfbrand and cfname and cfdescription:
+        if rtype and rname and rlocation and cfbrand and cfname and cfdescription:
             resourcedao = ResourceDAO()
             dao = CannedFoodDAO()
-            rid = resourcedao.insert(rtype, rname, rlocation, sid)
-            cfid = dao.insert(rid, cfbrand, cfname, cfdescription)
-            result = self.build_CannedFood_attributes(cfid, rid, cfbrand, cfname, cfdescription)
+            rid = resourcedao.insert(rtype, rname, rlocation)
+            cfid = dao.insert(cfbrand, cfname, cfdescription, rid)
+            result = self.build_CannedFood_attributes(cfid, rid, rname, cfbrand, cfname, cfdescription, rlocation)
             return jsonify(CannedFood=result), 201
 
         else:

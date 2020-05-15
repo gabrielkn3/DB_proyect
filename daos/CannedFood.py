@@ -42,22 +42,13 @@ class CannedFoodDAO:
            result.append(row)
         return result
 
-    def insert(self, rid, cfbrand, cfname, cfdescription):
-        #cursor = self.conn.cursor()
-        #query = "insert into parts(pname, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
-        #cursor.execute(query, (pname, pcolor, pmaterial, pprice,))
-        #pid = cursor.fetchone()[0]
-        #self.conn.commit()
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'inserttype'
-        row[2] = 'insertname'
-        row[3] = 'insertlocation'
-        row[4] = 'Insertdescription'
-
-        result.append(row)
-        return rid
+    def insert(self, cfbrand, cfname, cfdescription, rid):
+        cursor = self.conn.cursor()
+        query = "insert into cannedfood(cfbrand, cfname, cfdescription, rid) values (%s, %s, %s, %s) returning cfid;"
+        cursor.execute(query, (cfbrand, cfname, cfdescription,rid,))
+        cfid = cursor.fetchone()[0]
+        self.conn.commit()
+        return cfid
 
     def delete(self, cfid):
         #cursor = self.conn.cursor()
