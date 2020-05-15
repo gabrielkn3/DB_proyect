@@ -1,13 +1,11 @@
+import psycopg2
+import config.dbconfig
 class RequestDAO:
-    global request_list, request_id
-    request_list = []
-    request_id = 0
-    # def __init__(self):
-    #
-    #     connection_url = "dbname=%s user=%s password=%s" % (pg_config['dbname'],
-    #                                                         pg_config['user'],
-    #                                                         pg_config['passwd'])
-    #     self.conn = psycopg2._connect(connection_url)
+    def __init__(self):
+        connection_url = "dbname=%s user=%s host = 'localhost' password=%s" % (
+            config.dbconfig.database_config['dbname'], config.dbconfig.database_config['user'],
+            config.dbconfig.database_config['passwd'])
+        self.conn = psycopg2._connect(connection_url)
 
 
     def getAllRequests(self):
@@ -38,12 +36,23 @@ class RequestDAO:
             result.append(row)
         return result
 
+
     # By Resource's ID
     def getRequestByRID(self, rid):
 
         cursor = self.conn.cursor()
         query = "select * from request where rid = %s;"
         cursor.execute(query, (rid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getRequestByrname(self, rname):
+
+        cursor = self.conn.cursor()
+        query = "select requestID, requestStatus,requestQuantity, requestDate, rid, reqid from request natural inner join resource where rname = %s;"
+        cursor.execute(query, (rname,))
         result = []
         for row in cursor:
             result.append(row)

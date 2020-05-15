@@ -3,13 +3,21 @@ from daos.supplier import SupplierDAO
 from daos.company import CompanyDAO
 from handler.user import userHandler
 
+
+
+
+
 class SupplierHandler:
     def build_supplier_dict(self, row):
-        print(str(row))
         result = {}
         result['sid'] = row[0]
-        result['uid'] = row[1]
-        result['slocation'] = row[2]
+        result['First Name'] = row[1]
+        result['Last Name'] = row[2]
+        result['Email'] = row[3]
+        result['City'] = row[4]
+        result['Country'] = row[5]
+        result['Address'] = row[6]
+        result['Zip Code'] = row[7]
         return result
 
     def build_company_dict(self, row):
@@ -19,6 +27,7 @@ class SupplierHandler:
         result['Business Type'] = row[2]
         result['Description'] = row[3]
         result['sid'] = row[4]
+        return result
 
 
     def build_resource_dict(self, row):
@@ -66,12 +75,17 @@ class SupplierHandler:
                 result_list.append(result)
             return jsonify(Resources=result_list)
 
-
-
-
-
-
-
+    def getSupplierByLocation(self, form):
+        dao = SupplierDAO()
+        slocation = form["slocation"]
+        if not slocation:
+            return jsonify(Error="Malformed request in [GET SUPPLIER BY LOCATION]")
+        suppliers = dao.getSuppliersByLocation(slocation)
+        result_list = []
+        for row in suppliers:
+            result = self.build_supplier_dict(row)
+            result_list.append(result)
+        return jsonify(Suppliers=result_list)
 
 
 
@@ -168,31 +182,40 @@ class SupplierHandler:
         dao = SupplierDAO()
         cdao = CompanyDAO()
 
-        row0 = dao.getSupplierById(sid)
-        if not row0:
-            return jsonify(Error="Company Not Found"), 404
+        supplier = dao.getSupplierById(sid)
+        if not supplier:
+            return jsonify(Error="Company Not Found in Suppliers!!"), 404
         else:
             row = cdao.getCompanyBySid(sid)
             company = self.build_company_dict(row)
         return jsonify(Company=company)
 
-    def getCompanyByName(self, cname):
+    def getCompanyByName(self, form):
         dao = CompanyDAO()
-        row = dao.getCompanyByName(cname)
-        if not row:
+        cname = form['cname']
+        if not cname:
+            return jsonify(Error="Company name must be provided."), 405
+        c = dao.getCompanyByName(cname)
+        if not c:
             return jsonify(Error="Company Not Found"), 404
         else:
-            company = self.build_company_dict(row)
+            company = self.build_company_dict(c)
         return jsonify(Company=company)
 
-    def getCompanyByCompanyType(self, btype):
+    def getCompanyByType(self, form):
         dao = CompanyDAO()
-        row = dao.getCompanyByType(btype)
-        if not row:
+        btype = form['btype']
+        if not btype:
+            return jsonify(Error="Company type must be provided."), 405
+        c_list = dao.getCompanyByType(btype)
+        result_list = []
+        if not c_list:
             return jsonify(Error="Company Not Found"), 404
         else:
-            company = self.build_company_dict(row)
-        return jsonify(Company=company)
+            for row in c_list:
+                result = self.build_company_dict(row)
+                result_list.append(result)
+            return jsonify(Companies=result_list)
 
 
 

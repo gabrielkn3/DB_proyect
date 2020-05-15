@@ -5,12 +5,10 @@ class receiptHandler:
     def build_receipt_dict(self, row):
         result = {}
         result['oid'] = row[0]
-        result['ReqID'] = row[1]
-        result['sid'] = row[2]
-        result['pid'] = row[3]
-        result['rid'] = row[4]
-        result['quantity'] = row[5]
-        result['status'] = row[6]
+        result['ostatus'] = row[1]
+        result['reqid'] = row[2]
+        result['sid'] = row[3]
+        result['pid'] = row[4]
         return result
 
     def build_receipt_attributes(self, oid, ReqID, sid, pid, rid, quantity, status):
@@ -44,22 +42,89 @@ class receiptHandler:
 
     def getReceiptByRequestorID(self, ReqID):
         dao = ReceiptDAO()
-        row = dao.getReceiptByRequestorID(ReqID)
-        if not row:
+        result = dao.getReceiptByRequestorID(ReqID)
+        result_list = []
+        if not result:
             return jsonify(Error="Receipt Not Found"), 404
         else:
-            req = self.build_Receipt_dict(row)
-        return jsonify(Receipt=req)
+            for row in result:
+                req = self.build_receipt_dict(row)
+                result_list.append(req)
+        return jsonify(Receipt=result_list)
 
+    def getReceiptByRID(self, rid):
+        dao = ReceiptDAO()
+        result = dao.getReceiptByRID(rid)
+        result_list = []
+        if not result:
+            return jsonify(Error="Receipt Not Found"), 404
+        else:
+            for row in result:
+                req = self.build_receipt_dict(row)
+                result_list.append(req)
+        return jsonify(Receipt=result_list)
 
     def getReceiptBySupplierID(self, sid):
         dao = ReceiptDAO()
-        row = dao.getReceiptBySupplierID(sid)
-        if not row:
+        result = dao.getReceiptBySupplierID(sid)
+        result_list = []
+        if not result:
             return jsonify(Error="Receipt Not Found"), 404
         else:
-            req = self.build_Receipt_dict(row)
-        return jsonify(Receipt=req)
+            for row in result:
+                req = self.build_receipt_dict(row)
+                result_list.append(sid)
+        return jsonify(Receipt=result_list)
+
+
+    def getReceiptByQuantity(self, quantity):
+        dao = ReceiptDAO()
+        result = dao.getReceiptByQuantity(quantity)
+        result_list = []
+        if not result:
+            return jsonify(Error="Receipt Not Found"), 404
+        else:
+            for row in result:
+                req = self.build_receipt_dict(row)
+                result_list.append(req)
+        return jsonify(Receipt=result_list)
+    
+    def getReceiptByStatus(self, status):
+        dao = ReceiptDAO()
+        result = dao.getReceiptByStatus(status)
+        result_list = []
+        if not result:
+            return jsonify(Error="Receipt Not Found"), 404
+        else:
+            for row in result:
+                req = self.build_receipt_dict(row)
+                result_list.append(req)
+        return jsonify(Receipt=result_list)
+
+    def getReceiptByRIDAndStatus(self, status, rid):
+        dao = ReceiptDAO()
+        result = dao.getReceiptByRIDAndStatus(status, rid)
+        result_list = []
+        if not result:
+            return jsonify(Error="Receipt Not Found"), 404
+        else:
+            for row in result:
+                req = self.build_receipt_dict(row)
+                result_list.append(req)
+        return jsonify(Receipt=result_list)
+
+    def getReceiptByRIDAndQuantity(self, quantity, rid):
+        dao = ReceiptDAO()
+        result = dao.getReceiptByRIDAndQuantity(quantity, rid)
+        result_list = []
+        if not result:
+            return jsonify(Error="Receipt Not Found"), 404
+        else:
+            for row in result:
+                req = self.build_receipt_dict(row)
+                result_list.append(req)
+        return jsonify(Receipt=result_list)
+
 
     def searchReceipts(self, args):
 

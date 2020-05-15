@@ -1,23 +1,28 @@
 from flask import jsonify
 from daos.user import userDAO
 
-
 class userHandler:
+
     def build_user_dict(self, row):
         result = {}
         result['uid'] = row[0]
-        result['username'] = row[1]
-        result['password'] = row[2]
-        result['fname'] = row[3]
-        result['lname'] = row[4]
-        result['email'] = row[5]
-        result['phone'] = row[6]
-        result['state'] = row[7]
-        result['city'] = row[8]
-        result['neighborhood'] = row[9]
-        result['street'] = row[10]
-        result['housenumber'] = row[11]
-        result['zipcode'] = row[12]
+        result['First Name'] = row[1]
+        result['Last Name'] = row[2]
+        result['Email'] = row[3]
+        result['City'] = row[4]
+        result['Country'] = row[5]
+        result['Address'] = row[6]
+        result['Zip Code'] = row[7]
+        return result
+
+
+    def build_phone_dict(self,row):
+        result = {}
+        result['uid'] = row[0]
+        result['Phone No.'] = row[1]
+        result['First Name'] = row[2]
+        result['Last Name'] = row[3]
+        result['Email'] = row[4]
         return result
 
     def insertUser(self, form):
@@ -173,7 +178,7 @@ class userHandler:
 
     def getUserByUsername(self, username):
         dao = userDAO()
-        user = dao.getUserById(username)
+        user = dao.getUserByUsername(username)
         if not user:
             return jsonify(Error="User not found"), 404
         else:
@@ -194,7 +199,7 @@ class userHandler:
 
     def getUserByLastName(self, lname):
         dao = userDAO()
-        user_list = dao.getUserByFirstName(lname)
+        user_list = dao.getUserByLastName(lname)
         result_list = []
         if not user_list:
             return jsonify(Error="Users not found"), 404
@@ -213,14 +218,18 @@ class userHandler:
             result = self.build_user_dict(user)
             return jsonify(User=result)
 
-    def getUserByPhoneNumber(self, phone):
+    # def getUserByPhoneNumber(self, phone):
+    def getUserPhoneNumbers(self, uid):
         dao = userDAO()
-        user = dao.getUserById(phone)
-        if not user:
+        phone_list = dao.getUserPhoneNumber(uid)
+        result_list = []
+        if not phone_list:
             return jsonify(Error="User not found"), 404
         else:
-            result = self.build_user_dict(user)
-            return jsonify(User=result)
+            for row in phone_list:
+                result = self.build_phone_dict(row)
+                result_list.append(result)
+            return jsonify(PhoneNumbers=result_list)
 
     def getUserByState(self, state):
         dao = userDAO()
@@ -246,9 +255,9 @@ class userHandler:
                 result_list.append(result)
             return jsonify(Users=result_list)
 
-    def getUserByNeighborhood(self, neighborhood):
+    def getUserByNeighborhood(self, address):
         dao = userDAO()
-        user_list = dao.getUserByneighborhood(neighborhood)
+        user_list = dao.getUserByAddress(address)
         result_list = []
         if not user_list:
             return jsonify(Error="Users not found"), 404
@@ -282,3 +291,13 @@ class userHandler:
                 result_list.append(result)
             return jsonify(Users=result_list)
 
+    def getAllPhoneNumbers(self):
+        dao = userDAO()
+        phone_list = dao.getAllPhones()
+        result_list = []
+
+        if not phone_list:
+            return jsonify(Error="Users not found"), 404
+        for row in phone_list:
+            result_list.append(self.build_phone_dict(row))
+        return jsonify(PhoneNumbers=result_list)

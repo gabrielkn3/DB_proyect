@@ -1,10 +1,6 @@
 from config.dbconfig import database_config
 import psycopg2
-class CompanyDAO:
-    global elist, empty_list, eid
-    elist = []
-    empty_list = []
-    eid = 0
+class CompanyDAO: 
     def __init__(self):
 
         connection_url = "dbname=%s user=%s host = '*' password=%s" % (database_config['dbname'],
@@ -12,14 +8,6 @@ class CompanyDAO:
                                                             database_config['passwd'])
         self.conn = psycopg2._connect(connection_url)
 
-    def first_time(self):
-        row = {}
-        row[0] = len(elist)
-        row[1] = 69
-        row[2] = "Evil Corp."
-        row[3] = "Evil Stuff"
-        row[4] = "We're actually quite nice once you get to know us"
-        elist.append(row)
 
     def getAllCompanies(self):
         cursor = self.conn.cursor()
@@ -51,9 +39,7 @@ class CompanyDAO:
         cursor = self.conn.cursor()
         query = "select * from company where companyname = %s;"
         cursor.execute(query, (cname,))
-        result = []
-        for row in cursor:
-            result.append(row)
+        result = cursor.fetchone()
         return result
 
 
@@ -82,14 +68,7 @@ class CompanyDAO:
         # uid = cursor.fetchone()
         # self.conn.commit()
         # return uid
-        row = {}
-        row[0] = len(elist)
-        row[1] = sid
-        row[2] = cname
-        row[3] = btype
-        row[4] = description
-        elist.append(row)
-        return row[0]
+        return None
 
     def delete(self, cid):
         # cursor = self.conn.cursor()
@@ -97,30 +76,20 @@ class CompanyDAO:
         # cursor.execute(query, (uid,))
         # self.conn.commit()
         # return uid
-        for row in elist:
-            if row[0] == cid:
-                elist.remove(row)
-                return cid
+        return None
 
-    def update(self, uid, sid, cname, btype, description):
-        # cursor = self.conn.cursor()
-        # query = "update Company set sid = %s, cname = %s, btype = %s, description = %s, email = %s, phone = %s, address = %s where uid = %s;"
-        # cursor.execute(query, (sid, cname, btype, description, email, phone, address, uid,))
-        # self.conn.commit()
-        # return uid
-        # entry = {}
-        # entry[0] = uid
-        # entry[1] = sid
-        # entry[2] = cname
-        # entry[3] = btype
-        # entry[4] = description
-        # entry[5] = email
-        # entry[6] = phone
-        # entry[7] = address
-        for row in elist:
-            if row[0] == uid:
-                row[1] = sid
-                row[2] = cname
-                row[3] = btype
-                row[4] = description
-                return row
+    # def update(self, uid, sid, cname, btype, description):
+    #     cursor = self.conn.cursor()
+    #     query = "update Company set sid = %s, cname = %s, btype = %s, description = %s, email = %s, phone = %s, address = %s where uid = %s;"
+    #     cursor.execute(query, (sid, cname, btype, description, email, phone, address, uid,))
+    #     self.conn.commit()
+    #     return uid
+    #     entry = {}
+    #     entry[0] = uid
+    #     entry[1] = sid
+    #     entry[2] = cname
+    #     entry[3] = btype
+    #     entry[4] = description
+    #     entry[5] = email
+    #     entry[6] = phone
+    #     entry[7] = address

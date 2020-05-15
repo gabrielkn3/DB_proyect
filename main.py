@@ -21,7 +21,9 @@ from handler.user import userHandler
 from handler.administrator import adminHandler
 from handler.requester_handler import RequesterHandler
 from handler.Payment import paymentHandler
+from handler.receipt_handler import receiptHandler
 from handler.stocksHandler import stocksHandler
+
 
 # Import Cross-Origin Resource Sharing to enable
 # services on other ports on this machine or on other
@@ -55,6 +57,15 @@ def getResourceById(rid):
     else:
         return jsonify(Error="Method not allowed."), 405
 
+#Get,Update, or Delete Resource By ID
+@app.route('/ResourceApp/resources/<string:rname>', methods=['GET'])
+def getResourceByName(rname):
+    if request.method == 'GET':
+        return ResourceHandler().getResourcesByName(rname)
+
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
 #GetSuppliersByResourceID
 @app.route('/ResourceApp/resources/<int:rid>/suppliers')
 def getSuppliersByResourceId(rid):
@@ -76,6 +87,38 @@ def getAllRequests():
         if not request.args:
             return RequestHandler().getAllRequests()
 
+#Keyword Search Requests by Resource Name
+@app.route('/ResourceApp/requests/<string:rname>', methods=['GET', 'POST'])
+def getRequestsByName(rname):
+    if request.method == 'GET':
+        return RequestHandler().getRequestsByResourceName(rname)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+#Keyword Search Requests by Resource ID
+@app.route('/ResourceApp/requests/<int:requestid>', methods=['GET', 'POST'])
+def getRequestByID(requestid):
+    if request.method == 'GET':
+        return RequestHandler().getRequestByID(requestid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+#Keyword Search Requests by user id
+@app.route('/ResourceApp/requests/requester/<int:reqid>', methods=['GET', 'POST'])
+def getRequestByreqID(reqid):
+    if request.method == 'GET':
+        return RequestHandler().getRequestByreqID(reqid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+#Keyword Search Requests by user id
+@app.route('/ResourceApp/requests/resource/<int:requestid>', methods=['GET', 'POST'])
+def getResourceInRequest(requestid):
+    if request.method == 'GET':
+        return ResourceHandler().getResourceByrequestID(requestid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
 #Browse All Listings or Insert new Listing
 @app.route('/ResourceApp/listings', methods=['GET', 'POST'])
 def getAllListings():
@@ -87,11 +130,11 @@ def getAllListings():
         if not request.args:
             return ListingHandler().getAllListings()
 
-#Keyword Search Requests by Resource Name
-@app.route('/ResourceApp/requests/<string:rname>', methods=['GET', 'POST'])
-def getRequestsByName(rname):
+#Keyword Search Requests Resource Name
+@app.route('/ResourceApp/requests/resource/<string:rname>', methods=['GET', 'POST'])
+def getRequestByrname(rname):
     if request.method == 'GET':
-        return RequestHandler().getRequestsByResourceName(rname)
+        return RequestHandler().getRequestByrname(rname)
     else:
         return jsonify(Error="Method not allowed."), 405
 
@@ -120,18 +163,16 @@ def getListingsByName(rname):
 #Get All Suppliers or REGISTER AS A SUPPLIER
 def getAllSuppliers():
     if request.method == 'POST':
-        print("REQUEST: ", request.form)
-        return SupplierHandler().insertSupplier(request.form)
+        #print("REQUEST: ", request.form)
+        return jsonify(Error="Method not allowed"), 405#SupplierHandler().insertSupplier(request.form)
     else:
-        if not request.args:
-            return SupplierHandler().getAllSuppliers()
-        else:
-            return jsonify(Error="Method not allowed, try other route"), 405
+        return SupplierHandler().getAllSuppliers()
+
 
 @app.route('/ResourceApp/suppliers/location', methods=['GET'])
 def getSupplierByLocation():
     if request.method == 'GET':
-        return SupplierHandler().searchSuppliers(request.form)
+        return SupplierHandler().getSupplierByLocation(request.form)
     else:
         return jsonify(Error="Method not allowed, try other route"), 405
 
@@ -149,13 +190,16 @@ def getSupplierById(sid):
     elif request.method == 'DELETE':
         return SupplierHandler().deleteSupplier(sid)
     else:
-        return jsonify(Error = "Method not allowed"), 405
+        return jsonify(Error="Method not allowed"), 405
 
 
-
-@app.route('/ResourceApp/suppliers/<int:sid>/resources')
+#Supplied Resources!!!
+@app.route('/ResourceApp/suppliers/<int:sid>/resources', methods=['GET'])
 def getResourcesBySupplierId(sid):
-    return SupplierHandler().getResourcesBySupplierId(sid)
+    if request.method == 'GET':
+        return SupplierHandler().getResourcesBySupplierId(sid)
+    else:
+        return jsonify(Error='Method not allowed'), 405
 
 
 
@@ -195,15 +239,16 @@ def getRequestersByLocation():
     if request.method == 'GET':
         return RequesterHandler().searchRequesters(request.form)
     else:
-        return jsonify(Error="Method not allowed, try other route"), 405
+        return jsonify(Error="Method not allowed"), 405
 
 
-
-
-#Requested items
-@app.route('/ResourceApp/requesters/<int:reqid>/resources')
+#Requested Resources!!!!
+@app.route('/ResourceApp/requesters/<int:reqid>/resources', methods=['GET'])
 def getResourcesByRequesterId(reqid):
-    return RequesterHandler().getResourcesByRequesterId(reqid)
+   if request.method =='GET':
+        return RequesterHandler().getResourcesByRequesterId(reqid)
+   else:
+        return jsonify(Error='Method not allowed'), 405
 
 
 
@@ -810,10 +855,10 @@ def getUserByEmail(email):
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/user/phone/<int:phone>', methods=['GET'])
-def getUserByPhone(phone):
+@app.route('/ResourceApp/user/phone/<int:uid>', methods=['GET'])
+def getUserByPhone(uid):
     if request.method == 'GET':
-        return userHandler().getUserByPhoneNumber(phone)
+        return userHandler().getUserPhoneNumbers(uid)
     else:
         return jsonify(Error="Method not allowed."), 405
 
@@ -898,49 +943,129 @@ def getPaymentByPaymentType(type):
 
 
 #************************************************************ Company ******************************************************************************
-@app.route('/ResourceApp/company', methods=['GET', 'POST'])
+@app.route('/ResourceApp/companies', methods=['GET', 'POST'])
 def getAllCompanies():
     if request.method == 'POST':
-        return SupplierHandler().insertSupplier(request.form)
+        return jsonify(Error="Method not allowed."), 405 #SupplierHandler().insertSupplier(request.form)
     elif request.method == 'GET':
         return SupplierHandler().getAllCompanies()
     else:
         return jsonify(Error="Method not allowed."), 405
 
 
-@app.route('/ResourceApp/company/companyId/<int:cid>', methods=['GET', 'DELETE'])
-def getCompanyByCompanyId(cid):
+@app.route('/ResourceApp/companies/<int:cid>', methods=['GET'])
+def getCompanyById(cid):
     if request.method == 'GET':
         return SupplierHandler().getCompanyById(cid)
     # elif request.method == 'PUT':
     #     return supplierHandler().updateCompany(cid, request.form)
-    elif request.method == 'DELETE':
-        return SupplierHandler().deleteCompany(cid)
+    # elif request.method == 'DELETE':
+    #     return SupplierHandler().deleteCompany(cid)
     else:
         return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/company/supplierId/<int:sid>', methods=['GET'])
-def getCompnayByCompanySid(sid):
+@app.route('/ResourceApp/companies/supplierId/<int:sid>', methods=['GET'])
+def getCompnayBySid(sid):
     if request.method == 'GET':
         return SupplierHandler().getCompanyBySid(sid)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+#Using forms, since we cant write spaces in the url
+@app.route('/ResourceApp/companies/companyName/', methods=['GET'])
+def getCompanyByName():
+    if request.method == 'GET':
+        return SupplierHandler().getCompanyByName(request.form)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+@app.route('/ResourceApp/companies/businessType/', methods=['GET'])
+def getCompanyByType():
+    if request.method == 'GET':
+        return SupplierHandler().getCompanyByType(request.form)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+
+# ******************************************************** Orders / Receipts ******************************************************************************
+
+@app.route('/ResourceApp/receipt', methods=['GET', 'POST'])
+def getAllReceipts():
+    if request.method == 'POST':
+        return receiptHandler.insertReceiptJson(request.form)
+    elif request.method == 'GET':
+        return receiptHandler().getAllReceipts()
+    else:
+        return jsonify(Error="Invalid Operation"), 405
+
+
+@app.route('/ResourceApp/receipt/receiptID/<int:oid>', methods=['GET', 'PUT', 'DELETE'])
+def getReceiptByID(oid):
+    if request.method == 'GET':
+        return receiptHandler().getReceiptByID(oid)
+    elif request.method == 'PUT':
+        return receiptHandler().updateReceipt(oid, request.form)
     elif request.method == 'DELETE':
-        return SupplierHandler().deleteCompany(sid)
+        return receiptHandler().deleteReceipt(oid)
     else:
-        return jsonify(Error="Method not allowed."), 405
+        return jsonify(Error="Invalid Operation"), 405
 
-@app.route('/ResourceApp/company/companyName/<string:cname>', methods=['GET'])
-def getCompanyByCompanyName(cname):
-    if request.method == 'GET':
-        return SupplierHandler().getCompanyByName(cname)
-    else:
-        return jsonify(Error="Method not allowed."), 405
 
-@app.route('/ResourceApp/company/companyType/<string:btype>', methods=['GET'])
-def getCompanyByCompanyType(btype):
+@app.route('/ResourceApp/receipt/supplierID/<int:sid>', methods=['GET'])
+def getReceiptBySupplierID(sid):
     if request.method == 'GET':
-        return SupplierHandler().getCompanyByCompanyType(btype)
+        return receiptHandler().getReceiptBySupplierID(sid)
     else:
-        return jsonify(Error="Method not allowed."), 405
+        return jsonify(Error="Invalid Operation"), 405
+
+
+@app.route('/ResourceApp/receipt/requestorID/<int:reqID>', methods=['GET'])
+def getReceiptByRequestorID(reqID):
+    if request.method == 'GET':
+        return receiptHandler().getReceiptByRequestorID(reqID)
+    else:
+        return jsonify(Error="Invalid Operation"), 405
+
+
+@app.route('/ResourceApp/receipt/resourceID/<int:rid>', methods=['GET'])
+def getReceiptByRID(rid):
+    if request.method == 'GET':
+        return receiptHandler().getReceiptByRID(rid)
+    else:
+        return jsonify(Error="Invalid Operation"), 405
+
+
+@app.route('/ResourceApp/receipt/quantity/<int:quantity>', methods=['GET'])
+def getReceiptByQuantity(quantity):
+    if request.method == 'GET':
+        return receiptHandler().getReceiptByQuantity(quantity)
+    else:
+        return jsonify(Error="Invalid Operation"), 405
+
+
+@app.route('/ResourceApp/receipt/status/<string:status>', methods=['GET'])
+def getReceiptByStatus(status):
+    if request.method == 'GET':
+        return receiptHandler().getReceiptByStatus(status)
+    else:
+        return jsonify(Error="Invalid Operation"), 405
+
+
+@app.route('/ResourceApp/receipt/RIDandStatus/<int:rid>/<string:status>', methods=['GET'])
+def getReceiptByRIDandStatus(rid, status):
+    if request.method == 'GET':
+        return receiptHandler().getReceiptByRIDAndStatus(status, rid)
+    else:
+        return jsonify(Error="Invalid Operation"), 405
+
+
+@app.route('/ResourceApp/receipt/RIDandQuantity/<int:rid>/<int:quantity>', methods=['GET'])
+def getReceiptByRIDandQuantity(rid, quantity):
+    if request.method == 'GET':
+        return receiptHandler().getReceiptByRIDAndQuantity(rid, quantity)
+    else:
+        return jsonify(Error="Invalid Operation"), 405
+
 
 
 #************************************************************ Stocks ******************************************************************************
@@ -991,9 +1116,6 @@ def getStocksByResourceIdAndQuantity(rid, quantity):
         return stocksHandler().getStocksByResourceIdAndQuantity(rid, quantity)
     else:
         return jsonify(Error="Method not allowed."), 405
-
-
-
 
 
 if __name__ == '__main__':

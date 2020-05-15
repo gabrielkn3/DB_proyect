@@ -108,7 +108,7 @@ class userDAO:
 
     def getAllUsers(self):
         cursor = self.conn.cursor()
-        query = "select * from useraccounts;"
+        query = "select uid, firstname, lastname, email, city, country, saddress, zip from useraccounts;"
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -120,7 +120,7 @@ class userDAO:
 
     def getUserById(self, uid):
         cursor = self.conn.cursor()
-        query = "select * from useraccounts where uID = %s;"
+        query = "select uid, firstname, lastname, email, city, country, saddress, zip from useraccounts where uid = %s;"
         cursor.execute(query, (uid,))
         result = cursor.fetchone()
         return result
@@ -132,7 +132,7 @@ class userDAO:
 
     def getUserByUsername(self, username):
         cursor = self.conn.cursor()
-        query = "select * from useraccounts where username = %s;"
+        query = "select uid, firstname, lastname, email, city, country, saddress, zip from useraccounts where username = %s;"
         cursor.execute(query, (username,))
         result = cursor.fetchone()
         return result
@@ -143,7 +143,7 @@ class userDAO:
 
     def getUserByFirstName(self, firstname):
         cursor = self.conn.cursor()
-        query = "select * from useraccounts where firstname = %s;"
+        query = "select uid, firstname, lastname, email, city, country, saddress, zip from useraccounts where firstname = %s;"
         cursor.execute(query, (firstname,))
         result = []
         for row in cursor:
@@ -157,7 +157,7 @@ class userDAO:
 
     def getUserByLastName(self, lastname):
         cursor = self.conn.cursor()
-        query = "select * from useraccounts where lastname = %s;"
+        query = "select uid, firstname, lastname, email, city, country, saddress, zip from useraccounts where lastname = %s;"
         cursor.execute(query, (lastname,))
         result = []
         for row in cursor:
@@ -171,77 +171,61 @@ class userDAO:
 
     def getUserByEmail(self, email):
         cursor = self.conn.cursor()
-        query = "select * from useraccounts where email = %s;"
+        query = "select uid, firstname, lastname, email, city, country, saddress, zip from useraccounts where email = %s;"
         cursor.execute(query, (email,))
         result = cursor.fetchone()
         return result
-        # for row in elist:
-        #     if row[5] == email:
-        #         return row
-        # return empty_list
 
-    def getUserByPhoneNumber(self, phone):
+
+    def getUserPhoneNumber(self, uid):
         cursor = self.conn.cursor()
-        query = "select * from useraccounts where phone = %s;"
-        cursor.execute(query, (phone,))
-        result = cursor.fetchone()
+        query = "select uid, phone, firstname, lastname, email from phonenumber natural inner join useraccounts where uid = %s;"
+        cursor.execute(query, (uid,))
+        result = []
+        for row in cursor:
+            result.append(row)
         return result
-        # for row in elist:
-        #     if row[6] == phone:
-        #         return row
-        # return empty_list
+
 
     def getUserByState(self, country):
         cursor = self.conn.cursor()
-        query = "select * from useraccounts where country = %s;"
+        query = "select uid, firstname, lastname, email, city, country, saddress, zip from useraccounts where country = %s;"
         cursor.execute(query, (country,))
         result = []
         for row in cursor:
             result.append(row)
         return result
-        # for row in elist:
-        #     if row[7] == country:
-        #         return row
-        # return empty_list
+
 
     def getUserByCity(self, city):
         cursor = self.conn.cursor()
-        query = "select * from useraccounts where city = %s;"
+        query = "select uid, firstname, lastname, email, city, country, saddress, zip from useraccounts where city = %s;"
         cursor.execute(query, (city,))
         result = []
         for row in cursor:
             result.append(row)
         return result
-        # for row in elist:
-        #     if row[8] == city:
-        #         return row
-        # return empty_list
 
-    def getUserByNeighborhood(self, neighborhood):
+
+    def getUserByAddress(self, address):
         cursor = self.conn.cursor()
-        query = "select * from useraccounts where neighborhood = %s;"
-        cursor.execute(query, (neighborhood,))
+        query = "select uid, firstname, lastname, email, city, country, saddress, zip from useraccounts where saddress = %s;"
+        cursor.execute(query, (address,))
         result = []
         for row in cursor:
             result.append(row)
         return result
-        # for row in elist:
-        #     if row[9] == neighborhood:
-        #         return row
-        # return empty_list
+
 
     def getUserByZipcode(self, zipcode):
         cursor = self.conn.cursor()
-        query = "select * from useraccounts where zipcode = %s;"
+        query = "select uid, firstname, lastname, email, city, country, saddress, zip from useraccounts where zip = %s;"
         cursor.execute(query, (zipcode,))
         result = []
         for row in cursor:
             result.append(row)
         return result
-        # for row in elist:
-        #     if row[12] == zipcode:
-        #         return row
-        # return empty_list
+
 
     def getUserByStateAndCity(self, country, city):
         cursor = self.conn.cursor()
@@ -251,8 +235,13 @@ class userDAO:
         for row in cursor:
             result.append(row)
         return result
-        # for row in elist:
-        #     if row[7] == country and row[8] == city:
-        #         return row
-        # return empty_list
 
+
+    def getAllPhones(self):
+        cursor = self.conn.cursor()
+        query = "select uid, phone, firstname, lastname, email from phonenumber natural inner join useraccounts;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
