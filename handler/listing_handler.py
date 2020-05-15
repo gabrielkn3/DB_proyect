@@ -4,6 +4,7 @@ from daos.resource import ResourceDAO
 
 
 class ListingHandler:
+
     def build_listing_dict(self, row):
         result = {}
         result['lid'] = row[0]
@@ -15,24 +16,16 @@ class ListingHandler:
         result['rid'] = row[6]
         return result
 
-
-    def build_supplier_dict(self,row):
-        result = {}
-        result['sid'] = row[2]
-        result['rtype'] = row[3]
-        result['supplier location'] = row[7]
-        return result
-
-    def build_listing_attributes(self, lid, rid, sid, rtype, postDate, lprice, lquantity, rlocation):
+    # Not being utilized as dashboard is not being made
+    def build_listing_attributes(self, lid, postDate, lprice, lquantity, llocation, sid, rid):
         result = {}
         result['lid'] = lid
-        result['rid'] = rid
-        result['sid'] = sid
-        result['rtype'] = rtype
         result['postDate'] = postDate
         result['lprice'] = lprice
         result['lquantity'] = lquantity
-        result['rlocation'] = rlocation
+        result['llocation'] = llocation
+        result['sid'] = sid
+        result['rid'] = rid
         return result
 
   #Only show listings where status = open OR just delete when closed #
@@ -103,6 +96,7 @@ class ListingHandler:
             result = self.build_supplier_dict(row)
             result_list.append(result)
         return jsonify(Suppliers=result_list)
+
     # Verificar si Supplier se paso properly con el import #
 
     def insertListing(self, form):
@@ -110,34 +104,32 @@ class ListingHandler:
         if len(form) != 7:
             return jsonify(Error="Malformed post request"), 400
         else:
-            rid = form['rid']
-            rtype = form['rtype']
             postDate = form['postDate']
-            sid = form['sid']
             lprice = form['lprice']
             lquantity = form['lquantity']
-            rlocation = form['rlocation']
+            llocation = form['llocation']
+            sid = form['sid']
+            rid = form['rid']
 
-            if rid and rtype and postDate and sid and lprice and lquantity and rlocation:
+            if postDate and lprice and lquantity and llocation and sid and rid:
                 dao = ListingDAO()
-                lid = dao.insert(rid, rtype, postDate, sid, lprice, lquantity, rlocation)
-                result = self.build_listing_attributes(lid, rid, sid, rtype, postDate, lprice, lquantity, rlocation)
+                lid = dao.insert(postDate, lprice, lquantity, llocation, sid, rid)
+                result = self.build_listing_attributes(postDate, lprice, lquantity, llocation, sid, rid)
                 return jsonify(Listing=result), 201
             else:
                 return jsonify(Error="Unexpected attributes in post request"), 400
 
     def insertListingJson(self, json):
-        rid = json['rid']
-        rtype = json['rtype']
         postDate = json['postDate']
-        sid = json['sid']
         lprice = json['lprice']
         lquantity = json['lquantity']
-        rlocation = json['rlocation']
-        if rid and rtype and postDate and sid and lprice and lquantity and rlocation:
+        llocation = json['llocation']
+        sid = json['sid']
+        rid = json['rid']
+        if postDate and lprice and lquantity and llocation and sid and rid:
             dao = ListingDAO()
-            lid = dao.insert(rid, rtype, postDate, sid, lprice, lquantity, rlocation)
-            result = self.build_listing_attributes(lid, rid, sid, rtype, postDate, lprice, lquantity, rlocation)
+            lid = dao.insert(postDate, lprice, lquantity, llocation, sid, rid)
+            result = self.build_listing_attributes(lid, postDate, lprice, lquantity, llocation, sid, rid)
             return jsonify(Listing=result), 201
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
