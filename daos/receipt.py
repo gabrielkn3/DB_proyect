@@ -95,10 +95,10 @@ class ReceiptDAO:
         return result
 
 
-    def insert(self, oid, ReqID, sid, pid, rid, quantity, status):
+    def insert(self, ostatus, reqid, sid, pid):
         cursor = self.conn.cursor()
-        query = "insert into orders(oid, ReqID, sid, pid, rid, quantity, status) values (%s, %s, %s, %s, %s, %s, %s) returning oid;"
-        cursor.execute(query, (oid, ReqID, sid, pid, rid, quantity, status,))
+        query = "insert into orders(ostatus, reqid, sid, pid) values (%s, %s, %s, %s) returning oid;"
+        cursor.execute(query, (ostatus, reqid, sid, pid,))
         oid = cursor.fetchone()[0]
         self.conn.commit()
 
@@ -112,6 +112,6 @@ class ReceiptDAO:
 
     def update(self, oid, ReqID, sid, pid, rid, quantity, status):
         cursor = self.conn.cursor()
-        query = "update orders set oid = %s, ReqID = %s, sid = %s, pid = %s, rid = %s, quantity, status = %s where oid = %s;"
+        query = "update orders set ostatus = %s, ReqID = %s, sid = %s, pid = %s where oid = %s;"
         cursor.execute(query, (oid, ReqID, sid, pid, rid, quantity, status,))
         self.conn.commit()

@@ -992,7 +992,10 @@ def getCompanyByType():
 @app.route('/ResourceApp/receipt', methods=['GET', 'POST'])
 def getAllReceipts():
     if request.method == 'POST':
-        return receiptHandler.insertReceiptJson(request.form)
+
+        print("REQUEST: ", request.json)
+        return receiptHandler().insertReceiptJson(request.json)
+
     elif request.method == 'GET':
         return receiptHandler().getAllReceipts()
     else:
