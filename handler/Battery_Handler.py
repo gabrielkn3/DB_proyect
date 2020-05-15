@@ -19,14 +19,16 @@ class BatteriesHandler:
 
         return result
 
-    def build_Batteries_attributes(self, bid, rid, bbrand, btype, blife, bdescription):
+    def build_Batteries_attributes(self, bid, rid, rname, bbrand, btype, blife, bdescription, rlocation):
         result = {};
         result['bid'] = bid
         result['rid'] = rid
-        result['btype'] = btype
+        result['rname'] = rname
         result['bbrand'] = bbrand
-        result['bdescription'] = bdescription
+        result['btype'] = btype
         result['blife'] = blife
+        result['bdescription'] = bdescription
+        result['rlocation'] = rlocation
         return result
 
     def getAllBatteries(self):
@@ -113,19 +115,19 @@ class BatteriesHandler:
         rname = json['rname']
         rtype = json['rtype']
         rlocation = json['rlocation']
-        sid = json['sid']
-        btype = json['btype']
         bbrand = json['bbrand']
-        bdescription = json['bdescription']
+        btype = json['btype']
         blife = json['blife']
+        bdescription = json['bdescription']
 
 
-        if rtype and rname and rlocation and sid and btype and bbrand and bdescription and blife:
+
+        if rtype and rname and rlocation and btype and bbrand and bdescription and blife:
             resourcedao = ResourceDAO()
             dao = BatteriesDAO()
-            rid = resourcedao.insert(rtype, rname, rlocation, sid)
-            bid = dao.insert(rid, bbrand, btype, blife, bdescription)
-            result = self.build_Batteries_attributes(bid, rid, btype, bbrand, bdescription,blife)
+            rid = resourcedao.insert(rtype, rname, rlocation)
+            bid = dao.insert(bbrand, btype, blife, bdescription,rid)
+            result = self.build_Batteries_attributes(bid, rid, rname, bbrand, btype, blife,bdescription, rlocation)
             return jsonify(Batteries=result), 201
 
         else:

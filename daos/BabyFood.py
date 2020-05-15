@@ -44,9 +44,9 @@ class BabyFoodDAO:
             result.append(row)
         return result
 
-    def insert(self, rid, bfbrand, bfflavor, bfdescription):
+    def insert(self, bfbrand, bfflavor, bfdescription, rid):
         cursor = self.conn.cursor()
-        query = "insert into babyfood(rid, bfbrand, bfflavor, bfdescription values (%s, %s, %s, %s) returning bfid;"
+        query = "insert into babyfood(bfbrand, bfflavor, bfdescription, rid) values (%s, %s, %s, %s) returning bfid;"
         cursor.execute(query, (rid,bfbrand,bfflavor, bfdescription,))
         bfid = cursor.fetchone()[0]
         self.conn.commit()

@@ -50,22 +50,13 @@ class BatteriesDAO:
            result.append(row)
         return result
 
-    def insert(self, rid, bbrand, btype, blife, bdescription):
-        #cursor = self.conn.cursor()
-        #query = "insert into parts(pType, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
-        #cursor.execute(query, (pType, pcolor, pmaterial, pprice,))
-        #pid = cursor.fetchone()[0]
-        #self.conn.commit()
-        row = {};
-        result = [];
-        row[0] = 'INSERTING:'
-        row[1] = 'Batteries'
-        row[2] = 'insertType'
-        row[3] = 'insertlocation'
-        row[4] = 'Insertdescription'
-
-        result.append(row)
-        return rid
+    def insert(self, bbrand, btype, blife, bdescription, rid):
+        cursor = self.conn.cursor()
+        query = "insert into batteries(bbrand,btype,blife,bdescription,rid) values (%s, %s, %s, %s) returning pid;"
+        cursor.execute(query, (bbrand, btype, blife, bdescription,rid,))
+        bid = cursor.fetchone()[0]
+        self.conn.commit()
+        return bid
 
     def delete(self, bid):
         #cursor = self.conn.cursor()
