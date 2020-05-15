@@ -16,13 +16,15 @@ class DryFoodHandler:
         result['rlocation'] = row[5]
         return result
 
-    def build_DryFood_attributes(self, dfid, rid, dfbrand, dfname, dfdescription):
+    def build_DryFood_attributes(self, dfid, rid,rname, dfbrand, dfname, dfdescription,rlocation):
         result = {};
         result['dfid'] = dfid
         result['rid'] = rid
+        result['rname'] = rname
         result['dfbrand'] = dfbrand
         result['dfname'] = dfname
         result['dfdescription'] = dfdescription
+        result['rlocation'] = rlocation
         return result
 
     def getAllDryFood(self):
@@ -96,18 +98,17 @@ class DryFoodHandler:
         rname = json['rname']
         rtype = json['rtype']
         rlocation = json['rlocation']
-        sid = json['sid']
         dfbrand = json['dfbrand']
-        dfname = json['dfname']
+        dfname = json['rname']
         dfdescription = json['dfdescription']
 
 
-        if rtype and rname and rlocation and sid and dfbrand and dfname and dfdescription:
+        if rtype and rname and rlocation and dfbrand and dfname and dfdescription:
             resourcedao = ResourceDAO()
             dao = DryFoodDAO()
-            rid = resourcedao.insert(rtype, rname, rlocation, sid)
+            rid = resourcedao.insert(rtype, rname, rlocation)
             dfid = dao.insert(rid, dfbrand, dfname, dfdescription)
-            result = self.build_DryFood_attributes(dfid, rid, dfbrand, dfname, dfdescription)
+            result = self.build_DryFood_attributes(dfid, rid, rname, dfbrand, dfname, dfdescription, rlocation)
             return jsonify(DryFood=result), 201
 
         else:

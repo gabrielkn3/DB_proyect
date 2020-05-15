@@ -41,22 +41,13 @@ class DryFoodDAO:
            result.append(row)
         return result
 
-    def insert(self, rid, dfbrand, dfname, dfdescription):
-        #cursor = self.conn.cursor()
-        #query = "insert into parts(pname, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
-        #cursor.execute(query, (pname, pcolor, pmaterial, pprice,))
-        #pid = cursor.fetchone()[0]
-        #self.conn.commit()
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'inserttype'
-        row[2] = 'insertname'
-        row[3] = 'insertlocation'
-        row[4] = 'Insertdescription'
-
-        result.append(row)
-        return rid
+    def insert(self, dfbrand, dfname, dfdescription,rid):
+        cursor = self.conn.cursor()
+        query = "insert into dryfood(dfbrand, dfname, cdfescription, rid) values (%s,%s,%s,%s) returning dfid;"
+        cursor.execute(query, (dfbrand,dfname,dfdescription,rid,))
+        dfid = cursor.fetchone()[0]
+        self.conn.commit()
+        return dfid
 
     def delete(self, dfid):
         #cursor = self.conn.cursor()

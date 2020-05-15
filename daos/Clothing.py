@@ -57,7 +57,7 @@ class ClothingDAO:
         cid = cursor.fetchone()[0]
         self.conn.commit()
 
-        return cid;
+        return cid
 
     def delete(self, clid):
         #cursor = self.conn.cursor()
