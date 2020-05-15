@@ -17,13 +17,15 @@ class ToolHandler:
         return result
 
 
-    def build_Tool_attributes(self, tid, rid, tbrand, tname, tdescription):
+    def build_Tool_attributes(self, tid, rid, rname, tbrand, tname, tdescription, rlocation):
         result = {};
         result['tid'] = tid
         result['rid'] = rid
+        result['rname'] = rname
         result['tbrand'] = tbrand
         result['tname'] = tname
         result['tdescription'] = tdescription
+        result['rlocation'] = rlocation
         return result
 
     def getAllTool(self):
@@ -97,18 +99,17 @@ class ToolHandler:
         rname = json['rname']
         rtype = json['rtype']
         rlocation = json['rlocation']
-        sid = json['sid']
         tbrand = json['tbrand']
         tname = json['tname']
         tdescription = json['tdescription']
 
 
-        if rtype and rname and rlocation and sid and tbrand and tname and tdescription:
+        if rtype and rname and rlocation and tbrand and tname and tdescription:
             resourcedao = ResourceDAO()
             dao = ToolDAO()
-            rid = resourcedao.insert(rtype, rname, rlocation, sid)
-            tid = dao.insert(rid, tbrand, tname, tdescription)
-            result = self.build_Tool_attributes(tid, rid, tbrand, tname, tdescription)
+            rid = resourcedao.insert(rtype, rname, rlocation)
+            tid = dao.insert(tbrand, tname, tdescription,rid)
+            result = self.build_Tool_attributes(tid, rid, rname, tbrand, tname, tdescription, rlocation)
             return jsonify(Tool=result), 201
 
         else:

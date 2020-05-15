@@ -42,22 +42,13 @@ class ToolDAO:
         return result
 
 
-    def insert(self, rid, tbrand, tname, tdescription):
-        #cursor = self.conn.cursor()
-        #query = "insert into parts(pname, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
-        #cursor.execute(query, (pname, pcolor, pmaterial, pprice,))
-        #pid = cursor.fetchone()[0]
-        #self.conn.commit()
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'inserttype'
-        row[2] = 'insertname'
-        row[3] = 'insertlocation'
-        row[4] = 'Insertdescription'
-
-        result.append(row)
-        return rid
+    def insert(self, tbrand, tname, tdescription, rid):
+        cursor = self.conn.cursor()
+        query = "insert into tools(tbrand, tname, tdescription, rid) values (%s, %s, %s, %s) returning tid;"
+        cursor.execute(query, (tbrand, tname, tdescription, rid,))
+        tid = cursor.fetchone()[0]
+        self.conn.commit()
+        return tid
 
     def delete(self, tid):
         #cursor = self.conn.cursor()
