@@ -1,11 +1,13 @@
 from flask import jsonify
 from daos.Payment import paymentDAO
+from daos.requester import RequesterDAO
+from daos.supplier import SupplierDAO
 
 class paymentHandler:
-    def build_payment_dict(self,row):
+    def build_payment_dict(self, row):
         result = {}
         result['payment id'] = row[0]
-        result['amaount'] = row[1]
+        result['amount'] = row[1]
         result['payment type'] = row[2]
         result['payment details'] = row[3]
         result['requestor id'] = row[4]
@@ -16,20 +18,24 @@ class paymentHandler:
         if form and len(form) == 5:
             reqid = form['reqid']
             sid = form['sid']
-            price = form['price']
-            paymentType = form['paymentType']
-            acDetail = form['acDetail']
+            price = form['pamount']
+            paymentType = form['paymenttype']
+            acDetail = form['paymentdetails']
 
+            if not RequesterDAO().validateID(reqid):
+                return jsonify(Error="Requester does not exist."), 404
+            if not SupplierDAO().validateID(sid):
+                return jsonify(Error="Supplier doest not exist."), 404
             if reqid and sid and price and paymentType and acDetail:
                 dao = paymentDAO()
-                pid = dao.insert(reqid, sid, paymentType, paymentType, acDetail)
+                pid = dao.insert(reqid, sid, price, paymentType, acDetail)
                 result = {}
                 result['pid'] = pid
                 result['reqid'] = reqid
                 result['sid'] = sid
-                result['price'] = price
-                result['paymentType'] = paymentType
-                result['acDetails'] = acDetail
+                result['pamount'] = price
+                result['paymenttype'] = paymentType
+                result['paymentdetails'] = acDetail
                 return jsonify(Payment=result), 201
             else:
                 return jsonify(Error="Malformed post request."), 400

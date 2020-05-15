@@ -24,22 +24,16 @@ class paymentDAO:
         row[5] = "Used a Bank of America card" #account details
         example_list.append(row)
 
-    def insert(self, reqid, sid, pamaount, paymentType, paymentdetails):
-        # cursor = self.conn.cursor()
-        # query = "insert into payment(reqid, sid, pamaount, paymentType, paymentdetails) values(%s, %s, %s, %s, %s) returning pid;"
-        # cursor.execute(query, (reqid, sid, pamaount, paymentType, paymentdetail,))
-        # pid = cursor.fetchone()
-        # self.conn.commit()
-        # return pid
-        row = {}
-        row[0] = len(example_list)
-        row[1] = reqid
-        row[2] = sid
-        row[3] = pamaount
-        row[4] = paymentType
-        row[5] = paymentdetails
-        example_list.append(row)
-        return row[0]
+    def insert(self, reqid, sid, pamount, paymentType, paymentdetails):
+        print("insert flag 1")
+        cursor = self.conn.cursor()
+        query = "insert into payment(reqid, sid, pamount, paymenttype, paymentdetails) values(%s, %s, %s, %s, %s) returning pid;"
+        print("insert flag 2")
+        cursor.execute(query, (reqid, sid, pamount, paymentType, paymentdetails,))
+        pid = cursor.fetchone()
+        self.conn.commit()
+        print("insert flag 3")
+        return pid
 
     def delete(self, pid):
         # cursor = self.conn.cursor()
