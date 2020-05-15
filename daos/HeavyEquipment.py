@@ -42,22 +42,13 @@ class HeavyEquipmentDAO:
            result.append(row)
         return result
 
-    def insert(self, rid, hbrand, hname, hdescription):
-        #cursor = self.conn.cursor()
-        #query = "insert into parts(pname, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
-        #cursor.execute(query, (pname, pcolor, pmaterial, pprice,))
-        #pid = cursor.fetchone()[0]
-        #self.conn.commit()
-        row = {};
-        result = [];
-        row[0] = 'INSERTING:'
-        row[1] = 'inserttype'
-        row[2] = 'insertname'
-        row[3] = 'insertlocation'
-        row[4] = 'Insertdescription'
-
-        result.append(row)
-        return rid
+    def insert(self, hbrand, hname, hdescription,rid):
+        cursor = self.conn.cursor()
+        query = "insert into heavyEquipment values (%s, %s, %s, %s) returning hid;"
+        cursor.execute(query, (hbrand,hname,hdescription, rid,))
+        hid = cursor.fetchone()[0]
+        self.conn.commit()
+        return hid
 
     def delete(self, hid):
         #cursor = self.conn.cursor()

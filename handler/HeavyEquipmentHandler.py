@@ -96,18 +96,17 @@ class HeavyEquipmentHandler:
         rname = json['rname']
         rtype = json['rtype']
         rlocation = json['rlocation']
-        sid = json['sid']
         hbrand = json['hbrand']
-        hname = json['hname']
+        hname = json['rname']
         hdescription = json['hdescription']
 
 
-        if rtype and rname and rlocation and sid and hbrand and hname and hdescription:
+        if rtype and rname and rlocation and hbrand and hname and hdescription:
             resourcedao = ResourceDAO()
             dao = HeavyEquipmentDAO()
-            rid = resourcedao.insert(rtype, rname, rlocation, sid)
-            hid = dao.insert(rid, hbrand, hname, hdescription)
-            result = self.build_HeavyEquipment_attributes(hid, rid, hbrand, hname, hdescription)
+            rid = resourcedao.insert(rtype, rname, rlocation)
+            hid = dao.insert(hbrand, hname, hdescription, rid)
+            result = self.build_HeavyEquipment_attributes(hid, rid,rname, hbrand, hname, hdescription,rlocation)
             return jsonify(HeavyEquipment=result), 201
 
         else:
