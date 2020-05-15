@@ -43,22 +43,13 @@ class MedicalDeviceDAO:
             result.append(row)
         return result
 
-    def insert(self, rid, mdbrand, mdname, mdescription):
-        #cursor = self.conn.cursor()
-        #query = "insert into parts(pname, pcolor, pmaterial, pprice) values (%s, %s, %s, %s) returning pid;"
-        #cursor.execute(query, (pname, pcolor, pmaterial, pprice,))
-        #pid = cursor.fetchone()[0]
-        #self.conn.commit()
-        row = {};
-        result = [];
-        row[0] = 'dummyrid'
-        row[1] = 'inserttype'
-        row[2] = 'insertname'
-        row[3] = 'insertlocation'
-        row[4] = 'Insertdescription'
-
-        result.append(row)
-        return rid
+    def insert(self, mdbrand, mdname, mddescription, rid):
+        cursor = self.conn.cursor()
+        query = "insert into medicaldevices(mdbrand, mdname, mddescription,rid) values (%s, %s, %s, %s) returning mdid;"
+        cursor.execute(query, (mdbrand,mdname, mddescription, rid,))
+        mdid = cursor.fetchone()[0]
+        self.conn.commit()
+        return mdid
 
     def getResourceID(self,mdid):
         cursor = self.conn.cursor()

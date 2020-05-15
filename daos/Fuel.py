@@ -52,7 +52,7 @@ class FuelDAO:
         return result
     def insert(self, ftype, fquantity, octane, fdescription, rid):
         cursor = self.conn.cursor()
-        query = "insert into fuel(ftype,fquantity,foctane,fdescription,rid values (%s, %s, %s, %s, %s) returning fid;"
+        query = "insert into fuel(ftype,fquantity,foctane,fdescription,rid) values (%s, %s, %s, %s, %s) returning fid;"
         cursor.execute(query, (ftype,fquantity,octane, fdescription, rid,))
         fid = cursor.fetchone()[0]
         self.conn.commit()

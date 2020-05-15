@@ -43,7 +43,7 @@ class GeneratorDAO:
 
     def insert(self, gbrand, gfueltype, gpoweroutput, gdescription,rid):
         cursor = self.conn.cursor()
-        query = "insert into powerGenerators values (%s, %s, %s, %s, %s) returning gid;"
+        query = "insert into powerGenerators(gbrand, gfueltype, gpoweroutput, gdescription, rid) values (%s, %s, %s, %s, %s) returning gid;"
         cursor.execute(query, (gbrand, gfueltype, gpoweroutput, gdescription, rid,))
         gid = cursor.fetchone()[0]
         self.conn.commit()

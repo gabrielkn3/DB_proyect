@@ -44,7 +44,7 @@ class HeavyEquipmentDAO:
 
     def insert(self, hbrand, hname, hdescription,rid):
         cursor = self.conn.cursor()
-        query = "insert into heavyEquipment values (%s, %s, %s, %s) returning hid;"
+        query = "insert into heavyEquipment(hbrand, hname, hdescription, rid) values (%s, %s, %s, %s) returning hid;"
         cursor.execute(query, (hbrand,hname,hdescription, rid,))
         hid = cursor.fetchone()[0]
         self.conn.commit()

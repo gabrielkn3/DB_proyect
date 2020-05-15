@@ -17,13 +17,16 @@ class MedicalDeviceHandler:
         return result
 
 
-    def build_MedicalDevices_attributes(self, mdid, rid, mdbrand, mdname, mddescription):
+    def build_MedicalDevices_attributes(self, mdid, rid,rname, mdbrand, mdname, mddescription, rlocation):
         result = {};
         result['mdid'] = mdid
+        result['rid'] = rid
+        result['rname'] = rname
         result['mdbrand'] = mdbrand
         result['mdname'] = mdname
         result['mddescription'] = mddescription
-        result['rid'] = rid
+        result['rlocation'] = rlocation
+
         return result
 
     def getAllMedicalDevices(self):
@@ -99,18 +102,17 @@ class MedicalDeviceHandler:
         rname = json['rname']
         rtype = json['rtype']
         rlocation = json['rlocation']
-        sid = json['sid']
         mdbrand = json['mdbrand']
-        mdname = json['mdname']
+        mdname = json['rname']
         mddescription = json['mddescription']
 
 
-        if rtype and rname and rlocation and sid and mdbrand and mdname and mddescription:
+        if rtype and rname and rlocation and mdbrand and mdname and mddescription:
             resourcedao = ResourceDAO()
             dao = MedicalDeviceDAO()
-            rid = resourcedao.insert(rtype, rname, rlocation, sid)
-            mdid = dao.insert(rid, mdbrand, mdname, mddescription)
-            result = self.build_MedicalDevices_attributes(mdid, rid, mdbrand, mdname, mddescription)
+            rid = resourcedao.insert(rtype, rname, rlocation)
+            mdid = dao.insert(mdbrand, mdname, mddescription, rid)
+            result = self.build_MedicalDevices_attributes(mdid, rid, rname, mdbrand, mdname, mddescription, rlocation)
             return jsonify(MedicalDevice=result), 201
 
         else:
