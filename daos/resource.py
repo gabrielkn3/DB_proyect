@@ -126,7 +126,7 @@ class ResourceDAO:
 
     def insert(self, rtype, rname, rlocation):
         cursor = self.conn.cursor()
-        query = "insert into resource(rname, rtype, rlocation) values (%s, %s, %s) returning pid;"
+        query = "insert into resource(rname, rtype, rlocation) values (%s, %s, %s) returning rid;"
         cursor.execute(query, (rname,rtype,rlocation,))
         rid = cursor.fetchone()[0]
         self.conn.commit()

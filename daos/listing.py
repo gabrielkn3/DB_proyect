@@ -105,10 +105,10 @@ class ListingDAO:
             result.append(row)
         return result
 
-    def insert(self, rid, rtype, postDate, uid, lprice, amount, rlocation):
+    def insert(self, postDate, lprice, lquantity, llocation, sid, rid):
         cursor = self.conn.cursor()
-        query = "insert into listings(lid, rid, rtype, postDate, uid, lprice, amount, rlocation) values (%s, %s, %s, %s, %s, %s, %s, %s) returning lid;"
-        cursor.execute(query, (rid, rtype, postDate, uid, lprice, amount, rlocation,))
+        query = "insert into listing(postDate, lprice, lquantity, llocation, sid, rid) values (%s,%s,%s,%s,%s,%s) returning lid;"
+        cursor.execute(query, (postDate, lprice, lquantity, llocation, sid, rid,))
         lid = cursor.fetchone()[0]
         self.conn.commit()
 
@@ -121,9 +121,8 @@ class ListingDAO:
         self.conn.commit()
 
 
-    def update(self, lid, rid, rtype, postDate, uid, lprice, amount, rlocation):
+    def update(self, postDate, lprice, lquantity, llocation, sid, rid):
         cursor = self.conn.cursor()
-        query = "update listings set rid = %s, rtype = %s, postDate = %s, uid = %s, lprice = %s, amount = %s, rlocation = %s where pid = %s;"
-        cursor.execute(query, (lid, rid, rtype, postDate, uid, lprice, amount, rlocation,))
+        query = "update listing set postDate = %s, lprice = %s, lquantity = %s, llocation = %s, sid = %s, rid = %s returning lid;"
+        cursor.execute(query, (postDate, lprice, lquantity, llocation, sid, rid,))
         self.conn.commit()
-        return lid

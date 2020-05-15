@@ -100,7 +100,7 @@ class ToolHandler:
         rtype = json['rtype']
         rlocation = json['rlocation']
         tbrand = json['tbrand']
-        tname = json['tname']
+        tname = json['rname']
         tdescription = json['tdescription']
 
 

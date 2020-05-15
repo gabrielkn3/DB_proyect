@@ -50,10 +50,10 @@ class ClothingDAO:
             result.append(row)
         return result
 
-    def insert(self, rid, clbrand, clname, clsize, cldescription):
+    def insert(self, clbrand, clname, clsize, cldescription,rid):
         cursor = self.conn.cursor()
-        query = "INSERT INTO clothing(clbrand, clname, clsize, cldescription,rid) values(%s, %s, %s, %s) returning cid;"
-        cursor.execute(query, (clbrand, clname, clsize, cldescription,))
+        query = "INSERT INTO clothing(clbrand, clname, clsize, cldescription,rid) values(%s, %s, %s, %s, %s) returning clid;"
+        cursor.execute(query, (clbrand, clname, clsize, cldescription,rid,))
         cid = cursor.fetchone()[0]
         self.conn.commit()
 
