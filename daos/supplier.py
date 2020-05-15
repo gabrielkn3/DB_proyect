@@ -53,24 +53,19 @@ class SupplierDAO:
         return result
 
 
+    def insert(self, slocation, uid):
+        cursor = self.conn.cursor()
+        query = "insert into supplier(slocation, uid) " \
+                "values(%s, %s) returning sid;"
+        cursor.execute(query, (slocation, uid,))
+        sid = cursor.fetchone()
+        self.conn.commit()
+        return sid
 
-
-
-
-
-
-
-
-################################################################################################################################################################################
-    def insert(self, uid, slocation):
-
-        return None
+    ################################################################################################################################################################################
 
     def delete(self, sid):
-
-        return None #failed
+        return None
 
     def update(self, sid, slocation):
-
-
         return None

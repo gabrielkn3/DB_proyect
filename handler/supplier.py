@@ -20,6 +20,7 @@ class SupplierHandler:
         result['Zip Code'] = row[7]
         return result
 
+
     def build_company_dict(self, row):
         result = {}
         result['cid'] = row[0]
@@ -89,40 +90,31 @@ class SupplierHandler:
 
 
 
-    def insertSupplier(self, form):#slocation is the only additional attribute from supplier that user does not have
-        if len(form) == 8:
+    def insertSupplier(self, form):
+        #insert supplier from scratch
+        if len(form) == 11:
                 s_dao = SupplierDAO()
                 slocation = form['location']
-                supplier = userHandler().insertUser(form)
-                sid = s_dao.insert(supplier['uid'], slocation)
-                supplier['sid'] = sid
-                return jsonify(Supplier=supplier), 201
-
-        elif len(form) > 8:#if supplier wants to be a company
-            comp = CompanyDAO()
-            s_dao = SupplierDAO()
-            slocation = form['location']
-            compname = form['cname']
-            btype = form['btype']
-            description= form['description']
-            supplier = userHandler().insertUser(form)
-            sid = s_dao.insert(supplier['uid'], slocation)
-            cid = comp.insert(sid, compname, btype, description)
-            supplier['sid'] = sid
-            company = supplier
-            company['cid'] = cid
-            return jsonify(Company=company), 201
-
-
-
+                user = userHandler().insertUser(form)
+                sid = s_dao.insert(slocation, user['uid'])
+                row = s_dao.getSupplierById(sid)
+                if not row:
+                    return jsonify(Error="Supplier was NOT Inserted Correctly"), 404
+                else:
+                    supplier = self.build_supplier_dict(row)
+                    supplier['Phone No.'] = user['phone']
+                    return jsonify(NewSupplier=supplier), 201
+        #insert company from scratch
+        elif len(form) == 14:
+                return self.insertCompany(form)
         else:
-                return jsonify(Error="Malformed post(SUPPLIER) request")
+                return jsonify(Error="Malformed POST(SUPPLIER) request")
 
 
 
 
 
-
+#NOT SUPPORTED
     def updateSupplier (self, sid, form):
              dao = SupplierDAO()
              user_handler = userHandler()
@@ -140,7 +132,7 @@ class SupplierHandler:
                     else:
                         return jsonify(Error="Unexpected attributes in update(SUPPLIER) request"), 400
 
-
+#NOT SUPPORTED
     def deleteSupplier(self,sid):
         dao = SupplierDAO()
         if not dao.getSupplierById(sid):
@@ -220,7 +212,10 @@ class SupplierHandler:
 
 
 
+    def insertCompany(self,sid, form):
 
+
+        return None
 
 
 

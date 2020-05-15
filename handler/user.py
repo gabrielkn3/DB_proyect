@@ -57,38 +57,31 @@ class userHandler:
                 return jsonify(User=result), 201
             else:
                 return jsonify(Error="Malformed post request")
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-        elif form and len(form) == 8: #*********************************REQUESTER OR SUPPLIER*********************************
+        elif form and len(form) == 11: #*********************************REQUESTER OR SUPPLIER*********************************
             username = form['username']
             password = form['password']
-            fname = form['fname']
-            lname = form['lname']
+            fname = form['firstname']
+            lname = form['lastname']
             email = form['email']
             phone = form['phone']
             country = form['country']
             city = form['city']
-            saddress = form['saddress']
+            saddress = form['address']
             zipcode = form['zip']
             location = form['location']
+
 
             if username and password and fname and lname and email and phone and \
                     country and city and saddress and zipcode and location:
                 dao = userDAO()
                 uid = dao.insert(username, password, fname, lname, email, phone,
                                  country, city, saddress, zipcode)
+                #attributes that supplier doesn't have
                 result = {}
                 result['uid'] = uid
-                result['username'] = username
-                result['password'] = password
-                result['fname'] = fname
-                result['lname'] = lname
-                result['email'] = email
-                result['phone'] = int(phone)
-                result['country'] = country
-                result['city'] = city
-                result['saddress'] = saddress
-                result['zip'] = zipcode
-                result['location'] = location
+                result['phone'] = phone
                 return result
             else:
                 return jsonify(Error="Malformed post request")
