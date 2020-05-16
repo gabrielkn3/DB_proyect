@@ -56,7 +56,7 @@ class userHandler:
                 result['zip'] = zipcode
                 return jsonify(User=result), 201
             else:
-                return jsonify(Error="Malformed post request")
+                return jsonify(Error="Malformed post request"), 400
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         elif form and (len(form) == 11 or len(form) == 14): #*********************************REQUESTER OR SUPPLIER OR COMPANY*********************************
@@ -80,7 +80,24 @@ class userHandler:
             result['phone'] = phone
             return result
         else:
-            return jsonify(Error="Malformed post request")
+            return jsonify(Error="Malformed post request"), 400
+
+    def insertUserPhone(self, uid, form):
+        dao = userDAO()
+        if not dao.getUserById(uid):
+            return jsonify(Error="User not found."), 404
+        if len(form) != 1:
+            return jsonify(Error="Malformed update request."), 400
+        else:
+            phone = form['phone']
+            if phone:
+                dao.insertUserPhone(uid, phone)
+                result = {}
+                result['uid'] = uid
+                result['phone'] = phone
+                return jsonify(UserPhone=result), 201
+            else:
+                return jsonify(Error="Malformed post request"), 400
 
     def deleteUser(self, uid):
         dao = userDAO()
@@ -90,12 +107,24 @@ class userHandler:
             dao.delete(uid)
             return jsonify(DeleteStatus="User deleted successfully."), 200
 
+    def deleteUserPhone(self, uid, form):
+        dao = userDAO()
+        if not dao.getUserPhoneNumber(uid):
+            return jsonify(Error="user not found"), 404
+        if not dao.validateUserPhoneNumber(uid, form['phone']):
+            return jsonify(Error="User has no such phone number."), 404
+
+        else:
+            phone = form['phone']
+            dao.deleteUserPhone(uid, phone)
+            return jsonify(DeleteStatus="User phone number deleted successfully."), 200
+
     def updateUser(self, uid, form):
         dao = userDAO()
         if not dao.getUserById(uid):
             return jsonify(Error="User not found."), 404
         else:
-            if len(form) != 7:
+            if len(form) != 9:
                 return jsonify(Error="Malformed update request."), 400
             else:
                 username = form['username']
@@ -103,17 +132,14 @@ class userHandler:
                 fname = form['fname']
                 lname = form['lname']
                 email = form['email']
-                phone = form['phone']
-                state = form['state']
+                country = form['country']
                 city = form['city']
-                neighborhood = form['neighborhood']
-                street = form['street']
-                housenumber = form['housenumber']
-                zipcode = form['zipcode']
-                if username and password and fname and lname and email and phone and \
-                        state and city and neighborhood and street and housenumber and zipcode:
-                    dao.update(uid, username, password, fname, lname, email, phone,
-                               state, city, neighborhood, street, housenumber, zipcode)
+                address = form['saddress']
+                zipcode = form['zip']
+                if username and password and fname and lname and email and \
+                        country and city and address and zipcode:
+                    dao.update(uid, username, password, fname, lname, email,
+                               country, city, address, zipcode)
                     result = {}
                     result['uid'] = uid
                     result['username'] = username
@@ -121,16 +147,35 @@ class userHandler:
                     result['fname'] = fname
                     result['lname'] = lname
                     result['email'] = email
-                    result['phone'] = phone
-                    result['state'] = state
+                    result['country'] = country
                     result['city'] = city
-                    result['neighborhood'] = neighborhood
-                    result['street'] = street
-                    result['housenumber'] = housenumber
-                    result['zipcode'] = zipcode
+                    result['saddress'] = address
+                    result['zip'] = zipcode
                     return jsonify(User=result), 200
                 else:
                     return  jsonify(Error="Unexpected attributes in update request."), 400
+
+    def updateUserPhone(self, uid, form):
+        dao = userDAO()
+        if not dao.getUserPhoneNumber(uid):
+            return jsonify(Error="User has no phones."), 404
+        if not dao.validateUserPhoneNumber(uid, form['oldPhone']):
+            return jsonify(Error="User has no such phone number."), 404
+
+        else:
+            if len(form) != 2:
+                return jsonify(Error="Malformed update request."), 400
+            else:
+                newPhone = form['newPhone']
+                oldPhone = form['oldPhone']
+                if newPhone:
+                    dao.updateUserPhone(uid, oldPhone, newPhone)
+                    result = {}
+                    result['uid'] = uid
+                    result['phone'] = newPhone
+                    return jsonify(UserPhone=result), 200
+                else:
+                    return jsonify(Error="Unexpected attributes in update request."), 400
 
     def getAllUsers(self):
         dao = userDAO()
@@ -195,7 +240,6 @@ class userHandler:
             result = self.build_user_dict(user)
             return jsonify(User=result)
 
-    # def getUserByPhoneNumber(self, phone):
     def getUserPhoneNumbers(self, uid):
         dao = userDAO()
         phone_list = dao.getUserPhoneNumber(uid)
@@ -279,11 +323,3 @@ class userHandler:
             result_list.append(self.build_phone_dict(row))
         return jsonify(PhoneNumbers=result_list)
 
-    def test(self, uid):
-        dao = userDAO()
-        userID = dao.test(uid)
-        if not userID:
-            return jsonify(Error="User not found"), 404
-        else:
-            print("Handler = " + str(userID))
-            return str(userID)

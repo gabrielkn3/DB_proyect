@@ -803,6 +803,17 @@ def getUserById(uid):
     else:
         return jsonify(Error="Method not allowed."), 405
 
+@app.route('/ResourceApp/user/id/<int:uid>/phone', methods=['POST', 'PUT', 'DELETE'])
+def getUserPhone(uid):
+    if request.method == 'POST':
+        return userHandler().insertUserPhone(uid, request.form)
+    elif request.method == 'PUT':
+        return userHandler().updateUserPhone(uid, request.form)
+    elif request.method == 'DELETE':
+        return userHandler().deleteUserPhone(uid, request.form)
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
 @app.route('/ResourceApp/user/administrator/adminId/<int:aid>', methods=['GET', 'PUT', 'DELETE'])
 def getAdminByAid(aid):
     if request.method == 'GET':
