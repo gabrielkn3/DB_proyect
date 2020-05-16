@@ -44,20 +44,25 @@ class stocksHandler:
             return jsonify(DeleteStatus="Relationship deleted successfully")
 
     def updateStocks(self, sid, rid, form):
-        dao = stocksDAO
+        if not SupplierDAO().validateID(sid):
+            return jsonify(Error="Supplier doest not exist."), 404
+        if not ResourceDAO().validateID(rid):
+            return jsonify(Error="Resource doest not exist."), 404
+
+        dao = stocksDAO()
         if not dao.getStocksByStockId(sid, rid):
             return jsonify(Error="Relationship not found."), 404
         else:
-            if len(form) != 3:
+            if len(form) != 1:
                 return jsonify(Error="Malformed post request."), 400
             else:
-                quantity = form['quantity']
+                quantity = form['squantity']
                 if sid and rid and quantity:
                     dao.update(sid, rid, quantity)
                     result = {}
                     result['sid'] = sid
                     result['rid'] = rid
-                    result['quantity'] = quantity
+                    result['squantity'] = quantity
                     return jsonify(Stocks=result), 200
                 else:
                     return jsonify(Error="Unexpected attributes in update request."), 400
