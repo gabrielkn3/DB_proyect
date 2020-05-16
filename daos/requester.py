@@ -50,14 +50,19 @@ class RequesterDAO:
             result.append(row)
         return result
 
+    def insert(self, reqlocation, uid):
+        cursor = self.conn.cursor()
+        query = "insert into requester(reqlocation, uid) " \
+                "values(%s, %s) returning reqid;"
+        cursor.execute(query, (reqlocation, uid,))
+        reqid = cursor.fetchone()
+        self.conn.commit()
+        return reqid
 
 
 
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-#-----------------------------------------------------------------------------------------------------------------------
-    def insert(self, uid, reqlocation):
-        return None
 
     def update(self, reqid, reqlocation):
         # result = []

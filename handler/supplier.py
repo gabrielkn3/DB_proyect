@@ -93,8 +93,10 @@ class SupplierHandler:
     def insertSupplier(self, form):
         #insert supplier from scratch
         if len(form) == 11:
-                s_dao = SupplierDAO()
+                if not self.verifySupplierForm(form):
+                    return jsonify(Error="Info given for inserting Supplier ->Incomplete"), 400
                 slocation = form['location']
+                s_dao = SupplierDAO()
                 user = userHandler().insertUser(form)
                 sid = s_dao.insert(slocation, user['uid'])
                 row = s_dao.getSupplierById(sid)
@@ -104,9 +106,6 @@ class SupplierHandler:
                     supplier = self.build_supplier_dict(row)
                     supplier['Phone No.'] = user['phone']
                     return jsonify(NewSupplier=supplier), 201
-        #insert company from scratch
-        elif len(form) == 14:
-                return self.insertCompany(form)
         else:
                 return jsonify(Error="Malformed POST(SUPPLIER) request")
 
@@ -116,33 +115,32 @@ class SupplierHandler:
 
 #NOT SUPPORTED
     def updateSupplier (self, sid, form):
-             dao = SupplierDAO()
-             user_handler = userHandler()
-             if not dao.getSupplierById(sid):
-                return jsonify(Error = "Supplier not found."), 404
-             else:
-                if len(form) > 1:
-                    return user_handler.updateUser(form["uid"], form)
-                else:
-                    slocation = form['slocation']
-                    if slocation:
-                        dao.update(sid, slocation)
-                        result = self.build_supplier_attributes(sid, slocation)
-                        return jsonify(Supplier=result), 200
-                    else:
-                        return jsonify(Error="Unexpected attributes in update(SUPPLIER) request"), 400
+             return jsonify(Error="Update (SUPPLIER) not supported"), 400
+             # user_handler = userHandler()
+             # if not dao.getSupplierById(sid):
+             #    return jsonify(Error = "Supplier not found."), 404
+             # else:
+             #    if len(form) > 1:
+             #        return user_handler.updateUser(form["uid"], form)
+             #    else:
+             #        slocation = form['slocation']
+             #        if slocation:
+             #            dao.update(sid, slocation)
+             #            result = self.build_supplier_attributes(sid, slocation)
+             #            return jsonify(Supplier=result), 200
+             #        else:
+             #            return jsonify(Error="Unexpected attributes in update(SUPPLIER) request"), 400
 
-#NOT SUPPORTED
-    def deleteSupplier(self,sid):
-        dao = SupplierDAO()
-        if not dao.getSupplierById(sid):
-            return jsonify(Error="Supplier not found."), 404
-        else:
-            status = dao.delete(sid)
-            if status:
-                return jsonify(Result="Deleted Supplier with sid: "+str(status))
-            else:
-                return jsonify(Error="Error deleting (SUPPLIER) request"), 400
+    def deleteSupplier(self, sid):
+            return jsonify(Error="Delete (SUPPLIER) not supported"), 400
+            # if not dao.getSupplierById(sid):
+            #     return jsonify(Error="Supplier not found."), 404
+            # else:
+            #     status = dao.delete(sid)
+            #     if status:
+            #         return jsonify(Result="Deleted Supplier with sid: "+str(status))
+            #     else:
+            #         return jsonify(Error="Error deleting (SUPPLIER) request"), 400
 
 
 
@@ -212,23 +210,108 @@ class SupplierHandler:
 
 
 
-    def insertCompany(self,sid, form):
+    def insertCompany(self, form):
+        #from scratch, need to insert in user, supplier and company
+        if len(form) == 14:
+            if not self.verifyCompanyForm(form):
+                return jsonify(Error="Info given for inserting Company ->Incomplete"), 400
+            s_dao = SupplierDAO()
+            c_dao = CompanyDAO()
+            slocation = form['location']
+            cname = form['cname']
+            btype = form['btype']
+            cdescription = form['description']
+            user = userHandler().insertUser(form)
+            sid = s_dao.insert(slocation, user['uid'])
+            row1 = s_dao.getSupplierById(sid)
+            if not row1:
+                return jsonify(Error="Supplier was NOT Inserted Correctly"), 404
+            else:
+                supplier = self.build_supplier_dict(row1)
+                cid = c_dao.insert(cname, btype, cdescription, sid)
+                row2 = c_dao.getCompanyById(cid)
+                if not row2:
+                    return jsonify(Error="Company was NOT Inserted Correctly"), 404
+                supplier['Phone No.'] = user['phone']
+                supplier['Company Name'] = cname
+                supplier['Business Type'] = btype
+                supplier['Description'] = cdescription
+                supplier['cid'] = cid
+                return jsonify(New_Company=supplier), 201
 
-
-        return None
+        elif len(form) == 4: #not from scratch, Only insert in company ==> EXISTING Supplier
+            if not self.verifySmallForm(form):
+                return jsonify(Error="Info given for inserting Company ->Incomplete"), 400
+            sid = form['sid']
+            cname = form['cname']
+            btype = form['btype']
+            cdescription = form['description']
+            s_dao = SupplierDAO()
+            c_dao = CompanyDAO()
+            row = s_dao.getSupplierById(sid)
+            if not row:
+                return jsonify(Error="Supplier does not exist -> Cannot register Company with this info, must register as supṕlier first."), 400
+            cid = c_dao.insert(cname, btype, cdescription, sid)
+            row2 = c_dao.getCompanyById(cid)
+            if not row2:
+                return jsonify(Error="Company was NOT Inserted Correctly"), 404
+            company = self.build_company_dict(row2)
+            return jsonify(Upgraded_to_Company=company), 201
+        else:
+            return jsonify(Error="Malformed POST request (COMPANY)"), 400
 
 
 
 
     def deleteCompany(self, cid):
-        dao = CompanyDAO()
+        return jsonify(Error="Delete (COMPANY) not supported"), 400
+        # row = dao.getCompanyById(cid)
+        # if not row:
+        #     return jsonify(Error="Company Not Found"), 404
+        # else:
+        #     status = dao.delete(cid)
+        #     if status:
+        #         return jsonify(Result="Deleted Company with sid: "+str(status))
+        #     else:
+        #         return jsonify(Error="Error deleting (COMPANY) request"), 400
 
-        row = dao.getCompanyById(cid)
-        if not row:
-            return jsonify(Error="Company Not Found"), 404
-        else:
-            status = dao.delete(cid)
-            if status:
-                return jsonify(Result="Deleted Company with sid: "+str(status))
-            else:
-                return jsonify(Error="Error deleting (COMPANY) request"), 400
+#For Registering as Supplier
+    def verifySupplierForm(self, form):
+        username = form['username']
+        password = form['password']
+        fname = form['firstname']
+        lname = form['lastname']
+        email = form['email']
+        country = form['country']
+        city = form['city']
+        address = form['address']
+        zip = form['zip']
+        slocation = form['location']
+        phone = form['phone']
+        return (username and password and fname and lname and email and country and city and address and zip and slocation and phone)
+
+  #For registering a user as Supplier->Company
+    def verifyCompanyForm(self, form):
+        username = form['username']
+        password = form['password']
+        fname = form['firstname']
+        lname = form['lastname']
+        email = form['email']
+        country = form['country']
+        city = form['city']
+        address = form['address']
+        zip = form['zip']
+        slocation = form['location']
+        phone = form['phone']
+        cname = form['cname']
+        btype = form['btype']
+        cdescription = form['description']
+        return (username and password and fname and lname and email and country and city and address and zip and slocation and phone and cname and btype and cdescription)
+
+#For registering a Supplier as Company
+    def verifySmallForm(self, form):
+        sid = form['sid']
+        cname = form['cname']
+        btype = form['btype']
+        cdescription = form['description']
+        return (sid and cname and btype and cdescription)

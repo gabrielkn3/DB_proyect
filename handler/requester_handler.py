@@ -60,9 +60,34 @@ class RequesterHandler:
         else:  # Requester exists
             resource_list = dao.getResourcesByREQID(reqid)
             for row in resource_list:
-                result=self.build_resource_dict(row)
+                result = self.build_resource_dict(row)
                 result_list.append(result)
             return jsonify(Resources=result_list)
+
+    def insertRequester(self, form):
+        # insert requester from scratch
+        if len(form) == 11:
+            if not self.verifyRequesterForm(form):
+                return jsonify(Error="Info given for inserting Requester ->Incomplete"), 400
+            r_dao = RequesterDAO()
+            reqlocation = form['location']
+            user = userHandler().insertUser(form)
+            reqid = r_dao.insert(reqlocation, user['uid'])
+            row = r_dao.getRequesterById(reqid)
+            if not row:
+                return jsonify(Error="Requester was NOT Inserted Correctly"), 404
+            else:
+                requester = self.build_requester_dict(row)
+                requester['Phone No.'] = user['phone']
+                return jsonify(New_Requester=requester), 201
+        else:
+                return jsonify(Error="Malformed POST(REQUESTER) request")
+
+
+
+
+
+
 
     #Only filters by location... cheking more requirements later
     def searchRequesters(self, form):
@@ -88,41 +113,49 @@ class RequesterHandler:
    #------------------------------------------------------------------------------------------------------------------------------------------
 
     def updateRequester (self, reqid, form):
-             dao = RequesterDAO()
-             user_handler = userHandler()
-             if not dao.getRequesterById(reqid):
-                return jsonify(Error = "Requester not found."), 404
-             else:
-                if len(form) > 1:
-                    return user_handler.updateUser(form["uid"], form)
-                else:
-                    reqlocation = form['reqlocation']
-                    if reqlocation:
-                        dao.update(reqid, reqlocation)
-                        result = self.build_requester_attributes(reqid, reqlocation)
-                        return jsonify(Requester=result), 200
-                    else:
-                        return jsonify(Error="Unexpected attributes in update(REQUESTER) request"), 400
+        return jsonify(Error="Update (REQUESTER) not supported"), 400
+
+             # dao = RequesterDAO()
+             # user_handler = userHandler()
+             # if not dao.getRequesterById(reqid):
+             #    return jsonify(Error = "Requester not found."), 404
+             # else:
+             #    if len(form) > 1:
+             #        return user_handler.updateUser(form["uid"], form)
+             #    else:
+             #        reqlocation = form['reqlocation']
+             #        if reqlocation:
+             #            dao.update(reqid, reqlocation)
+             #            result = self.build_requester_attributes(reqid, reqlocation)
+             #            return jsonify(Requester=result), 200
+             #        else:
+             #            return jsonify(Error="Unexpected attributes in update(REQUESTER) request"), 400
 
 
     def deleteRequester(self,reqid):
-        dao = RequesterDAO()
-        if not dao.getRequesterById(reqid):
-            return jsonify(Error="Requester not found."), 404
-        else:
-            status = dao.delete(reqid)
-            if status:
-                return jsonify(Result="Deleted REQUESTER with reqid: "+str(status))
-            else:
-                return jsonify(Error="Error deleting (REQUESTER) request"), 400
+        return jsonify(Error="Delete (REQUESTER) not supported"), 400
+        # if not dao.getRequesterById(reqid):
+        #     return jsonify(Error="Requester not found."), 404
+        # else:
+        #     status = dao.delete(reqid)
+        #     if status:
+        #         return jsonify(Result="Deleted REQUESTER with reqid: "+str(status))
+        #     else:
+        #         return jsonify(Error="Error deleting (REQUESTER) request"), 400
 
-    def insertRequester(self, form):
-        if len(form) == 8:
-                r_dao = RequesterDAO()
-                reqlocation = form['location']
-                requester = userHandler().insertUser(form)
-                reqid = r_dao.insert(requester['uid'], reqlocation)
-                requester['reqid'] = reqid
-                return jsonify(Requester=requester), 201
-        else:
-            return jsonify(Error="Malformed post(REQUESTER) request")
+
+
+#For Registering as Requester
+    def verifyRequesterForm(self, form):
+        username = form['username']
+        password = form['password']
+        fname = form['firstname']
+        lname = form['lastname']
+        email = form['email']
+        country = form['country']
+        city = form['city']
+        address = form['address']
+        zip = form['zip']
+        slocation = form['location']
+        phone = form['phone']
+        return (username and password and fname and lname and email and country and city and address and zip and slocation and phone)

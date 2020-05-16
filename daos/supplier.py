@@ -13,7 +13,7 @@ class SupplierDAO:
 
     def getAllSuppliers(self):
         cursor = self.conn.cursor()
-        query = "select sid, firstname, lastname, email, city, country, saddress, zip from supplier natural inner join useraccounts;"
+        query = "select sid, firstname, lastname, email, city, country, saddress, zip from supplier natural inner join useraccounts order by sid;"
         cursor.execute(query)
         result = []
         for row in cursor:

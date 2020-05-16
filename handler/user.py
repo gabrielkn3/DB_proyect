@@ -59,7 +59,8 @@ class userHandler:
                 return jsonify(Error="Malformed post request")
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-        elif form and len(form) == 11: #*********************************REQUESTER OR SUPPLIER*********************************
+        elif form and (len(form) == 11 or len(form) == 14): #*********************************REQUESTER OR SUPPLIER OR COMPANY*********************************
+           #form already validated in supplier/requester/company
             username = form['username']
             password = form['password']
             fname = form['firstname']
@@ -70,22 +71,14 @@ class userHandler:
             city = form['city']
             saddress = form['address']
             zipcode = form['zip']
-            location = form['location']
-
-
-            if username and password and fname and lname and email and phone and \
-                    country and city and saddress and zipcode and location:
-                dao = userDAO()
-                uid = dao.insert(username, password, fname, lname, email, phone,
-                                 country, city, saddress, zipcode)
-                #attributes that supplier doesn't have
-                result = {}
-                result['uid'] = uid
-                result['phone'] = phone
-                return result
-            else:
-                return jsonify(Error="Malformed post request")
-
+            dao = userDAO()
+            uid = dao.insert(username, password, fname, lname, email, phone,
+                             country, city, saddress, zipcode)
+            #attributes that a supplier doesn't have:
+            result = {}
+            result['uid'] = uid
+            result['phone'] = phone
+            return result
         else:
             return jsonify(Error="Malformed post request")
 

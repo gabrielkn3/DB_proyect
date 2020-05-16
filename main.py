@@ -944,7 +944,7 @@ def getPaymentByPaymentType(type):
 @app.route('/ResourceApp/companies', methods=['GET', 'POST'])
 def getAllCompanies():
     if request.method == 'POST':
-        return SupplierHandler().insertSupplier(request.form)
+        return SupplierHandler().insertCompany(request.form)
     elif request.method == 'GET':
         return SupplierHandler().getAllCompanies()
     else:

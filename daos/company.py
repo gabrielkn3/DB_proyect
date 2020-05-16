@@ -53,23 +53,18 @@ class CompanyDAO:
         return result
 
 
-
+    def insert(self, companyname, businesstype, cdescription, sid):
+        cursor = self.conn.cursor()
+        query = "insert into company(companyname, businesstype, cdescription, sid) values(%s, %s, %s, %s) returning cid;"
+        cursor.execute(query, (companyname, businesstype, cdescription, sid,))
+        cid = cursor.fetchone()
+        self.conn.commit()
+        return cid
 
 
 
 
    ###################################################################################################################################################################
-
-
-    def insert(self, sid, cname, btype, description):
-        # cursor = self.conn.cursor()
-        # query = "insert into Company(sid, cname, btype, description, email, phone, address) values(%s, %s, %s, %s, %s, %s, %s) returning uid;"
-        # cursor.execute(query, (sid, cname, btype, description, email, phone, address,))
-        # uid = cursor.fetchone()
-        # self.conn.commit()
-        # return uid
-        return None
-
     def delete(self, cid):
         # cursor = self.conn.cursor()
         # query = "delete from Company where uid = %s;"
