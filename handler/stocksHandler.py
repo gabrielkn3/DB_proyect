@@ -6,9 +6,9 @@ from daos.resource import ResourceDAO
 class stocksHandler:
     def build_stocks_dict(self, row):
         result = {}
-        result['Supplier ID'] = row[0]
-        result['Resource ID'] = row[1]
-        result['Amount stocked'] = row[2]
+        result['Amount stocked'] = row[0]
+        result['Supplier ID'] = row[1]
+        result['Resource ID'] = row[2]
         return result
 
     def insertStocks(self, form):

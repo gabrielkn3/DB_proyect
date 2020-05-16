@@ -5,7 +5,7 @@ from daos.user import userDAO
 class SupplierDAO:
     def __init__(self):
 
-        connection_url = "dbname=%s user=%s host = '*' password=%s" % (database_config['dbname'],
+        connection_url = "dbname=%s user=%s host = 'localhost' password=%s" % (database_config['dbname'],
                                                             database_config['user'],
                                                             database_config['passwd'])
         self.conn = psycopg2._connect(connection_url)

@@ -1,6 +1,8 @@
 from flask import jsonify
 from daos.listing import ListingDAO
+from daos.stocks import stocksDAO
 from daos.resource import ResourceDAO
+from daos.supplier import SupplierDAO
 
 
 class ListingHandler:
@@ -137,17 +139,30 @@ class ListingHandler:
         sid = json['sid']
         rid = json['rid']
         if postDate and lprice and lquantity and llocation and sid and rid:
-            dao = ListingDAO()
-            lid = dao.insert(postDate, lprice, lquantity, llocation, sid, rid)
-            result = self.build_listing_attributes(lid, postDate, lprice, lquantity, llocation, sid, rid)
-            return jsonify(Listing=result), 201
+            supplier_dao = SupplierDAO()
+            resource_dao = ResourceDAO()
+            listing_dao = ListingDAO()
+            stock_dao = stocksDAO()
+
+            # Supplier and Resource Validation
+            if not supplier_dao.getSupplierById(sid):
+                return jsonify(Error="Supplier does not exist"), 400
+            elif not resource_dao.getResourceById(rid):
+                return jsonify(Error="Resource does not exist"), 400
+            else:
+                # Insert new Stock and Create Listing
+                print("Inserting new Stock for Supplier #", stock_dao.insert(sid , rid, lquantity))
+                lid = listing_dao.insert(postDate, lprice, lquantity, llocation, sid, rid)
+                result = self.build_listing_attributes(lid, postDate, lprice, lquantity, llocation, sid, rid)
+
+                return jsonify(Listing=result), 201
         else:
             return jsonify(Error="Unexpected attributes in post request"), 400
 
     def deleteListing(self, lid):
         dao = ListingDAO()
         if not dao.getListingById(lid):
-            return jsonify(Error="Part not found."), 404
+            return jsonify(Error="Listing not found."), 404
         else:
             dao.delete(lid)
             return jsonify(DeleteStatus="OK"), 200
