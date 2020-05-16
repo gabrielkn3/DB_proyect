@@ -33,15 +33,11 @@ class stocksDAO:
         return supplier
 
     def delete(self, sid, rid):
-        # cursor = self.conn.cursor()
-        # query = "delete from stocks where sid = %s and rid = %s;"
-        # cursor.execute(query, (sid, rid,))
-        # self.conn.commit()
-        # return {sid, rid}
-        for row in example_list:
-            if row[0] == sid and row[1] == rid:
-                example_list.remove(row)
-                return {sid, rid}
+        cursor = self.conn.cursor()
+        query = "delete from stocks where sid = %s and rid = %s;"
+        cursor.execute(query, (sid, rid,))
+        self.conn.commit()
+        return {sid, rid}
 
     def update(self, sid, rid, squantity):
         cursor = self.conn.cursor()

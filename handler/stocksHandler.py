@@ -36,6 +36,11 @@ class stocksHandler:
             return jsonify(Error="Malformed post request."), 400
 
     def deleteStocks(self, sid, rid):
+        if not SupplierDAO().validateID(sid):
+            return jsonify(Error="Supplier doest not exist."), 404
+        if not ResourceDAO().validateID(rid):
+            return jsonify(Error="Resource doest not exist."), 404
+
         dao = stocksDAO()
         if not dao.getStocksByStockId(sid, rid):
             return jsonify(Error="Relationship not found."), 404
